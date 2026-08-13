@@ -1,0 +1,1090 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<meta http-equiv="refresh" content="60">
+<title>可转债跟踪看板</title>
+<style>
+:root{--up:#e03131;--down:#0ca678;--bg:#f2f5f9;--card:#ffffff;--border:#e4eaf1;--text:#222b36;--muted:#7b8694;--accent:#2f6fed;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:"Segoe UI","Microsoft YaHei",sans-serif;background:var(--bg);color:var(--text);padding:14px;}
+.wrap{max-width:1100px;margin:0 auto;}
+header{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:16px 20px;margin-bottom:12px;}
+h1{font-size:19px;font-weight:700;}
+.meta{display:flex;flex-wrap:wrap;gap:6px 16px;margin-top:10px;font-size:13px;color:var(--muted);align-items:center;}
+.badge{padding:2px 10px;border-radius:99px;font-size:12px;color:#fff;font-weight:600;}
+.status-live{background:#f08c00;}
+.status-closed{background:#94a3b8;}
+.tabs{display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap;}
+.tab{border:1px solid var(--border);background:var(--card);padding:7px 16px;border-radius:8px;cursor:pointer;font-size:14px;color:var(--muted);}
+.tab:hover{color:var(--accent);border-color:var(--accent);}
+.tab.active{background:var(--accent);border-color:var(--accent);color:#fff;}
+.card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:12px 16px;margin-bottom:12px;overflow-x:auto;}
+table{width:100%;border-collapse:collapse;font-size:13px;white-space:nowrap;}
+th,td{padding:7px 10px;text-align:right;border-bottom:1px solid var(--border);}
+th{color:var(--muted);font-weight:600;background:#f8fafc;}
+th.l,td.l{text-align:left;}
+tr:hover td{background:#f4f8ff;}
+.up{color:var(--up);}
+.down{color:var(--down);}
+.rank{display:inline-block;min-width:22px;text-align:center;font-weight:700;}
+.rank.top{background:var(--accent);color:#fff;border-radius:4px;}
+.score{font-weight:700;}
+.hist-date{font-weight:700;margin:14px 0 4px;font-size:14px;}
+.hist-date:first-child{margin-top:0;}
+.note{font-size:12px;color:var(--muted);margin-top:6px;line-height:1.7;}
+footer{text-align:center;font-size:12px;color:var(--muted);margin:6px 0 20px;line-height:1.9;}
+.refresh{border:1px solid var(--border);background:var(--card);padding:3px 12px;border-radius:6px;cursor:pointer;font-size:12px;color:var(--muted);}
+.refresh:hover{color:var(--accent);border-color:var(--accent);}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+<h1>可转债跟踪看板</h1>
+<div class="meta">
+<span>更新时间：<b>2026-08-13 21:51:42</b></span>
+<span class="badge status-closed">已收盘</span>
+<span>延时行情 push2delay.eastmoney.com（约滞后几分钟）</span>
+<span id="cnt"></span>
+<span>每 60 秒自动刷新</span>
+<button class="refresh" onclick="location.reload()">立即刷新</button>
+</div>
+<div class="note" id="cfg-note"></div>
+</header>
+<div class="tabs">
+<button class="tab active" data-tab="composite">综合榜</button>
+<button class="tab" data-tab="amount">成交额榜</button>
+<button class="tab" data-tab="speed">涨速榜</button>
+<button class="tab" data-tab="history">历史收盘名单</button>
+</div>
+<div class="card" id="composite"></div>
+<div class="card" id="amount" style="display:none"></div>
+<div class="card" id="speed" style="display:none"></div>
+<div class="card" id="history" style="display:none"></div>
+<footer>
+数据来源：东方财富公开行情接口（可转债板块）。涨速为东财口径（最近几分钟价格变化速度），行情可能存在延迟。<br>
+本看板仅供个人学习参考，不构成任何投资建议。股市有风险，投资需谨慎。
+</footer>
+</div>
+<script>
+var DATA = {
+    "generatedAt":  "2026-08-13 21:51:42",
+    "date":  "2026-08-13",
+    "marketStatus":  "已收盘",
+    "source":  "延时行情 push2delay.eastmoney.com（约滞后几分钟）",
+    "total":  320,
+    "valid":  305,
+    "composite":  [
+                      {
+                          "rank":  1,
+                          "code":  "118058",
+                          "name":  "微导转债",
+                          "price":  451.764,
+                          "pct":  2.25,
+                          "speed":  0.47,
+                          "amount":  2025853176,
+                          "turnover":  38.26,
+                          "rankAmt":  5,
+                          "rankSpd":  3,
+                          "score":  87.2
+                      },
+                      {
+                          "rank":  2,
+                          "code":  "118071",
+                          "name":  "华峰转债",
+                          "price":  255.047,
+                          "pct":  -2.86,
+                          "speed":  0.64,
+                          "amount":  942284781,
+                          "turnover":  47.34,
+                          "rankAmt":  16,
+                          "rankSpd":  1,
+                          "score":  86.1
+                      },
+                      {
+                          "rank":  3,
+                          "code":  "123261",
+                          "name":  "普联转债",
+                          "price":  210.202,
+                          "pct":  -5.8,
+                          "speed":  0.21,
+                          "amount":  4446992502.088,
+                          "turnover":  818.98,
+                          "rankAmt":  1,
+                          "rankSpd":  15,
+                          "score":  85.4
+                      },
+                      {
+                          "rank":  4,
+                          "code":  "113677",
+                          "name":  "华懋转债",
+                          "price":  300.246,
+                          "pct":  2.06,
+                          "speed":  0.23,
+                          "amount":  1874461139,
+                          "turnover":  58.42,
+                          "rankAmt":  9,
+                          "rankSpd":  14,
+                          "score":  78.3
+                      },
+                      {
+                          "rank":  5,
+                          "code":  "113697",
+                          "name":  "应流转债",
+                          "price":  163.5,
+                          "pct":  -0.33,
+                          "speed":  0.44,
+                          "amount":  769659471,
+                          "turnover":  30.77,
+                          "rankAmt":  20,
+                          "rankSpd":  4,
+                          "score":  77.5
+                      },
+                      {
+                          "rank":  6,
+                          "code":  "113667",
+                          "name":  "春23转债",
+                          "price":  205.883,
+                          "pct":  10.51,
+                          "speed":  -0.01,
+                          "amount":  4152570030,
+                          "turnover":  369.92,
+                          "rankAmt":  2,
+                          "rankSpd":  176,
+                          "score":  77.4
+                      },
+                      {
+                          "rank":  7,
+                          "code":  "118051",
+                          "name":  "皓元转债",
+                          "price":  302.883,
+                          "pct":  2.61,
+                          "speed":  0.1,
+                          "amount":  2095486946,
+                          "turnover":  83.39,
+                          "rankAmt":  4,
+                          "rankSpd":  39,
+                          "score":  74.9
+                      },
+                      {
+                          "rank":  8,
+                          "code":  "118072",
+                          "name":  "鼎通转债",
+                          "price":  193.75,
+                          "pct":  -5,
+                          "speed":  0.38,
+                          "amount":  626834643,
+                          "turnover":  33.21,
+                          "rankAmt":  27,
+                          "rankSpd":  8,
+                          "score":  73.6
+                      },
+                      {
+                          "rank":  9,
+                          "code":  "123235",
+                          "name":  "亿田转债",
+                          "price":  160.6,
+                          "pct":  2.29,
+                          "speed":  0.16,
+                          "amount":  1293795621.06,
+                          "turnover":  177.98,
+                          "rankAmt":  14,
+                          "rankSpd":  20,
+                          "score":  72.6
+                      },
+                      {
+                          "rank":  10,
+                          "code":  "123241",
+                          "name":  "欧通转债",
+                          "price":  900.995,
+                          "pct":  1.69,
+                          "speed":  0.02,
+                          "amount":  1937177397.012,
+                          "turnover":  81.26,
+                          "rankAmt":  7,
+                          "rankSpd":  82,
+                          "score":  71.5
+                      },
+                      {
+                          "rank":  11,
+                          "code":  "113708",
+                          "name":  "曙26转债",
+                          "price":  151.567,
+                          "pct":  -0.27,
+                          "speed":  0.03,
+                          "amount":  1831571573,
+                          "turnover":  14.97,
+                          "rankAmt":  10,
+                          "rankSpd":  71,
+                          "score":  71.3
+                      },
+                      {
+                          "rank":  12,
+                          "code":  "123176",
+                          "name":  "精测转2",
+                          "price":  456.66,
+                          "pct":  -2.84,
+                          "speed":  0.06,
+                          "amount":  1474440921.45,
+                          "turnover":  24.13,
+                          "rankAmt":  13,
+                          "rankSpd":  58,
+                          "score":  70.4
+                      },
+                      {
+                          "rank":  13,
+                          "code":  "127096",
+                          "name":  "泰坦转债",
+                          "price":  578.896,
+                          "pct":  -0.61,
+                          "speed":  -0.02,
+                          "amount":  1978028949.83,
+                          "turnover":  116.48,
+                          "rankAmt":  6,
+                          "rankSpd":  182,
+                          "score":  70.3
+                      },
+                      {
+                          "rank":  14,
+                          "code":  "123118",
+                          "name":  "惠城转债",
+                          "price":  1003.4,
+                          "pct":  0.34,
+                          "speed":  0.01,
+                          "amount":  1676437434.25,
+                          "turnover":  254.27,
+                          "rankAmt":  11,
+                          "rankSpd":  98,
+                          "score":  69.9
+                      },
+                      {
+                          "rank":  15,
+                          "code":  "123273",
+                          "name":  "三江转债",
+                          "price":  357,
+                          "pct":  -3.38,
+                          "speed":  -0.03,
+                          "amount":  1876788304.155,
+                          "turnover":  176.58,
+                          "rankAmt":  8,
+                          "rankSpd":  197,
+                          "score":  69.5
+                      },
+                      {
+                          "rank":  16,
+                          "code":  "118064",
+                          "name":  "联瑞转债",
+                          "price":  411.808,
+                          "pct":  0.52,
+                          "speed":  -0.18,
+                          "amount":  3018131965,
+                          "turnover":  101.37,
+                          "rankAmt":  3,
+                          "rankSpd":  289,
+                          "score":  68.7
+                      },
+                      {
+                          "rank":  17,
+                          "code":  "123213",
+                          "name":  "天源转债",
+                          "price":  254.5,
+                          "pct":  2.41,
+                          "speed":  0.14,
+                          "amount":  869847511.36,
+                          "turnover":  104.44,
+                          "rankAmt":  17,
+                          "rankSpd":  24,
+                          "score":  68.4
+                      },
+                      {
+                          "rank":  18,
+                          "code":  "113643",
+                          "name":  "风语转债",
+                          "price":  152.296,
+                          "pct":  0.63,
+                          "speed":  -0.09,
+                          "amount":  1616095535,
+                          "turnover":  209.04,
+                          "rankAmt":  12,
+                          "rankSpd":  248,
+                          "score":  66.2
+                      },
+                      {
+                          "rank":  19,
+                          "code":  "118060",
+                          "name":  "瑞可转债",
+                          "price":  192.69,
+                          "pct":  1.36,
+                          "speed":  0.17,
+                          "amount":  604962610,
+                          "turnover":  31.04,
+                          "rankAmt":  28,
+                          "rankSpd":  18,
+                          "score":  66.1
+                      },
+                      {
+                          "rank":  20,
+                          "code":  "118039",
+                          "name":  "煜邦转债",
+                          "price":  141.634,
+                          "pct":  1.48,
+                          "speed":  0.33,
+                          "amount":  322209263,
+                          "turnover":  54.75,
+                          "rankAmt":  43,
+                          "rankSpd":  10,
+                          "score":  65.9
+                      }
+                  ],
+    "amount":  [
+                   {
+                       "rank":  1,
+                       "code":  "123261",
+                       "name":  "普联转债",
+                       "price":  210.202,
+                       "pct":  -5.8,
+                       "speed":  0.21,
+                       "amount":  4446992502.088,
+                       "turnover":  818.98,
+                       "rankAmt":  1,
+                       "rankSpd":  15,
+                       "score":  85.4
+                   },
+                   {
+                       "rank":  2,
+                       "code":  "113667",
+                       "name":  "春23转债",
+                       "price":  205.883,
+                       "pct":  10.51,
+                       "speed":  -0.01,
+                       "amount":  4152570030,
+                       "turnover":  369.92,
+                       "rankAmt":  2,
+                       "rankSpd":  176,
+                       "score":  77.4
+                   },
+                   {
+                       "rank":  3,
+                       "code":  "118064",
+                       "name":  "联瑞转债",
+                       "price":  411.808,
+                       "pct":  0.52,
+                       "speed":  -0.18,
+                       "amount":  3018131965,
+                       "turnover":  101.37,
+                       "rankAmt":  3,
+                       "rankSpd":  289,
+                       "score":  68.7
+                   },
+                   {
+                       "rank":  4,
+                       "code":  "118051",
+                       "name":  "皓元转债",
+                       "price":  302.883,
+                       "pct":  2.61,
+                       "speed":  0.1,
+                       "amount":  2095486946,
+                       "turnover":  83.39,
+                       "rankAmt":  4,
+                       "rankSpd":  39,
+                       "score":  74.9
+                   },
+                   {
+                       "rank":  5,
+                       "code":  "118058",
+                       "name":  "微导转债",
+                       "price":  451.764,
+                       "pct":  2.25,
+                       "speed":  0.47,
+                       "amount":  2025853176,
+                       "turnover":  38.26,
+                       "rankAmt":  5,
+                       "rankSpd":  3,
+                       "score":  87.2
+                   },
+                   {
+                       "rank":  6,
+                       "code":  "127096",
+                       "name":  "泰坦转债",
+                       "price":  578.896,
+                       "pct":  -0.61,
+                       "speed":  -0.02,
+                       "amount":  1978028949.83,
+                       "turnover":  116.48,
+                       "rankAmt":  6,
+                       "rankSpd":  182,
+                       "score":  70.3
+                   },
+                   {
+                       "rank":  7,
+                       "code":  "123241",
+                       "name":  "欧通转债",
+                       "price":  900.995,
+                       "pct":  1.69,
+                       "speed":  0.02,
+                       "amount":  1937177397.012,
+                       "turnover":  81.26,
+                       "rankAmt":  7,
+                       "rankSpd":  82,
+                       "score":  71.5
+                   },
+                   {
+                       "rank":  8,
+                       "code":  "123273",
+                       "name":  "三江转债",
+                       "price":  357,
+                       "pct":  -3.38,
+                       "speed":  -0.03,
+                       "amount":  1876788304.155,
+                       "turnover":  176.58,
+                       "rankAmt":  8,
+                       "rankSpd":  197,
+                       "score":  69.5
+                   },
+                   {
+                       "rank":  9,
+                       "code":  "113677",
+                       "name":  "华懋转债",
+                       "price":  300.246,
+                       "pct":  2.06,
+                       "speed":  0.23,
+                       "amount":  1874461139,
+                       "turnover":  58.42,
+                       "rankAmt":  9,
+                       "rankSpd":  14,
+                       "score":  78.3
+                   },
+                   {
+                       "rank":  10,
+                       "code":  "113708",
+                       "name":  "曙26转债",
+                       "price":  151.567,
+                       "pct":  -0.27,
+                       "speed":  0.03,
+                       "amount":  1831571573,
+                       "turnover":  14.97,
+                       "rankAmt":  10,
+                       "rankSpd":  71,
+                       "score":  71.3
+                   },
+                   {
+                       "rank":  11,
+                       "code":  "123118",
+                       "name":  "惠城转债",
+                       "price":  1003.4,
+                       "pct":  0.34,
+                       "speed":  0.01,
+                       "amount":  1676437434.25,
+                       "turnover":  254.27,
+                       "rankAmt":  11,
+                       "rankSpd":  98,
+                       "score":  69.9
+                   },
+                   {
+                       "rank":  12,
+                       "code":  "113643",
+                       "name":  "风语转债",
+                       "price":  152.296,
+                       "pct":  0.63,
+                       "speed":  -0.09,
+                       "amount":  1616095535,
+                       "turnover":  209.04,
+                       "rankAmt":  12,
+                       "rankSpd":  248,
+                       "score":  66.2
+                   },
+                   {
+                       "rank":  13,
+                       "code":  "123176",
+                       "name":  "精测转2",
+                       "price":  456.66,
+                       "pct":  -2.84,
+                       "speed":  0.06,
+                       "amount":  1474440921.45,
+                       "turnover":  24.13,
+                       "rankAmt":  13,
+                       "rankSpd":  58,
+                       "score":  70.4
+                   },
+                   {
+                       "rank":  14,
+                       "code":  "123235",
+                       "name":  "亿田转债",
+                       "price":  160.6,
+                       "pct":  2.29,
+                       "speed":  0.16,
+                       "amount":  1293795621.06,
+                       "turnover":  177.98,
+                       "rankAmt":  14,
+                       "rankSpd":  20,
+                       "score":  72.6
+                   },
+                   {
+                       "rank":  15,
+                       "code":  "123258",
+                       "name":  "胜蓝转02",
+                       "price":  318.284,
+                       "pct":  -3.26,
+                       "speed":  0,
+                       "amount":  995710693.33,
+                       "turnover":  67.15,
+                       "rankAmt":  15,
+                       "rankSpd":  109,
+                       "score":  64.9
+                   },
+                   {
+                       "rank":  16,
+                       "code":  "118071",
+                       "name":  "华峰转债",
+                       "price":  255.047,
+                       "pct":  -2.86,
+                       "speed":  0.64,
+                       "amount":  942284781,
+                       "turnover":  47.34,
+                       "rankAmt":  16,
+                       "rankSpd":  1,
+                       "score":  86.1
+                   },
+                   {
+                       "rank":  17,
+                       "code":  "123213",
+                       "name":  "天源转债",
+                       "price":  254.5,
+                       "pct":  2.41,
+                       "speed":  0.14,
+                       "amount":  869847511.36,
+                       "turnover":  104.44,
+                       "rankAmt":  17,
+                       "rankSpd":  24,
+                       "score":  68.4
+                   },
+                   {
+                       "rank":  18,
+                       "code":  "123131",
+                       "name":  "奥飞转债",
+                       "price":  298.944,
+                       "pct":  -5.05,
+                       "speed":  -0.01,
+                       "amount":  840783009.043,
+                       "turnover":  83.56,
+                       "rankAmt":  18,
+                       "rankSpd":  177,
+                       "score":  63
+                   },
+                   {
+                       "rank":  19,
+                       "code":  "118059",
+                       "name":  "颀中转债",
+                       "price":  196.802,
+                       "pct":  -1.55,
+                       "speed":  -0.53,
+                       "amount":  796864996,
+                       "turnover":  46.16,
+                       "rankAmt":  19,
+                       "rankSpd":  304,
+                       "score":  44.9
+                   },
+                   {
+                       "rank":  20,
+                       "code":  "113697",
+                       "name":  "应流转债",
+                       "price":  163.5,
+                       "pct":  -0.33,
+                       "speed":  0.44,
+                       "amount":  769659471,
+                       "turnover":  30.77,
+                       "rankAmt":  20,
+                       "rankSpd":  4,
+                       "score":  77.5
+                   }
+               ],
+    "speed":  [
+                  {
+                      "rank":  1,
+                      "code":  "118071",
+                      "name":  "华峰转债",
+                      "price":  255.047,
+                      "pct":  -2.86,
+                      "speed":  0.64,
+                      "amount":  942284781,
+                      "turnover":  47.34,
+                      "rankAmt":  16,
+                      "rankSpd":  1,
+                      "score":  86.1
+                  },
+                  {
+                      "rank":  2,
+                      "code":  "123192",
+                      "name":  "科思转债",
+                      "price":  127.42,
+                      "pct":  1.26,
+                      "speed":  0.57,
+                      "amount":  111765013.7,
+                      "turnover":  12.21,
+                      "rankAmt":  88,
+                      "rankSpd":  2,
+                      "score":  64.5
+                  },
+                  {
+                      "rank":  3,
+                      "code":  "118058",
+                      "name":  "微导转债",
+                      "price":  451.764,
+                      "pct":  2.25,
+                      "speed":  0.47,
+                      "amount":  2025853176,
+                      "turnover":  38.26,
+                      "rankAmt":  5,
+                      "rankSpd":  3,
+                      "score":  87.2
+                  },
+                  {
+                      "rank":  4,
+                      "code":  "113697",
+                      "name":  "应流转债",
+                      "price":  163.5,
+                      "pct":  -0.33,
+                      "speed":  0.44,
+                      "amount":  769659471,
+                      "turnover":  30.77,
+                      "rankAmt":  20,
+                      "rankSpd":  4,
+                      "score":  77.5
+                  },
+                  {
+                      "rank":  5,
+                      "code":  "127098",
+                      "name":  "欧晶转债",
+                      "price":  124.597,
+                      "pct":  -0.59,
+                      "speed":  0.42,
+                      "amount":  16007904.366,
+                      "turnover":  2.74,
+                      "rankAmt":  293,
+                      "rankSpd":  5,
+                      "score":  42
+                  },
+                  {
+                      "rank":  6,
+                      "code":  "113705",
+                      "name":  "豪26转债",
+                      "price":  147.644,
+                      "pct":  -2.49,
+                      "speed":  0.4,
+                      "amount":  94760228,
+                      "turnover":  3.55,
+                      "rankAmt":  104,
+                      "rankSpd":  6,
+                      "score":  57.3
+                  },
+                  {
+                      "rank":  7,
+                      "code":  "110084",
+                      "name":  "贵燃转债",
+                      "price":  132.265,
+                      "pct":  -0.38,
+                      "speed":  0.38,
+                      "amount":  65495618,
+                      "turnover":  6.07,
+                      "rankAmt":  146,
+                      "rankSpd":  7,
+                      "score":  53.3
+                  },
+                  {
+                      "rank":  8,
+                      "code":  "118072",
+                      "name":  "鼎通转债",
+                      "price":  193.75,
+                      "pct":  -5,
+                      "speed":  0.38,
+                      "amount":  626834643,
+                      "turnover":  33.21,
+                      "rankAmt":  27,
+                      "rankSpd":  8,
+                      "score":  73.6
+                  },
+                  {
+                      "rank":  9,
+                      "code":  "111002",
+                      "name":  "特纸转债",
+                      "price":  143.136,
+                      "pct":  -0.39,
+                      "speed":  0.35,
+                      "amount":  68927165,
+                      "turnover":  7.27,
+                      "rankAmt":  138,
+                      "rankSpd":  9,
+                      "score":  52.7
+                  },
+                  {
+                      "rank":  10,
+                      "code":  "118039",
+                      "name":  "煜邦转债",
+                      "price":  141.634,
+                      "pct":  1.48,
+                      "speed":  0.33,
+                      "amount":  322209263,
+                      "turnover":  54.75,
+                      "rankAmt":  43,
+                      "rankSpd":  10,
+                      "score":  65.9
+                  },
+                  {
+                      "rank":  11,
+                      "code":  "110076",
+                      "name":  "华海转债",
+                      "price":  118.416,
+                      "pct":  -0.68,
+                      "speed":  0.26,
+                      "amount":  100635193,
+                      "turnover":  4.58,
+                      "rankAmt":  99,
+                      "rankSpd":  11,
+                      "score":  53.1
+                  },
+                  {
+                      "rank":  12,
+                      "code":  "113627",
+                      "name":  "太平转债",
+                      "price":  115.356,
+                      "pct":  -0.53,
+                      "speed":  0.26,
+                      "amount":  31602741,
+                      "turnover":  3.42,
+                      "rankAmt":  230,
+                      "rankSpd":  12,
+                      "score":  42.7
+                  },
+                  {
+                      "rank":  13,
+                      "code":  "127049",
+                      "name":  "希望转2",
+                      "price":  114.642,
+                      "pct":  -0.04,
+                      "speed":  0.25,
+                      "amount":  151095786.922,
+                      "turnover":  1.62,
+                      "rankAmt":  72,
+                      "rankSpd":  13,
+                      "score":  56.4
+                  },
+                  {
+                      "rank":  14,
+                      "code":  "113677",
+                      "name":  "华懋转债",
+                      "price":  300.246,
+                      "pct":  2.06,
+                      "speed":  0.23,
+                      "amount":  1874461139,
+                      "turnover":  58.42,
+                      "rankAmt":  9,
+                      "rankSpd":  14,
+                      "score":  78.3
+                  },
+                  {
+                      "rank":  15,
+                      "code":  "123261",
+                      "name":  "普联转债",
+                      "price":  210.202,
+                      "pct":  -5.8,
+                      "speed":  0.21,
+                      "amount":  4446992502.088,
+                      "turnover":  818.98,
+                      "rankAmt":  1,
+                      "rankSpd":  15,
+                      "score":  85.4
+                  },
+                  {
+                      "rank":  16,
+                      "code":  "123076",
+                      "name":  "强力转债",
+                      "price":  124.774,
+                      "pct":  -0.33,
+                      "speed":  0.18,
+                      "amount":  23072225.26,
+                      "turnover":  5.44,
+                      "rankAmt":  259,
+                      "rankSpd":  16,
+                      "score":  37.1
+                  },
+                  {
+                      "rank":  17,
+                      "code":  "123252",
+                      "name":  "银邦转债",
+                      "price":  138.09,
+                      "pct":  -1.35,
+                      "speed":  0.18,
+                      "amount":  47181215.76,
+                      "turnover":  4.34,
+                      "rankAmt":  184,
+                      "rankSpd":  17,
+                      "score":  43.5
+                  },
+                  {
+                      "rank":  18,
+                      "code":  "118060",
+                      "name":  "瑞可转债",
+                      "price":  192.69,
+                      "pct":  1.36,
+                      "speed":  0.17,
+                      "amount":  604962610,
+                      "turnover":  31.04,
+                      "rankAmt":  28,
+                      "rankSpd":  18,
+                      "score":  66.1
+                  },
+                  {
+                      "rank":  19,
+                      "code":  "127034",
+                      "name":  "绿茵转债",
+                      "price":  126.496,
+                      "pct":  -1.26,
+                      "speed":  0.17,
+                      "amount":  29619574.93,
+                      "turnover":  5.46,
+                      "rankAmt":  237,
+                      "rankSpd":  19,
+                      "score":  39
+                  },
+                  {
+                      "rank":  20,
+                      "code":  "123235",
+                      "name":  "亿田转债",
+                      "price":  160.6,
+                      "pct":  2.29,
+                      "speed":  0.16,
+                      "amount":  1293795621.06,
+                      "turnover":  177.98,
+                      "rankAmt":  14,
+                      "rankSpd":  20,
+                      "score":  72.6
+                  }
+              ],
+    "history":  [
+                    {
+                        "date":  "2026-08-13",
+                        "items":  [
+                                      {
+                                          "rank":  1,
+                                          "code":  "118058",
+                                          "name":  "微导转债",
+                                          "price":  451.764,
+                                          "pct":  2.25,
+                                          "speed":  0.47,
+                                          "amount":  2025853176,
+                                          "score":  87.2
+                                      },
+                                      {
+                                          "rank":  2,
+                                          "code":  "118071",
+                                          "name":  "华峰转债",
+                                          "price":  255.047,
+                                          "pct":  -2.86,
+                                          "speed":  0.64,
+                                          "amount":  942284781,
+                                          "score":  86.1
+                                      },
+                                      {
+                                          "rank":  3,
+                                          "code":  "123261",
+                                          "name":  "普联转债",
+                                          "price":  210.202,
+                                          "pct":  -5.8,
+                                          "speed":  0.21,
+                                          "amount":  4446992502.088,
+                                          "score":  85.4
+                                      },
+                                      {
+                                          "rank":  4,
+                                          "code":  "113677",
+                                          "name":  "华懋转债",
+                                          "price":  300.246,
+                                          "pct":  2.06,
+                                          "speed":  0.23,
+                                          "amount":  1874461139,
+                                          "score":  78.3
+                                      },
+                                      {
+                                          "rank":  5,
+                                          "code":  "113697",
+                                          "name":  "应流转债",
+                                          "price":  163.5,
+                                          "pct":  -0.33,
+                                          "speed":  0.44,
+                                          "amount":  769659471,
+                                          "score":  77.5
+                                      },
+                                      {
+                                          "rank":  6,
+                                          "code":  "113667",
+                                          "name":  "春23转债",
+                                          "price":  205.883,
+                                          "pct":  10.51,
+                                          "speed":  -0.01,
+                                          "amount":  4152570030,
+                                          "score":  77.4
+                                      },
+                                      {
+                                          "rank":  7,
+                                          "code":  "118051",
+                                          "name":  "皓元转债",
+                                          "price":  302.883,
+                                          "pct":  2.61,
+                                          "speed":  0.1,
+                                          "amount":  2095486946,
+                                          "score":  74.9
+                                      },
+                                      {
+                                          "rank":  8,
+                                          "code":  "118072",
+                                          "name":  "鼎通转债",
+                                          "price":  193.75,
+                                          "pct":  -5,
+                                          "speed":  0.38,
+                                          "amount":  626834643,
+                                          "score":  73.6
+                                      },
+                                      {
+                                          "rank":  9,
+                                          "code":  "123235",
+                                          "name":  "亿田转债",
+                                          "price":  160.6,
+                                          "pct":  2.29,
+                                          "speed":  0.16,
+                                          "amount":  1293795621.06,
+                                          "score":  72.6
+                                      },
+                                      {
+                                          "rank":  10,
+                                          "code":  "123241",
+                                          "name":  "欧通转债",
+                                          "price":  900.995,
+                                          "pct":  1.69,
+                                          "speed":  0.02,
+                                          "amount":  1937177397.012,
+                                          "score":  71.5
+                                      }
+                                  ]
+                    }
+                ]
+};
+var CFG = {"weightAmount":0.6,"weightSpeed":0.4,"minAmount":5000000,"topN":20,"speedClamp":3};
+(function () {
+  'use strict';
+  function esc(s) { return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
+  function num(v, d) {
+    if (v == null || v === '-') { return '-'; }
+    return (+v).toFixed(d == null ? 2 : d);
+  }
+  function pct(v) {
+    if (v == null || v === '-') { return '-'; }
+    v = +v;
+    return (v > 0 ? '+' : '') + v.toFixed(2) + '%';
+  }
+  function turn(v) {
+    if (v == null || v === '-') { return '-'; }
+    return (+v).toFixed(2) + '%';
+  }
+  function cls(v) { v = +v; return v > 0 ? 'up' : (v < 0 ? 'down' : ''); }
+  function amt(v) {
+    if (v == null || v === '-') { return '-'; }
+    v = +v;
+    if (v >= 1e8) { return (v / 1e8).toFixed(2) + '亿'; }
+    if (v >= 1e4) { return (v / 1e4).toFixed(0) + '万'; }
+    return '' + Math.round(v);
+  }
+  function rankHtml(n) {
+    var c = (n >= 1 && n <= 3) ? 'rank top' : 'rank';
+    return '<span class="' + c + '">' + n + '</span>';
+  }
+  function head(cols) {
+    return '<thead><tr>' + cols.map(function (c) { return '<th>' + c + '</th>'; }).join('') + '</tr></thead>';
+  }
+  function body(items, fn) {
+    return '<tbody>' + items.map(fn).join('') + '</tbody>';
+  }
+  function compRow(it) {
+    return '<tr>' +
+      '<td class="l">' + rankHtml(it.rank) + '</td>' +
+      '<td class="l">' + esc(it.code) + '</td>' +
+      '<td class="l">' + esc(it.name) + '</td>' +
+      '<td>' + num(it.price, 3) + '</td>' +
+      '<td class="' + cls(it.pct) + '">' + pct(it.pct) + '</td>' +
+      '<td class="' + cls(it.speed) + '">' + pct(it.speed) + '</td>' +
+      '<td>' + amt(it.amount) + '</td>' +
+      '<td>' + turn(it.turnover) + '</td>' +
+      '<td>' + it.rankAmt + '</td>' +
+      '<td>' + it.rankSpd + '</td>' +
+      '<td class="score">' + num(it.score, 1) + '</td>' +
+      '</tr>';
+  }
+  function simpleRow(it) {
+    return '<tr>' +
+      '<td class="l">' + rankHtml(it.rank) + '</td>' +
+      '<td class="l">' + esc(it.code) + '</td>' +
+      '<td class="l">' + esc(it.name) + '</td>' +
+      '<td>' + num(it.price, 3) + '</td>' +
+      '<td class="' + cls(it.pct) + '">' + pct(it.pct) + '</td>' +
+      '<td class="' + cls(it.speed) + '">' + pct(it.speed) + '</td>' +
+      '<td>' + amt(it.amount) + '</td>' +
+      '<td>' + turn(it.turnover) + '</td>' +
+      '<td class="score">' + num(it.score, 1) + '</td>' +
+      '</tr>';
+  }
+  function histRow(it) {
+    return '<tr>' +
+      '<td class="l">' + rankHtml(it.rank) + '</td>' +
+      '<td class="l">' + esc(it.code) + '</td>' +
+      '<td class="l">' + esc(it.name) + '</td>' +
+      '<td>' + num(it.price, 3) + '</td>' +
+      '<td class="' + cls(it.pct) + '">' + pct(it.pct) + '</td>' +
+      '<td class="' + cls(it.speed) + '">' + pct(it.speed) + '</td>' +
+      '<td>' + amt(it.amount) + '</td>' +
+      '<td class="score">' + num(it.score, 1) + '</td>' +
+      '</tr>';
+  }
+  var compCols = ['排名', '代码', '名称', '最新价', '涨跌幅', '涨速', '成交额', '换手率', '成交额排名', '涨速排名', '综合分'];
+  var simpleCols = ['排名', '代码', '名称', '最新价', '涨跌幅', '涨速', '成交额', '换手率', '综合分'];
+  var histCols = ['排名', '代码', '名称', '收盘价', '涨跌幅', '涨速', '成交额', '综合分'];
+  var composite = [].concat(DATA.composite || []);
+  var amount = [].concat(DATA.amount || []);
+  var speed = [].concat(DATA.speed || []);
+  var history = [].concat(DATA.history || []);
+  document.getElementById('composite').innerHTML = '<table>' + head(compCols) + body(composite, compRow) + '</table>';
+  document.getElementById('amount').innerHTML = '<table>' + head(simpleCols) + body(amount, simpleRow) + '</table>';
+  document.getElementById('speed').innerHTML = '<table>' + head(simpleCols) + body(speed, simpleRow) + '</table>';
+  var histHtml = '';
+  if (history.length > 0) {
+    for (var i = 0; i < history.length; i++) {
+      var h = history[i];
+      histHtml += '<div class="hist-date">' + esc(h.date) + ' 收盘最终名单（前 10）</div>';
+      histHtml += '<table>' + head(histCols) + body([].concat(h.items || []), histRow) + '</table>';
+    }
+  } else {
+    histHtml = '<div class="note">暂无历史收盘名单。每个交易日下午收盘后自动冻结当日最终名单。</div>';
+  }
+  document.getElementById('history').innerHTML = histHtml;
+  document.getElementById('cnt').textContent = '共 ' + DATA.total + ' 只 · 有效 ' + DATA.valid + ' 只';
+  document.getElementById('cfg-note').innerHTML =
+    '综合分 = 成交额得分×' + Math.round(CFG.weightAmount * 100) + '% + 涨速得分×' + Math.round(CFG.weightSpeed * 100) + '%；' +
+    '成交额 ≥ ' + amt(CFG.minAmount) + ' 的转债计入综合榜；涨速按 ±' + CFG.speedClamp + '% 截断归一化。' +
+    '（上市首日、停牌、无成交的转债不参与排名）';
+  var tabs = document.querySelectorAll('.tab');
+  var ids = ['composite', 'amount', 'speed', 'history'];
+  for (var k = 0; k < tabs.length; k++) {
+    tabs[k].addEventListener('click', function () {
+      for (var j = 0; j < tabs.length; j++) { tabs[j].classList.remove('active'); }
+      this.classList.add('active');
+      var tab = this.getAttribute('data-tab');
+      for (var m = 0; m < ids.length; m++) {
+        document.getElementById(ids[m]).style.display = (ids[m] === tab) ? '' : 'none';
+      }
+    });
+  }
+})();
+</script>
+</body>
+</html>
