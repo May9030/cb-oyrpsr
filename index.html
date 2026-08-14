@@ -89,6 +89,7 @@ footer{text-align:center;font-size:12px;color:var(--muted);margin:6px 0 20px;lin
 <button class="tab active" data-tab="composite">综合榜</button>
 <button class="tab" data-tab="amount">成交额榜</button>
 <button class="tab" data-tab="speed">涨速榜</button>
+<button class="tab" data-tab="active">活跃榜</button>
 <button class="tab" data-tab="flow">资金流向</button>
 <button class="tab" data-tab="compare">多日对比</button>
 <button class="tab" data-tab="history">历史收盘名单</button>
@@ -97,6 +98,7 @@ footer{text-align:center;font-size:12px;color:var(--muted);margin:6px 0 20px;lin
 <div class="card" id="amount" style="display:none"></div>
 <div class="card" id="speed" style="display:none"></div>
 <div class="card" id="flow" style="display:none"></div>
+<div class="card" id="active" style="display:none"></div>
 <div class="card" id="compare" style="display:none"><div id="compare-result"></div></div>
 <div class="card" id="history" style="display:none"></div>
 <footer>
@@ -124,7 +126,9 @@ var DATA = {
                           "turnover":  63.35,
                           "rankAmt":  11,
                           "rankSpd":  3,
-                          "score":  79.3
+                          "score":  79.3,
+                          "volRatio":  0.62,
+                          "amplitude":  5.51
                       },
                       {
                           "rank":  2,
@@ -137,7 +141,9 @@ var DATA = {
                           "turnover":  40.23,
                           "rankAmt":  49,
                           "rankSpd":  1,
-                          "score":  76.8
+                          "score":  76.8,
+                          "volRatio":  0.42,
+                          "amplitude":  3.89
                       },
                       {
                           "rank":  3,
@@ -150,7 +156,9 @@ var DATA = {
                           "turnover":  205.46,
                           "rankAmt":  9,
                           "rankSpd":  6,
-                          "score":  75.1
+                          "score":  75.1,
+                          "volRatio":  3.11,
+                          "amplitude":  10.1
                       },
                       {
                           "rank":  4,
@@ -163,7 +171,9 @@ var DATA = {
                           "turnover":  476.92,
                           "rankAmt":  2,
                           "rankSpd":  14,
-                          "score":  75
+                          "score":  75,
+                          "volRatio":  2.14,
+                          "amplitude":  9.09
                       },
                       {
                           "rank":  5,
@@ -176,7 +186,9 @@ var DATA = {
                           "turnover":  92.92,
                           "rankAmt":  5,
                           "rankSpd":  15,
-                          "score":  73
+                          "score":  73,
+                          "volRatio":  47.87,
+                          "amplitude":  6.17
                       },
                       {
                           "rank":  6,
@@ -189,7 +201,9 @@ var DATA = {
                           "turnover":  501.28,
                           "rankAmt":  1,
                           "rankSpd":  221,
-                          "score":  72.6
+                          "score":  72.6,
+                          "volRatio":  3.44,
+                          "amplitude":  9.95
                       },
                       {
                           "rank":  7,
@@ -202,7 +216,9 @@ var DATA = {
                           "turnover":  81.55,
                           "rankAmt":  6,
                           "rankSpd":  18,
-                          "score":  71.7
+                          "score":  71.7,
+                          "volRatio":  3.37,
+                          "amplitude":  14.08
                       },
                       {
                           "rank":  8,
@@ -215,7 +231,9 @@ var DATA = {
                           "turnover":  88.71,
                           "rankAmt":  4,
                           "rankSpd":  49,
-                          "score":  70.7
+                          "score":  70.7,
+                          "volRatio":  14.19,
+                          "amplitude":  11.54
                       },
                       {
                           "rank":  9,
@@ -228,7 +246,9 @@ var DATA = {
                           "turnover":  25.56,
                           "rankAmt":  25,
                           "rankSpd":  5,
-                          "score":  69.1
+                          "score":  69.1,
+                          "volRatio":  0.54,
+                          "amplitude":  6.99
                       },
                       {
                           "rank":  10,
@@ -241,7 +261,9 @@ var DATA = {
                           "turnover":  35.66,
                           "rankAmt":  10,
                           "rankSpd":  35,
-                          "score":  68.4
+                          "score":  68.4,
+                          "volRatio":  1.14,
+                          "amplitude":  7.3
                       },
                       {
                           "rank":  11,
@@ -254,7 +276,9 @@ var DATA = {
                           "turnover":  225.61,
                           "rankAmt":  7,
                           "rankSpd":  73,
-                          "score":  68.4
+                          "score":  68.4,
+                          "volRatio":  14.3,
+                          "amplitude":  9.09
                       },
                       {
                           "rank":  12,
@@ -267,7 +291,9 @@ var DATA = {
                           "turnover":  489.56,
                           "rankAmt":  8,
                           "rankSpd":  177,
-                          "score":  65.8
+                          "score":  65.8,
+                          "volRatio":  8.11,
+                          "amplitude":  9.52
                       },
                       {
                           "rank":  13,
@@ -280,7 +306,9 @@ var DATA = {
                           "turnover":  53.79,
                           "rankAmt":  14,
                           "rankSpd":  66,
-                          "score":  63.8
+                          "score":  63.8,
+                          "volRatio":  0.89,
+                          "amplitude":  3.33
                       },
                       {
                           "rank":  14,
@@ -293,7 +321,9 @@ var DATA = {
                           "turnover":  68.37,
                           "rankAmt":  15,
                           "rankSpd":  67,
-                          "score":  63.6
+                          "score":  63.6,
+                          "volRatio":  1.03,
+                          "amplitude":  8.88
                       },
                       {
                           "rank":  15,
@@ -306,7 +336,9 @@ var DATA = {
                           "turnover":  43.4,
                           "rankAmt":  24,
                           "rankSpd":  24,
-                          "score":  62.7
+                          "score":  62.7,
+                          "volRatio":  14.5,
+                          "amplitude":  4.99
                       },
                       {
                           "rank":  16,
@@ -319,7 +351,9 @@ var DATA = {
                           "turnover":  8.15,
                           "rankAmt":  107,
                           "rankSpd":  2,
-                          "score":  62.1
+                          "score":  62.1,
+                          "volRatio":  2.18,
+                          "amplitude":  3.22
                       },
                       {
                           "rank":  17,
@@ -332,7 +366,9 @@ var DATA = {
                           "turnover":  116.29,
                           "rankAmt":  16,
                           "rankSpd":  104,
-                          "score":  62.1
+                          "score":  62.1,
+                          "volRatio":  0.45,
+                          "amplitude":  5.96
                       },
                       {
                           "rank":  18,
@@ -345,7 +381,9 @@ var DATA = {
                           "turnover":  85.19,
                           "rankAmt":  13,
                           "rankSpd":  222,
-                          "score":  61.8
+                          "score":  61.8,
+                          "volRatio":  0.54,
+                          "amplitude":  3.71
                       },
                       {
                           "rank":  19,
@@ -358,7 +396,9 @@ var DATA = {
                           "turnover":  40.75,
                           "rankAmt":  27,
                           "rankSpd":  20,
-                          "score":  61.2
+                          "score":  61.2,
+                          "volRatio":  1.43,
+                          "amplitude":  6.67
                       },
                       {
                           "rank":  20,
@@ -371,7 +411,9 @@ var DATA = {
                           "turnover":  74.98,
                           "rankAmt":  21,
                           "rankSpd":  65,
-                          "score":  61
+                          "score":  61,
+                          "volRatio":  8.61,
+                          "amplitude":  6.37
                       }
                   ],
     "amount":  [
@@ -386,7 +428,9 @@ var DATA = {
                        "turnover":  501.28,
                        "rankAmt":  1,
                        "rankSpd":  221,
-                       "score":  72.6
+                       "score":  72.6,
+                       "volRatio":  3.44,
+                       "amplitude":  9.95
                    },
                    {
                        "rank":  2,
@@ -399,7 +443,9 @@ var DATA = {
                        "turnover":  476.92,
                        "rankAmt":  2,
                        "rankSpd":  14,
-                       "score":  75
+                       "score":  75,
+                       "volRatio":  2.14,
+                       "amplitude":  9.09
                    },
                    {
                        "rank":  3,
@@ -412,7 +458,9 @@ var DATA = {
                        "turnover":  642.9,
                        "rankAmt":  3,
                        "rankSpd":  307,
-                       "score":  58.8
+                       "score":  58.8,
+                       "volRatio":  0.78,
+                       "amplitude":  12.61
                    },
                    {
                        "rank":  4,
@@ -425,7 +473,9 @@ var DATA = {
                        "turnover":  88.71,
                        "rankAmt":  4,
                        "rankSpd":  49,
-                       "score":  70.7
+                       "score":  70.7,
+                       "volRatio":  14.19,
+                       "amplitude":  11.54
                    },
                    {
                        "rank":  5,
@@ -438,7 +488,9 @@ var DATA = {
                        "turnover":  92.92,
                        "rankAmt":  5,
                        "rankSpd":  15,
-                       "score":  73
+                       "score":  73,
+                       "volRatio":  47.87,
+                       "amplitude":  6.17
                    },
                    {
                        "rank":  6,
@@ -451,7 +503,9 @@ var DATA = {
                        "turnover":  81.55,
                        "rankAmt":  6,
                        "rankSpd":  18,
-                       "score":  71.7
+                       "score":  71.7,
+                       "volRatio":  3.37,
+                       "amplitude":  14.08
                    },
                    {
                        "rank":  7,
@@ -464,7 +518,9 @@ var DATA = {
                        "turnover":  225.61,
                        "rankAmt":  7,
                        "rankSpd":  73,
-                       "score":  68.4
+                       "score":  68.4,
+                       "volRatio":  14.3,
+                       "amplitude":  9.09
                    },
                    {
                        "rank":  8,
@@ -477,7 +533,9 @@ var DATA = {
                        "turnover":  489.56,
                        "rankAmt":  8,
                        "rankSpd":  177,
-                       "score":  65.8
+                       "score":  65.8,
+                       "volRatio":  8.11,
+                       "amplitude":  9.52
                    },
                    {
                        "rank":  9,
@@ -490,7 +548,9 @@ var DATA = {
                        "turnover":  205.46,
                        "rankAmt":  9,
                        "rankSpd":  6,
-                       "score":  75.1
+                       "score":  75.1,
+                       "volRatio":  3.11,
+                       "amplitude":  10.1
                    },
                    {
                        "rank":  10,
@@ -503,7 +563,9 @@ var DATA = {
                        "turnover":  35.66,
                        "rankAmt":  10,
                        "rankSpd":  35,
-                       "score":  68.4
+                       "score":  68.4,
+                       "volRatio":  1.14,
+                       "amplitude":  7.3
                    },
                    {
                        "rank":  11,
@@ -516,7 +578,9 @@ var DATA = {
                        "turnover":  63.35,
                        "rankAmt":  11,
                        "rankSpd":  3,
-                       "score":  79.3
+                       "score":  79.3,
+                       "volRatio":  0.62,
+                       "amplitude":  5.51
                    },
                    {
                        "rank":  12,
@@ -529,7 +593,9 @@ var DATA = {
                        "turnover":  14.5,
                        "rankAmt":  12,
                        "rankSpd":  298,
-                       "score":  60.6
+                       "score":  60.6,
+                       "volRatio":  0.36,
+                       "amplitude":  2.99
                    },
                    {
                        "rank":  13,
@@ -542,7 +608,9 @@ var DATA = {
                        "turnover":  85.19,
                        "rankAmt":  13,
                        "rankSpd":  222,
-                       "score":  61.8
+                       "score":  61.8,
+                       "volRatio":  0.54,
+                       "amplitude":  3.71
                    },
                    {
                        "rank":  14,
@@ -555,7 +623,9 @@ var DATA = {
                        "turnover":  53.79,
                        "rankAmt":  14,
                        "rankSpd":  66,
-                       "score":  63.8
+                       "score":  63.8,
+                       "volRatio":  0.89,
+                       "amplitude":  3.33
                    },
                    {
                        "rank":  15,
@@ -568,7 +638,9 @@ var DATA = {
                        "turnover":  68.37,
                        "rankAmt":  15,
                        "rankSpd":  67,
-                       "score":  63.6
+                       "score":  63.6,
+                       "volRatio":  1.03,
+                       "amplitude":  8.88
                    },
                    {
                        "rank":  16,
@@ -581,7 +653,9 @@ var DATA = {
                        "turnover":  116.29,
                        "rankAmt":  16,
                        "rankSpd":  104,
-                       "score":  62.1
+                       "score":  62.1,
+                       "volRatio":  0.45,
+                       "amplitude":  5.96
                    },
                    {
                        "rank":  17,
@@ -594,7 +668,9 @@ var DATA = {
                        "turnover":  65.7,
                        "rankAmt":  17,
                        "rankSpd":  231,
-                       "score":  59.9
+                       "score":  59.9,
+                       "volRatio":  1.32,
+                       "amplitude":  5.48
                    },
                    {
                        "rank":  18,
@@ -607,7 +683,9 @@ var DATA = {
                        "turnover":  59.82,
                        "rankAmt":  18,
                        "rankSpd":  267,
-                       "score":  58.7
+                       "score":  58.7,
+                       "volRatio":  0.87,
+                       "amplitude":  10.64
                    },
                    {
                        "rank":  19,
@@ -620,7 +698,9 @@ var DATA = {
                        "turnover":  93.77,
                        "rankAmt":  19,
                        "rankSpd":  173,
-                       "score":  59.6
+                       "score":  59.6,
+                       "volRatio":  2.9,
+                       "amplitude":  6.9
                    },
                    {
                        "rank":  20,
@@ -633,7 +713,9 @@ var DATA = {
                        "turnover":  16.13,
                        "rankAmt":  20,
                        "rankSpd":  305,
-                       "score":  50.7
+                       "score":  50.7,
+                       "volRatio":  0.58,
+                       "amplitude":  5.51
                    }
                ],
     "speed":  [
@@ -648,7 +730,9 @@ var DATA = {
                       "turnover":  40.23,
                       "rankAmt":  49,
                       "rankSpd":  1,
-                      "score":  76.8
+                      "score":  76.8,
+                      "volRatio":  0.42,
+                      "amplitude":  3.89
                   },
                   {
                       "rank":  2,
@@ -661,7 +745,9 @@ var DATA = {
                       "turnover":  8.15,
                       "rankAmt":  107,
                       "rankSpd":  2,
-                      "score":  62.1
+                      "score":  62.1,
+                      "volRatio":  2.18,
+                      "amplitude":  3.22
                   },
                   {
                       "rank":  3,
@@ -674,7 +760,9 @@ var DATA = {
                       "turnover":  63.35,
                       "rankAmt":  11,
                       "rankSpd":  3,
-                      "score":  79.3
+                      "score":  79.3,
+                      "volRatio":  0.62,
+                      "amplitude":  5.51
                   },
                   {
                       "rank":  4,
@@ -687,7 +775,9 @@ var DATA = {
                       "turnover":  9.37,
                       "rankAmt":  230,
                       "rankSpd":  4,
-                      "score":  44.6
+                      "score":  44.6,
+                      "volRatio":  0.41,
+                      "amplitude":  2.56
                   },
                   {
                       "rank":  5,
@@ -700,7 +790,9 @@ var DATA = {
                       "turnover":  25.56,
                       "rankAmt":  25,
                       "rankSpd":  5,
-                      "score":  69.1
+                      "score":  69.1,
+                      "volRatio":  0.54,
+                      "amplitude":  6.99
                   },
                   {
                       "rank":  6,
@@ -713,7 +805,9 @@ var DATA = {
                       "turnover":  205.46,
                       "rankAmt":  9,
                       "rankSpd":  6,
-                      "score":  75.1
+                      "score":  75.1,
+                      "volRatio":  3.11,
+                      "amplitude":  10.1
                   },
                   {
                       "rank":  7,
@@ -726,7 +820,9 @@ var DATA = {
                       "turnover":  2.55,
                       "rankAmt":  115,
                       "rankSpd":  7,
-                      "score":  49.6
+                      "score":  49.6,
+                      "volRatio":  1.42,
+                      "amplitude":  1.66
                   },
                   {
                       "rank":  8,
@@ -739,7 +835,9 @@ var DATA = {
                       "turnover":  4.64,
                       "rankAmt":  266,
                       "rankSpd":  8,
-                      "score":  37.9
+                      "score":  37.9,
+                      "volRatio":  0.68,
+                      "amplitude":  2.08
                   },
                   {
                       "rank":  9,
@@ -752,7 +850,9 @@ var DATA = {
                       "turnover":  1.59,
                       "rankAmt":  219,
                       "rankSpd":  9,
-                      "score":  41.6
+                      "score":  41.6,
+                      "volRatio":  0.96,
+                      "amplitude":  1.22
                   },
                   {
                       "rank":  10,
@@ -765,7 +865,9 @@ var DATA = {
                       "turnover":  8.94,
                       "rankAmt":  48,
                       "rankSpd":  10,
-                      "score":  59.2
+                      "score":  59.2,
+                      "volRatio":  1.32,
+                      "amplitude":  6.55
                   },
                   {
                       "rank":  11,
@@ -778,7 +880,9 @@ var DATA = {
                       "turnover":  11.42,
                       "rankAmt":  61,
                       "rankSpd":  11,
-                      "score":  55.6
+                      "score":  55.6,
+                      "volRatio":  1.21,
+                      "amplitude":  4.71
                   },
                   {
                       "rank":  12,
@@ -791,7 +895,9 @@ var DATA = {
                       "turnover":  6.5,
                       "rankAmt":  254,
                       "rankSpd":  12,
-                      "score":  36.9
+                      "score":  36.9,
+                      "volRatio":  0.89,
+                      "amplitude":  1.15
                   },
                   {
                       "rank":  13,
@@ -804,7 +910,9 @@ var DATA = {
                       "turnover":  60.66,
                       "rankAmt":  50,
                       "rankSpd":  13,
-                      "score":  55.8
+                      "score":  55.8,
+                      "volRatio":  3.68,
+                      "amplitude":  6.97
                   },
                   {
                       "rank":  14,
@@ -817,7 +925,9 @@ var DATA = {
                       "turnover":  476.92,
                       "rankAmt":  2,
                       "rankSpd":  14,
-                      "score":  75
+                      "score":  75,
+                      "volRatio":  2.14,
+                      "amplitude":  9.09
                   },
                   {
                       "rank":  15,
@@ -830,7 +940,9 @@ var DATA = {
                       "turnover":  92.92,
                       "rankAmt":  5,
                       "rankSpd":  15,
-                      "score":  73
+                      "score":  73,
+                      "volRatio":  47.87,
+                      "amplitude":  6.17
                   },
                   {
                       "rank":  16,
@@ -843,7 +955,9 @@ var DATA = {
                       "turnover":  3.33,
                       "rankAmt":  262,
                       "rankSpd":  16,
-                      "score":  35.1
+                      "score":  35.1,
+                      "volRatio":  0.59,
+                      "amplitude":  1.4
                   },
                   {
                       "rank":  17,
@@ -856,7 +970,9 @@ var DATA = {
                       "turnover":  1.47,
                       "rankAmt":  123,
                       "rankSpd":  17,
-                      "score":  45
+                      "score":  45,
+                      "volRatio":  0.74,
+                      "amplitude":  1.98
                   },
                   {
                       "rank":  18,
@@ -869,7 +985,9 @@ var DATA = {
                       "turnover":  81.55,
                       "rankAmt":  6,
                       "rankSpd":  18,
-                      "score":  71.7
+                      "score":  71.7,
+                      "volRatio":  3.37,
+                      "amplitude":  14.08
                   },
                   {
                       "rank":  19,
@@ -882,7 +1000,9 @@ var DATA = {
                       "turnover":  83.11,
                       "rankAmt":  38,
                       "rankSpd":  19,
-                      "score":  58.1
+                      "score":  58.1,
+                      "volRatio":  0.29,
+                      "amplitude":  5.49
                   },
                   {
                       "rank":  20,
@@ -895,313 +1015,11 @@ var DATA = {
                       "turnover":  40.75,
                       "rankAmt":  27,
                       "rankSpd":  20,
-                      "score":  61.2
+                      "score":  61.2,
+                      "volRatio":  1.43,
+                      "amplitude":  6.67
                   }
               ],
-    "flow":  [
-    {
-        "rank":  1,
-        "code":  "110103",
-        "name":  "申能转债",
-        "price":  148.396,
-        "pct":  -5.66,
-        "flow5":  220363629,
-        "flowPct5":  7.55,
-        "flowToday":  67395671
-    },
-    {
-        "rank":  2,
-        "code":  "127096",
-        "name":  "泰坦转债",
-        "price":  577.2,
-        "pct":  -0.29,
-        "flow5":  80554749,
-        "flowPct5":  0.79,
-        "flowToday":  -6486987
-    },
-    {
-        "rank":  3,
-        "code":  "118073",
-        "name":  "赛斯转债",
-        "price":  175.838,
-        "pct":  -6.85,
-        "flow5":  76089352,
-        "flowPct5":  2.98,
-        "flowToday":  6881004
-    },
-    {
-        "rank":  4,
-        "code":  "128128",
-        "name":  "Z翔转2",
-        "price":  109.951,
-        "pct":  0.02,
-        "flow5":  61147081,
-        "flowPct5":  13.93,
-        "flowToday":  8192953
-    },
-    {
-        "rank":  5,
-        "code":  "123276",
-        "name":  "久吾转02",
-        "price":  178.6,
-        "pct":  -2.37,
-        "flow5":  59639480,
-        "flowPct5":  0.81,
-        "flowToday":  -7196892
-    },
-    {
-        "rank":  6,
-        "code":  "110099",
-        "name":  "福能转债",
-        "price":  144.23,
-        "pct":  -0.57,
-        "flow5":  53389971,
-        "flowPct5":  9.86,
-        "flowToday":  3183948
-    },
-    {
-        "rank":  7,
-        "code":  "127049",
-        "name":  "希望转2",
-        "price":  115.156,
-        "pct":  0.45,
-        "flow5":  51419720,
-        "flowPct5":  8.65,
-        "flowToday":  34831437
-    },
-    {
-        "rank":  8,
-        "code":  "113052",
-        "name":  "兴业转债",
-        "price":  115.318,
-        "pct":  -0.43,
-        "flow5":  48924434,
-        "flowPct5":  2.88,
-        "flowToday":  12055543
-    },
-    {
-        "rank":  9,
-        "code":  "113053",
-        "name":  "隆22转债",
-        "price":  121.176,
-        "pct":  -0.69,
-        "flow5":  47706836,
-        "flowPct5":  8.44,
-        "flowToday":  8088266
-    },
-    {
-        "rank":  10,
-        "code":  "127114",
-        "name":  "宜化转债",
-        "price":  141.1,
-        "pct":  1.03,
-        "flow5":  47166416,
-        "flowPct5":  5.68,
-        "flowToday":  6580138
-    },
-    {
-        "rank":  11,
-        "code":  "118064",
-        "name":  "联瑞转债",
-        "price":  402.775,
-        "pct":  -2.19,
-        "flow5":  45101176,
-        "flowPct5":  0.38,
-        "flowToday":  16468952
-    },
-    {
-        "rank":  12,
-        "code":  "123118",
-        "name":  "惠城转债",
-        "price":  1040.696,
-        "pct":  3.72,
-        "flow5":  44945186,
-        "flowPct5":  0.5,
-        "flowToday":  42950693
-    },
-    {
-        "rank":  13,
-        "code":  "113615",
-        "name":  "金诚转债",
-        "price":  750.972,
-        "pct":  1.96,
-        "flow5":  44821927,
-        "flowPct5":  2.03,
-        "flowToday":  2576464
-    },
-    {
-        "rank":  14,
-        "code":  "118031",
-        "name":  "天23转债",
-        "price":  123.202,
-        "pct":  0.49,
-        "flow5":  44391504,
-        "flowPct5":  7.32,
-        "flowToday":  20435459
-    },
-    {
-        "rank":  15,
-        "code":  "127084",
-        "name":  "柳工转2",
-        "price":  143.2,
-        "pct":  -0.02,
-        "flow5":  43082998,
-        "flowPct5":  11.8,
-        "flowToday":  3625439
-    },
-    {
-        "rank":  16,
-        "code":  "118074",
-        "name":  "特宝转债",
-        "price":  175.123,
-        "pct":  11.33,
-        "flow5":  42950202,
-        "flowPct5":  1.67,
-        "flowToday":  13720716
-    },
-    {
-        "rank":  17,
-        "code":  "111025",
-        "name":  "圣泉转债",
-        "price":  169.249,
-        "pct":  0.65,
-        "flow5":  42658803,
-        "flowPct5":  1.09,
-        "flowToday":  33759427
-    },
-    {
-        "rank":  18,
-        "code":  "127067",
-        "name":  "恒逸转2",
-        "price":  162.15,
-        "pct":  -0.22,
-        "flow5":  39932573,
-        "flowPct5":  0.69,
-        "flowToday":  13881610
-    },
-    {
-        "rank":  19,
-        "code":  "123270",
-        "name":  "盛德转债",
-        "price":  246.5,
-        "pct":  1.69,
-        "flow5":  39867827,
-        "flowPct5":  1.72,
-        "flowToday":  10475754
-    },
-    {
-        "rank":  20,
-        "code":  "127070",
-        "name":  "大中转债",
-        "price":  352,
-        "pct":  0.77,
-        "flow5":  38254970,
-        "flowPct5":  0.92,
-        "flowToday":  25756640
-    }
-],
-    "flowOut":  [
-    {
-        "rank":  1,
-        "code":  "110075",
-        "name":  "南航转债",
-        "price":  106.503,
-        "pct":  -0.01,
-        "flow5":  -79981480,
-        "flowPct5":  -8.72,
-        "flowToday":  10770104
-    },
-    {
-        "rank":  2,
-        "code":  "123261",
-        "name":  "普联转债",
-        "price":  192.5,
-        "pct":  -8.42,
-        "flow5":  -69546772,
-        "flowPct5":  -0.33,
-        "flowToday":  -24372394
-    },
-    {
-        "rank":  3,
-        "code":  "113042",
-        "name":  "上银转债",
-        "price":  117.369,
-        "pct":  -0.08,
-        "flow5":  -49540948,
-        "flowPct5":  -3.61,
-        "flowToday":  1508906
-    },
-    {
-        "rank":  4,
-        "code":  "111000",
-        "name":  "起帆转债",
-        "price":  139.057,
-        "pct":  -0.29,
-        "flow5":  -47342288,
-        "flowPct5":  -6.48,
-        "flowToday":  -529744
-    },
-    {
-        "rank":  5,
-        "code":  "113643",
-        "name":  "风语转债",
-        "price":  147.383,
-        "pct":  -3.23,
-        "flow5":  -39609278,
-        "flowPct5":  -1.29,
-        "flowToday":  -6330968
-    },
-    {
-        "rank":  6,
-        "code":  "128129",
-        "name":  "青农转债",
-        "price":  107.947,
-        "pct":  0,
-        "flow5":  -34817033,
-        "flowPct5":  -5.71,
-        "flowToday":  -7341244
-    },
-    {
-        "rank":  7,
-        "code":  "118070",
-        "name":  "南芯转债",
-        "price":  159.765,
-        "pct":  -0.06,
-        "flow5":  -29114660,
-        "flowPct5":  -2.56,
-        "flowToday":  -1980913
-    },
-    {
-        "rank":  8,
-        "code":  "118056",
-        "name":  "路维转债",
-        "price":  278.334,
-        "pct":  2.08,
-        "flow5":  -18245046,
-        "flowPct5":  -0.68,
-        "flowToday":  -8480056
-    },
-    {
-        "rank":  9,
-        "code":  "123252",
-        "name":  "银邦转债",
-        "price":  138.066,
-        "pct":  -0.02,
-        "flow5":  -17181861,
-        "flowPct5":  -7.18,
-        "flowToday":  -1990069
-    },
-    {
-        "rank":  10,
-        "code":  "123263",
-        "name":  "鼎捷转债",
-        "price":  150.455,
-        "pct":  -1.96,
-        "flow5":  -17133345,
-        "flowPct5":  -2.21,
-        "flowToday":  -4942627
-    }
-],
     "history":  [
                     {
                         "date":  "2026-08-14",
@@ -1641,7 +1459,9 @@ var DATA = {
                     "turnover":  63.35,
                     "rankAmt":  11,
                     "rankSpd":  3,
-                    "score":  79.3
+                    "score":  79.3,
+                    "volRatio":  0.62,
+                    "amplitude":  5.51
                 },
                 {
                     "rank":  2,
@@ -1654,7 +1474,9 @@ var DATA = {
                     "turnover":  40.23,
                     "rankAmt":  49,
                     "rankSpd":  1,
-                    "score":  76.8
+                    "score":  76.8,
+                    "volRatio":  0.42,
+                    "amplitude":  3.89
                 },
                 {
                     "rank":  3,
@@ -1667,7 +1489,9 @@ var DATA = {
                     "turnover":  205.46,
                     "rankAmt":  9,
                     "rankSpd":  6,
-                    "score":  75.1
+                    "score":  75.1,
+                    "volRatio":  3.11,
+                    "amplitude":  10.1
                 },
                 {
                     "rank":  4,
@@ -1680,7 +1504,9 @@ var DATA = {
                     "turnover":  476.92,
                     "rankAmt":  2,
                     "rankSpd":  14,
-                    "score":  75
+                    "score":  75,
+                    "volRatio":  2.14,
+                    "amplitude":  9.09
                 },
                 {
                     "rank":  5,
@@ -1693,7 +1519,9 @@ var DATA = {
                     "turnover":  92.92,
                     "rankAmt":  5,
                     "rankSpd":  15,
-                    "score":  73
+                    "score":  73,
+                    "volRatio":  47.87,
+                    "amplitude":  6.17
                 },
                 {
                     "rank":  6,
@@ -1706,7 +1534,9 @@ var DATA = {
                     "turnover":  501.28,
                     "rankAmt":  1,
                     "rankSpd":  221,
-                    "score":  72.6
+                    "score":  72.6,
+                    "volRatio":  3.44,
+                    "amplitude":  9.95
                 },
                 {
                     "rank":  7,
@@ -1719,7 +1549,9 @@ var DATA = {
                     "turnover":  81.55,
                     "rankAmt":  6,
                     "rankSpd":  18,
-                    "score":  71.7
+                    "score":  71.7,
+                    "volRatio":  3.37,
+                    "amplitude":  14.08
                 },
                 {
                     "rank":  8,
@@ -1732,7 +1564,9 @@ var DATA = {
                     "turnover":  88.71,
                     "rankAmt":  4,
                     "rankSpd":  49,
-                    "score":  70.7
+                    "score":  70.7,
+                    "volRatio":  14.19,
+                    "amplitude":  11.54
                 },
                 {
                     "rank":  9,
@@ -1745,7 +1579,9 @@ var DATA = {
                     "turnover":  25.56,
                     "rankAmt":  25,
                     "rankSpd":  5,
-                    "score":  69.1
+                    "score":  69.1,
+                    "volRatio":  0.54,
+                    "amplitude":  6.99
                 },
                 {
                     "rank":  10,
@@ -1758,7 +1594,9 @@ var DATA = {
                     "turnover":  35.66,
                     "rankAmt":  10,
                     "rankSpd":  35,
-                    "score":  68.4
+                    "score":  68.4,
+                    "volRatio":  1.14,
+                    "amplitude":  7.3
                 },
                 {
                     "rank":  11,
@@ -1771,7 +1609,9 @@ var DATA = {
                     "turnover":  225.61,
                     "rankAmt":  7,
                     "rankSpd":  73,
-                    "score":  68.4
+                    "score":  68.4,
+                    "volRatio":  14.3,
+                    "amplitude":  9.09
                 },
                 {
                     "rank":  12,
@@ -1784,7 +1624,9 @@ var DATA = {
                     "turnover":  489.56,
                     "rankAmt":  8,
                     "rankSpd":  177,
-                    "score":  65.8
+                    "score":  65.8,
+                    "volRatio":  8.11,
+                    "amplitude":  9.52
                 },
                 {
                     "rank":  13,
@@ -1797,7 +1639,9 @@ var DATA = {
                     "turnover":  53.79,
                     "rankAmt":  14,
                     "rankSpd":  66,
-                    "score":  63.8
+                    "score":  63.8,
+                    "volRatio":  0.89,
+                    "amplitude":  3.33
                 },
                 {
                     "rank":  14,
@@ -1810,7 +1654,9 @@ var DATA = {
                     "turnover":  68.37,
                     "rankAmt":  15,
                     "rankSpd":  67,
-                    "score":  63.6
+                    "score":  63.6,
+                    "volRatio":  1.03,
+                    "amplitude":  8.88
                 },
                 {
                     "rank":  15,
@@ -1823,7 +1669,9 @@ var DATA = {
                     "turnover":  43.4,
                     "rankAmt":  24,
                     "rankSpd":  24,
-                    "score":  62.7
+                    "score":  62.7,
+                    "volRatio":  14.5,
+                    "amplitude":  4.99
                 },
                 {
                     "rank":  16,
@@ -1836,7 +1684,9 @@ var DATA = {
                     "turnover":  8.15,
                     "rankAmt":  107,
                     "rankSpd":  2,
-                    "score":  62.1
+                    "score":  62.1,
+                    "volRatio":  2.18,
+                    "amplitude":  3.22
                 },
                 {
                     "rank":  17,
@@ -1849,7 +1699,9 @@ var DATA = {
                     "turnover":  116.29,
                     "rankAmt":  16,
                     "rankSpd":  104,
-                    "score":  62.1
+                    "score":  62.1,
+                    "volRatio":  0.45,
+                    "amplitude":  5.96
                 },
                 {
                     "rank":  18,
@@ -1862,7 +1714,9 @@ var DATA = {
                     "turnover":  85.19,
                     "rankAmt":  13,
                     "rankSpd":  222,
-                    "score":  61.8
+                    "score":  61.8,
+                    "volRatio":  0.54,
+                    "amplitude":  3.71
                 },
                 {
                     "rank":  19,
@@ -1875,7 +1729,9 @@ var DATA = {
                     "turnover":  40.75,
                     "rankAmt":  27,
                     "rankSpd":  20,
-                    "score":  61.2
+                    "score":  61.2,
+                    "volRatio":  1.43,
+                    "amplitude":  6.67
                 },
                 {
                     "rank":  20,
@@ -1888,7 +1744,9 @@ var DATA = {
                     "turnover":  74.98,
                     "rankAmt":  21,
                     "rankSpd":  65,
-                    "score":  61
+                    "score":  61,
+                    "volRatio":  8.61,
+                    "amplitude":  6.37
                 },
                 {
                     "rank":  21,
@@ -1901,7 +1759,9 @@ var DATA = {
                     "turnover":  14.5,
                     "rankAmt":  12,
                     "rankSpd":  298,
-                    "score":  60.6
+                    "score":  60.6,
+                    "volRatio":  0.36,
+                    "amplitude":  2.99
                 },
                 {
                     "rank":  22,
@@ -1914,7 +1774,9 @@ var DATA = {
                     "turnover":  65.7,
                     "rankAmt":  17,
                     "rankSpd":  231,
-                    "score":  59.9
+                    "score":  59.9,
+                    "volRatio":  1.32,
+                    "amplitude":  5.48
                 },
                 {
                     "rank":  23,
@@ -1927,7 +1789,9 @@ var DATA = {
                     "turnover":  93.77,
                     "rankAmt":  19,
                     "rankSpd":  173,
-                    "score":  59.6
+                    "score":  59.6,
+                    "volRatio":  2.9,
+                    "amplitude":  6.9
                 },
                 {
                     "rank":  24,
@@ -1940,7 +1804,9 @@ var DATA = {
                     "turnover":  8.94,
                     "rankAmt":  48,
                     "rankSpd":  10,
-                    "score":  59.2
+                    "score":  59.2,
+                    "volRatio":  1.32,
+                    "amplitude":  6.55
                 },
                 {
                     "rank":  25,
@@ -1953,7 +1819,9 @@ var DATA = {
                     "turnover":  27.97,
                     "rankAmt":  22,
                     "rankSpd":  196,
-                    "score":  58.8
+                    "score":  58.8,
+                    "volRatio":  1.09,
+                    "amplitude":  7.38
                 },
                 {
                     "rank":  26,
@@ -1966,7 +1834,9 @@ var DATA = {
                     "turnover":  642.9,
                     "rankAmt":  3,
                     "rankSpd":  307,
-                    "score":  58.8
+                    "score":  58.8,
+                    "volRatio":  0.78,
+                    "amplitude":  12.61
                 },
                 {
                     "rank":  27,
@@ -1979,7 +1849,9 @@ var DATA = {
                     "turnover":  59.82,
                     "rankAmt":  18,
                     "rankSpd":  267,
-                    "score":  58.7
+                    "score":  58.7,
+                    "volRatio":  0.87,
+                    "amplitude":  10.64
                 },
                 {
                     "rank":  28,
@@ -1992,7 +1864,9 @@ var DATA = {
                     "turnover":  83.11,
                     "rankAmt":  38,
                     "rankSpd":  19,
-                    "score":  58.1
+                    "score":  58.1,
+                    "volRatio":  0.29,
+                    "amplitude":  5.49
                 },
                 {
                     "rank":  29,
@@ -2005,7 +1879,9 @@ var DATA = {
                     "turnover":  17.26,
                     "rankAmt":  28,
                     "rankSpd":  83,
-                    "score":  58
+                    "score":  58,
+                    "volRatio":  0.74,
+                    "amplitude":  4.07
                 },
                 {
                     "rank":  30,
@@ -2018,7 +1894,9 @@ var DATA = {
                     "turnover":  32.81,
                     "rankAmt":  26,
                     "rankSpd":  199,
-                    "score":  57.6
+                    "score":  57.6,
+                    "volRatio":  1.33,
+                    "amplitude":  5.24
                 },
                 {
                     "rank":  31,
@@ -2031,7 +1909,9 @@ var DATA = {
                     "turnover":  6.9,
                     "rankAmt":  36,
                     "rankSpd":  29,
-                    "score":  57.5
+                    "score":  57.5,
+                    "volRatio":  0.83,
+                    "amplitude":  4.42
                 },
                 {
                     "rank":  32,
@@ -2044,7 +1924,9 @@ var DATA = {
                     "turnover":  11.9,
                     "rankAmt":  35,
                     "rankSpd":  61,
-                    "score":  56.5
+                    "score":  56.5,
+                    "volRatio":  0.58,
+                    "amplitude":  4.95
                 },
                 {
                     "rank":  33,
@@ -2057,7 +1939,9 @@ var DATA = {
                     "turnover":  43.35,
                     "rankAmt":  37,
                     "rankSpd":  51,
-                    "score":  56.1
+                    "score":  56.1,
+                    "volRatio":  0.68,
+                    "amplitude":  4.09
                 },
                 {
                     "rank":  34,
@@ -2070,7 +1954,9 @@ var DATA = {
                     "turnover":  19.56,
                     "rankAmt":  32,
                     "rankSpd":  102,
-                    "score":  55.8
+                    "score":  55.8,
+                    "volRatio":  0.46,
+                    "amplitude":  3.84
                 },
                 {
                     "rank":  35,
@@ -2083,7 +1969,9 @@ var DATA = {
                     "turnover":  60.66,
                     "rankAmt":  50,
                     "rankSpd":  13,
-                    "score":  55.8
+                    "score":  55.8,
+                    "volRatio":  3.68,
+                    "amplitude":  6.97
                 },
                 {
                     "rank":  36,
@@ -2096,7 +1984,9 @@ var DATA = {
                     "turnover":  11.42,
                     "rankAmt":  61,
                     "rankSpd":  11,
-                    "score":  55.6
+                    "score":  55.6,
+                    "volRatio":  1.21,
+                    "amplitude":  4.71
                 },
                 {
                     "rank":  37,
@@ -2109,7 +1999,9 @@ var DATA = {
                     "turnover":  25.79,
                     "rankAmt":  29,
                     "rankSpd":  214,
-                    "score":  55.5
+                    "score":  55.5,
+                    "volRatio":  0.35,
+                    "amplitude":  4.07
                 },
                 {
                     "rank":  38,
@@ -2122,7 +2014,9 @@ var DATA = {
                     "turnover":  1.32,
                     "rankAmt":  30,
                     "rankSpd":  234,
-                    "score":  55.2
+                    "score":  55.2,
+                    "volRatio":  2.45,
+                    "amplitude":  0.74
                 },
                 {
                     "rank":  39,
@@ -2135,7 +2029,9 @@ var DATA = {
                     "turnover":  130.7,
                     "rankAmt":  31,
                     "rankSpd":  233,
-                    "score":  54.8
+                    "score":  54.8,
+                    "volRatio":  10.73,
+                    "amplitude":  10.12
                 },
                 {
                     "rank":  40,
@@ -2148,7 +2044,9 @@ var DATA = {
                     "turnover":  257.92,
                     "rankAmt":  23,
                     "rankSpd":  301,
-                    "score":  54.6
+                    "score":  54.6,
+                    "volRatio":  9.45,
+                    "amplitude":  8.06
                 },
                 {
                     "rank":  41,
@@ -2161,7 +2059,9 @@ var DATA = {
                     "turnover":  14.12,
                     "rankAmt":  33,
                     "rankSpd":  190,
-                    "score":  54.5
+                    "score":  54.5,
+                    "volRatio":  1.28,
+                    "amplitude":  4.64
                 },
                 {
                     "rank":  42,
@@ -2174,7 +2074,9 @@ var DATA = {
                     "turnover":  58.54,
                     "rankAmt":  43,
                     "rankSpd":  88,
-                    "score":  53.9
+                    "score":  53.9,
+                    "volRatio":  1.09,
+                    "amplitude":  5.9
                 },
                 {
                     "rank":  43,
@@ -2187,7 +2089,9 @@ var DATA = {
                     "turnover":  31.52,
                     "rankAmt":  39,
                     "rankSpd":  160,
-                    "score":  53.4
+                    "score":  53.4,
+                    "volRatio":  0.43,
+                    "amplitude":  5.5
                 },
                 {
                     "rank":  44,
@@ -2200,7 +2104,9 @@ var DATA = {
                     "turnover":  138.73,
                     "rankAmt":  42,
                     "rankSpd":  129,
-                    "score":  53
+                    "score":  53,
+                    "volRatio":  0.4,
+                    "amplitude":  5.87
                 },
                 {
                     "rank":  45,
@@ -2213,7 +2119,9 @@ var DATA = {
                     "turnover":  14.19,
                     "rankAmt":  56,
                     "rankSpd":  37,
-                    "score":  52.4
+                    "score":  52.4,
+                    "volRatio":  0.82,
+                    "amplitude":  4.55
                 },
                 {
                     "rank":  46,
@@ -2226,7 +2134,9 @@ var DATA = {
                     "turnover":  36.1,
                     "rankAmt":  52,
                     "rankSpd":  87,
-                    "score":  51.3
+                    "score":  51.3,
+                    "volRatio":  0.48,
+                    "amplitude":  5.64
                 },
                 {
                     "rank":  47,
@@ -2239,7 +2149,9 @@ var DATA = {
                     "turnover":  1.47,
                     "rankAmt":  46,
                     "rankSpd":  161,
-                    "score":  51.3
+                    "score":  51.3,
+                    "volRatio":  1.33,
+                    "amplitude":  0.87
                 },
                 {
                     "rank":  48,
@@ -2252,7 +2164,9 @@ var DATA = {
                     "turnover":  37.03,
                     "rankAmt":  47,
                     "rankSpd":  195,
-                    "score":  51
+                    "score":  51,
+                    "volRatio":  0.52,
+                    "amplitude":  6.7
                 },
                 {
                     "rank":  49,
@@ -2265,7 +2179,9 @@ var DATA = {
                     "turnover":  66.74,
                     "rankAmt":  34,
                     "rankSpd":  290,
-                    "score":  50.9
+                    "score":  50.9,
+                    "volRatio":  0.98,
+                    "amplitude":  7.83
                 },
                 {
                     "rank":  50,
@@ -2278,7 +2194,9 @@ var DATA = {
                     "turnover":  16.13,
                     "rankAmt":  20,
                     "rankSpd":  305,
-                    "score":  50.7
+                    "score":  50.7,
+                    "volRatio":  0.58,
+                    "amplitude":  5.51
                 },
                 {
                     "rank":  51,
@@ -2291,7 +2209,9 @@ var DATA = {
                     "turnover":  9.93,
                     "rankAmt":  40,
                     "rankSpd":  276,
-                    "score":  50.6
+                    "score":  50.6,
+                    "volRatio":  1.28,
+                    "amplitude":  5.83
                 },
                 {
                     "rank":  52,
@@ -2304,7 +2224,9 @@ var DATA = {
                     "turnover":  29.39,
                     "rankAmt":  59,
                     "rankSpd":  90,
-                    "score":  49.9
+                    "score":  49.9,
+                    "volRatio":  1.22,
+                    "amplitude":  4.87
                 },
                 {
                     "rank":  53,
@@ -2317,7 +2239,9 @@ var DATA = {
                     "turnover":  11.39,
                     "rankAmt":  69,
                     "rankSpd":  33,
-                    "score":  49.9
+                    "score":  49.9,
+                    "volRatio":  0.81,
+                    "amplitude":  4.17
                 },
                 {
                     "rank":  54,
@@ -2330,7 +2254,9 @@ var DATA = {
                     "turnover":  14.83,
                     "rankAmt":  45,
                     "rankSpd":  256,
-                    "score":  49.7
+                    "score":  49.7,
+                    "volRatio":  0.57,
+                    "amplitude":  4.94
                 },
                 {
                     "rank":  55,
@@ -2343,7 +2269,9 @@ var DATA = {
                     "turnover":  2.55,
                     "rankAmt":  115,
                     "rankSpd":  7,
-                    "score":  49.6
+                    "score":  49.6,
+                    "volRatio":  1.42,
+                    "amplitude":  1.66
                 },
                 {
                     "rank":  56,
@@ -2356,7 +2284,9 @@ var DATA = {
                     "turnover":  35.38,
                     "rankAmt":  57,
                     "rankSpd":  121,
-                    "score":  49.5
+                    "score":  49.5,
+                    "volRatio":  1.81,
+                    "amplitude":  2.54
                 },
                 {
                     "rank":  57,
@@ -2369,7 +2299,9 @@ var DATA = {
                     "turnover":  23.68,
                     "rankAmt":  41,
                     "rankSpd":  294,
-                    "score":  49.1
+                    "score":  49.1,
+                    "volRatio":  0.92,
+                    "amplitude":  5.84
                 },
                 {
                     "rank":  58,
@@ -2382,7 +2314,9 @@ var DATA = {
                     "turnover":  34.04,
                     "rankAmt":  58,
                     "rankSpd":  162,
-                    "score":  49
+                    "score":  49,
+                    "volRatio":  0.81,
+                    "amplitude":  2.87
                 },
                 {
                     "rank":  59,
@@ -2395,7 +2329,9 @@ var DATA = {
                     "turnover":  19.81,
                     "rankAmt":  44,
                     "rankSpd":  281,
-                    "score":  49
+                    "score":  49,
+                    "volRatio":  0.53,
+                    "amplitude":  3.55
                 },
                 {
                     "rank":  60,
@@ -2408,7 +2344,9 @@ var DATA = {
                     "turnover":  12.06,
                     "rankAmt":  51,
                     "rankSpd":  249,
-                    "score":  48.6
+                    "score":  48.6,
+                    "volRatio":  1.66,
+                    "amplitude":  6.77
                 },
                 {
                     "rank":  61,
@@ -2421,7 +2359,9 @@ var DATA = {
                     "turnover":  11.63,
                     "rankAmt":  53,
                     "rankSpd":  248,
-                    "score":  48.4
+                    "score":  48.4,
+                    "volRatio":  1.42,
+                    "amplitude":  4.54
                 },
                 {
                     "rank":  62,
@@ -2434,7 +2374,9 @@ var DATA = {
                     "turnover":  73.16,
                     "rankAmt":  54,
                     "rankSpd":  237,
-                    "score":  48.3
+                    "score":  48.3,
+                    "volRatio":  0.3,
+                    "amplitude":  5.2
                 },
                 {
                     "rank":  63,
@@ -2447,7 +2389,9 @@ var DATA = {
                     "turnover":  1.61,
                     "rankAmt":  62,
                     "rankSpd":  159,
-                    "score":  48.2
+                    "score":  48.2,
+                    "volRatio":  1.51,
+                    "amplitude":  0.74
                 },
                 {
                     "rank":  64,
@@ -2460,7 +2404,9 @@ var DATA = {
                     "turnover":  2.9,
                     "rankAmt":  66,
                     "rankSpd":  123,
-                    "score":  47.8
+                    "score":  47.8,
+                    "volRatio":  0.7,
+                    "amplitude":  1.42
                 },
                 {
                     "rank":  65,
@@ -2473,7 +2419,9 @@ var DATA = {
                     "turnover":  52.07,
                     "rankAmt":  60,
                     "rankSpd":  226,
-                    "score":  47.7
+                    "score":  47.7,
+                    "volRatio":  0.7,
+                    "amplitude":  4.12
                 },
                 {
                     "rank":  66,
@@ -2486,7 +2434,9 @@ var DATA = {
                     "turnover":  4.11,
                     "rankAmt":  70,
                     "rankSpd":  84,
-                    "score":  47.7
+                    "score":  47.7,
+                    "volRatio":  1.21,
+                    "amplitude":  2.95
                 },
                 {
                     "rank":  67,
@@ -2499,7 +2449,9 @@ var DATA = {
                     "turnover":  77.24,
                     "rankAmt":  65,
                     "rankSpd":  178,
-                    "score":  47.5
+                    "score":  47.5,
+                    "volRatio":  15.41,
+                    "amplitude":  4.19
                 },
                 {
                     "rank":  68,
@@ -2512,7 +2464,9 @@ var DATA = {
                     "turnover":  13.06,
                     "rankAmt":  68,
                     "rankSpd":  157,
-                    "score":  47
+                    "score":  47,
+                    "volRatio":  0.49,
+                    "amplitude":  5.15
                 },
                 {
                     "rank":  69,
@@ -2525,7 +2479,9 @@ var DATA = {
                     "turnover":  40.07,
                     "rankAmt":  90,
                     "rankSpd":  32,
-                    "score":  47
+                    "score":  47,
+                    "volRatio":  0.8,
+                    "amplitude":  3.89
                 },
                 {
                     "rank":  70,
@@ -2538,7 +2494,9 @@ var DATA = {
                     "turnover":  4.69,
                     "rankAmt":  72,
                     "rankSpd":  97,
-                    "score":  46.6
+                    "score":  46.6,
+                    "volRatio":  1.04,
+                    "amplitude":  4.18
                 },
                 {
                     "rank":  71,
@@ -2551,7 +2509,9 @@ var DATA = {
                     "turnover":  10.25,
                     "rankAmt":  63,
                     "rankSpd":  254,
-                    "score":  46.6
+                    "score":  46.6,
+                    "volRatio":  2.48,
+                    "amplitude":  7.21
                 },
                 {
                     "rank":  72,
@@ -2564,7 +2524,9 @@ var DATA = {
                     "turnover":  29.25,
                     "rankAmt":  81,
                     "rankSpd":  68,
-                    "score":  46.4
+                    "score":  46.4,
+                    "volRatio":  0.44,
+                    "amplitude":  3.71
                 },
                 {
                     "rank":  73,
@@ -2577,7 +2539,9 @@ var DATA = {
                     "turnover":  11.36,
                     "rankAmt":  71,
                     "rankSpd":  158,
-                    "score":  46.1
+                    "score":  46.1,
+                    "volRatio":  1.97,
+                    "amplitude":  4.11
                 },
                 {
                     "rank":  74,
@@ -2590,7 +2554,9 @@ var DATA = {
                     "turnover":  5.37,
                     "rankAmt":  86,
                     "rankSpd":  60,
-                    "score":  46.1
+                    "score":  46.1,
+                    "volRatio":  1.18,
+                    "amplitude":  3.34
                 },
                 {
                     "rank":  75,
@@ -2603,7 +2569,9 @@ var DATA = {
                     "turnover":  1,
                     "rankAmt":  88,
                     "rankSpd":  63,
-                    "score":  45.8
+                    "score":  45.8,
+                    "volRatio":  1.48,
+                    "amplitude":  1.48
                 },
                 {
                     "rank":  76,
@@ -2616,7 +2584,9 @@ var DATA = {
                     "turnover":  5.61,
                     "rankAmt":  67,
                     "rankSpd":  252,
-                    "score":  45.7
+                    "score":  45.7,
+                    "volRatio":  1.02,
+                    "amplitude":  3.2
                 },
                 {
                     "rank":  77,
@@ -2629,7 +2599,9 @@ var DATA = {
                     "turnover":  3.13,
                     "rankAmt":  74,
                     "rankSpd":  122,
-                    "score":  45.5
+                    "score":  45.5,
+                    "volRatio":  1.01,
+                    "amplitude":  2.31
                 },
                 {
                     "rank":  78,
@@ -2642,7 +2614,9 @@ var DATA = {
                     "turnover":  37.42,
                     "rankAmt":  80,
                     "rankSpd":  100,
-                    "score":  45.4
+                    "score":  45.4,
+                    "volRatio":  1.69,
+                    "amplitude":  5.68
                 },
                 {
                     "rank":  79,
@@ -2655,7 +2629,9 @@ var DATA = {
                     "turnover":  4.75,
                     "rankAmt":  73,
                     "rankSpd":  163,
-                    "score":  45.4
+                    "score":  45.4,
+                    "volRatio":  1.16,
+                    "amplitude":  2.58
                 },
                 {
                     "rank":  80,
@@ -2668,7 +2644,9 @@ var DATA = {
                     "turnover":  11.44,
                     "rankAmt":  114,
                     "rankSpd":  21,
-                    "score":  45.3
+                    "score":  45.3,
+                    "volRatio":  2.46,
+                    "amplitude":  2.73
                 },
                 {
                     "rank":  81,
@@ -2681,7 +2659,9 @@ var DATA = {
                     "turnover":  6.23,
                     "rankAmt":  106,
                     "rankSpd":  30,
-                    "score":  45.2
+                    "score":  45.2,
+                    "volRatio":  1.16,
+                    "amplitude":  2.44
                 },
                 {
                     "rank":  82,
@@ -2694,7 +2674,9 @@ var DATA = {
                     "turnover":  26.49,
                     "rankAmt":  75,
                     "rankSpd":  176,
-                    "score":  45.2
+                    "score":  45.2,
+                    "volRatio":  1.01,
+                    "amplitude":  5.39
                 },
                 {
                     "rank":  83,
@@ -2707,7 +2689,9 @@ var DATA = {
                     "turnover":  55.6,
                     "rankAmt":  85,
                     "rankSpd":  95,
-                    "score":  45
+                    "score":  45,
+                    "volRatio":  0.2,
+                    "amplitude":  3.74
                 },
                 {
                     "rank":  84,
@@ -2720,7 +2704,9 @@ var DATA = {
                     "turnover":  1.47,
                     "rankAmt":  123,
                     "rankSpd":  17,
-                    "score":  45
+                    "score":  45,
+                    "volRatio":  0.74,
+                    "amplitude":  1.98
                 },
                 {
                     "rank":  85,
@@ -2733,7 +2719,9 @@ var DATA = {
                     "turnover":  2.23,
                     "rankAmt":  78,
                     "rankSpd":  170,
-                    "score":  45
+                    "score":  45,
+                    "volRatio":  1.54,
+                    "amplitude":  1.52
                 },
                 {
                     "rank":  86,
@@ -2746,7 +2734,9 @@ var DATA = {
                     "turnover":  19.15,
                     "rankAmt":  79,
                     "rankSpd":  164,
-                    "score":  44.9
+                    "score":  44.9,
+                    "volRatio":  2.25,
+                    "amplitude":  0.13
                 },
                 {
                     "rank":  87,
@@ -2759,7 +2749,9 @@ var DATA = {
                     "turnover":  4.45,
                     "rankAmt":  83,
                     "rankSpd":  128,
-                    "score":  44.7
+                    "score":  44.7,
+                    "volRatio":  1.3,
+                    "amplitude":  2.68
                 },
                 {
                     "rank":  88,
@@ -2772,7 +2764,9 @@ var DATA = {
                     "turnover":  9.37,
                     "rankAmt":  230,
                     "rankSpd":  4,
-                    "score":  44.6
+                    "score":  44.6,
+                    "volRatio":  0.41,
+                    "amplitude":  2.56
                 },
                 {
                     "rank":  89,
@@ -2785,7 +2779,9 @@ var DATA = {
                     "turnover":  2.76,
                     "rankAmt":  84,
                     "rankSpd":  165,
-                    "score":  44.4
+                    "score":  44.4,
+                    "volRatio":  1,
+                    "amplitude":  0.05
                 },
                 {
                     "rank":  90,
@@ -2798,7 +2794,9 @@ var DATA = {
                     "turnover":  1.35,
                     "rankAmt":  91,
                     "rankSpd":  96,
-                    "score":  43.9
+                    "score":  43.9,
+                    "volRatio":  1.14,
+                    "amplitude":  1.42
                 },
                 {
                     "rank":  91,
@@ -2811,7 +2809,9 @@ var DATA = {
                     "turnover":  17.14,
                     "rankAmt":  55,
                     "rankSpd":  303,
-                    "score":  43.8
+                    "score":  43.8,
+                    "volRatio":  1.29,
+                    "amplitude":  7.1
                 },
                 {
                     "rank":  92,
@@ -2824,7 +2824,9 @@ var DATA = {
                     "turnover":  2.56,
                     "rankAmt":  118,
                     "rankSpd":  42,
-                    "score":  43.6
+                    "score":  43.6,
+                    "volRatio":  2.35,
+                    "amplitude":  1.96
                 },
                 {
                     "rank":  93,
@@ -2837,7 +2839,9 @@ var DATA = {
                     "turnover":  12.92,
                     "rankAmt":  77,
                     "rankSpd":  241,
-                    "score":  43.5
+                    "score":  43.5,
+                    "volRatio":  0.94,
+                    "amplitude":  5.13
                 },
                 {
                     "rank":  94,
@@ -2850,7 +2854,9 @@ var DATA = {
                     "turnover":  4.39,
                     "rankAmt":  103,
                     "rankSpd":  76,
-                    "score":  43.4
+                    "score":  43.4,
+                    "volRatio":  1.88,
+                    "amplitude":  1.74
                 },
                 {
                     "rank":  95,
@@ -2863,7 +2869,9 @@ var DATA = {
                     "turnover":  14.75,
                     "rankAmt":  132,
                     "rankSpd":  22,
-                    "score":  43.3
+                    "score":  43.3,
+                    "volRatio":  2.71,
+                    "amplitude":  2.47
                 },
                 {
                     "rank":  96,
@@ -2876,7 +2884,9 @@ var DATA = {
                     "turnover":  3.17,
                     "rankAmt":  82,
                     "rankSpd":  236,
-                    "score":  43.2
+                    "score":  43.2,
+                    "volRatio":  0.95,
+                    "amplitude":  3.06
                 },
                 {
                     "rank":  97,
@@ -2889,7 +2899,9 @@ var DATA = {
                     "turnover":  8.36,
                     "rankAmt":  64,
                     "rankSpd":  302,
-                    "score":  43.2
+                    "score":  43.2,
+                    "volRatio":  0.7,
+                    "amplitude":  3.16
                 },
                 {
                     "rank":  98,
@@ -2902,7 +2914,9 @@ var DATA = {
                     "turnover":  18.88,
                     "rankAmt":  76,
                     "rankSpd":  262,
-                    "score":  43.1
+                    "score":  43.1,
+                    "volRatio":  0.23,
+                    "amplitude":  3.44
                 },
                 {
                     "rank":  99,
@@ -2915,7 +2929,9 @@ var DATA = {
                     "turnover":  14,
                     "rankAmt":  102,
                     "rankSpd":  92,
-                    "score":  43
+                    "score":  43,
+                    "volRatio":  0.57,
+                    "amplitude":  4.6
                 },
                 {
                     "rank":  100,
@@ -2928,7 +2944,9 @@ var DATA = {
                     "turnover":  1.83,
                     "rankAmt":  92,
                     "rankSpd":  124,
-                    "score":  43
+                    "score":  43,
+                    "volRatio":  1.3,
+                    "amplitude":  1.68
                 },
                 {
                     "rank":  101,
@@ -2941,7 +2959,9 @@ var DATA = {
                     "turnover":  9.18,
                     "rankAmt":  98,
                     "rankSpd":  105,
-                    "score":  42.8
+                    "score":  42.8,
+                    "volRatio":  2.37,
+                    "amplitude":  3.18
                 },
                 {
                     "rank":  102,
@@ -2954,7 +2974,9 @@ var DATA = {
                     "turnover":  2.2,
                     "rankAmt":  93,
                     "rankSpd":  166,
-                    "score":  42.7
+                    "score":  42.7,
+                    "volRatio":  1.2,
+                    "amplitude":  1.62
                 },
                 {
                     "rank":  103,
@@ -2967,7 +2989,9 @@ var DATA = {
                     "turnover":  6.32,
                     "rankAmt":  119,
                     "rankSpd":  57,
-                    "score":  42.5
+                    "score":  42.5,
+                    "volRatio":  2.16,
+                    "amplitude":  1.18
                 },
                 {
                     "rank":  104,
@@ -2980,7 +3004,9 @@ var DATA = {
                     "turnover":  4.18,
                     "rankAmt":  104,
                     "rankSpd":  126,
-                    "score":  42
+                    "score":  42,
+                    "volRatio":  1.33,
+                    "amplitude":  4.06
                 },
                 {
                     "rank":  105,
@@ -2993,7 +3019,9 @@ var DATA = {
                     "turnover":  0.96,
                     "rankAmt":  101,
                     "rankSpd":  167,
-                    "score":  41.9
+                    "score":  41.9,
+                    "volRatio":  1.14,
+                    "amplitude":  1.14
                 },
                 {
                     "rank":  106,
@@ -3006,7 +3034,9 @@ var DATA = {
                     "turnover":  2.08,
                     "rankAmt":  87,
                     "rankSpd":  269,
-                    "score":  41.9
+                    "score":  41.9,
+                    "volRatio":  1.07,
+                    "amplitude":  1.49
                 },
                 {
                     "rank":  107,
@@ -3019,7 +3049,9 @@ var DATA = {
                     "turnover":  41.45,
                     "rankAmt":  89,
                     "rankSpd":  266,
-                    "score":  41.7
+                    "score":  41.7,
+                    "volRatio":  0.46,
+                    "amplitude":  3.19
                 },
                 {
                     "rank":  108,
@@ -3032,7 +3064,9 @@ var DATA = {
                     "turnover":  1.24,
                     "rankAmt":  95,
                     "rankSpd":  219,
-                    "score":  41.7
+                    "score":  41.7,
+                    "volRatio":  0.92,
+                    "amplitude":  0.76
                 },
                 {
                     "rank":  109,
@@ -3045,7 +3079,9 @@ var DATA = {
                     "turnover":  1.59,
                     "rankAmt":  219,
                     "rankSpd":  9,
-                    "score":  41.6
+                    "score":  41.6,
+                    "volRatio":  0.96,
+                    "amplitude":  1.22
                 },
                 {
                     "rank":  110,
@@ -3058,7 +3094,9 @@ var DATA = {
                     "turnover":  13.42,
                     "rankAmt":  96,
                     "rankSpd":  206,
-                    "score":  41.6
+                    "score":  41.6,
+                    "volRatio":  0.96,
+                    "amplitude":  4.21
                 },
                 {
                     "rank":  111,
@@ -3071,7 +3109,9 @@ var DATA = {
                     "turnover":  26.73,
                     "rankAmt":  137,
                     "rankSpd":  48,
-                    "score":  41.4
+                    "score":  41.4,
+                    "volRatio":  2.96,
+                    "amplitude":  2.37
                 },
                 {
                     "rank":  112,
@@ -3084,7 +3124,9 @@ var DATA = {
                     "turnover":  1.61,
                     "rankAmt":  108,
                     "rankSpd":  169,
-                    "score":  41.4
+                    "score":  41.4,
+                    "volRatio":  1.24,
+                    "amplitude":  1.76
                 },
                 {
                     "rank":  113,
@@ -3097,7 +3139,9 @@ var DATA = {
                     "turnover":  1.17,
                     "rankAmt":  110,
                     "rankSpd":  168,
-                    "score":  41.3
+                    "score":  41.3,
+                    "volRatio":  0.94,
+                    "amplitude":  1.01
                 },
                 {
                     "rank":  114,
@@ -3110,7 +3154,9 @@ var DATA = {
                     "turnover":  1.96,
                     "rankAmt":  149,
                     "rankSpd":  38,
-                    "score":  41.2
+                    "score":  41.2,
+                    "volRatio":  0.95,
+                    "amplitude":  1.74
                 },
                 {
                     "rank":  115,
@@ -3123,7 +3169,9 @@ var DATA = {
                     "turnover":  2.99,
                     "rankAmt":  126,
                     "rankSpd":  75,
-                    "score":  41.1
+                    "score":  41.1,
+                    "volRatio":  1.27,
+                    "amplitude":  2.05
                 },
                 {
                     "rank":  116,
@@ -3136,7 +3184,9 @@ var DATA = {
                     "turnover":  1.63,
                     "rankAmt":  109,
                     "rankSpd":  183,
-                    "score":  41.1
+                    "score":  41.1,
+                    "volRatio":  0.54,
+                    "amplitude":  0.08
                 },
                 {
                     "rank":  117,
@@ -3149,7 +3199,9 @@ var DATA = {
                     "turnover":  6.66,
                     "rankAmt":  116,
                     "rankSpd":  131,
-                    "score":  41.1
+                    "score":  41.1,
+                    "volRatio":  0.79,
+                    "amplitude":  3.95
                 },
                 {
                     "rank":  118,
@@ -3162,7 +3214,9 @@ var DATA = {
                     "turnover":  4.78,
                     "rankAmt":  145,
                     "rankSpd":  47,
-                    "score":  41
+                    "score":  41,
+                    "volRatio":  1.18,
+                    "amplitude":  2.43
                 },
                 {
                     "rank":  119,
@@ -3175,7 +3229,9 @@ var DATA = {
                     "turnover":  10.12,
                     "rankAmt":  131,
                     "rankSpd":  69,
-                    "score":  40.9
+                    "score":  40.9,
+                    "volRatio":  1.36,
+                    "amplitude":  2.71
                 },
                 {
                     "rank":  120,
@@ -3188,7 +3244,9 @@ var DATA = {
                     "turnover":  2.67,
                     "rankAmt":  135,
                     "rankSpd":  81,
-                    "score":  40.4
+                    "score":  40.4,
+                    "volRatio":  0.85,
+                    "amplitude":  1.53
                 },
                 {
                     "rank":  121,
@@ -3201,7 +3259,9 @@ var DATA = {
                     "turnover":  7.2,
                     "rankAmt":  124,
                     "rankSpd":  109,
-                    "score":  40.2
+                    "score":  40.2,
+                    "volRatio":  2.37,
+                    "amplitude":  2.87
                 },
                 {
                     "rank":  122,
@@ -3214,7 +3274,9 @@ var DATA = {
                     "turnover":  11.88,
                     "rankAmt":  121,
                     "rankSpd":  156,
-                    "score":  40.2
+                    "score":  40.2,
+                    "volRatio":  0.58,
+                    "amplitude":  2.22
                 },
                 {
                     "rank":  123,
@@ -3227,7 +3289,9 @@ var DATA = {
                     "turnover":  2.17,
                     "rankAmt":  128,
                     "rankSpd":  101,
-                    "score":  40.1
+                    "score":  40.1,
+                    "volRatio":  1.27,
+                    "amplitude":  1.82
                 },
                 {
                     "rank":  124,
@@ -3240,7 +3304,9 @@ var DATA = {
                     "turnover":  1.48,
                     "rankAmt":  97,
                     "rankSpd":  275,
-                    "score":  40
+                    "score":  40,
+                    "volRatio":  1.15,
+                    "amplitude":  0.77
                 },
                 {
                     "rank":  125,
@@ -3253,7 +3319,9 @@ var DATA = {
                     "turnover":  13.25,
                     "rankAmt":  100,
                     "rankSpd":  264,
-                    "score":  40
+                    "score":  40,
+                    "volRatio":  1.56,
+                    "amplitude":  5.09
                 },
                 {
                     "rank":  126,
@@ -3266,7 +3334,9 @@ var DATA = {
                     "turnover":  4.16,
                     "rankAmt":  120,
                     "rankSpd":  203,
-                    "score":  39.9
+                    "score":  39.9,
+                    "volRatio":  0.42,
+                    "amplitude":  1.79
                 },
                 {
                     "rank":  127,
@@ -3279,7 +3349,9 @@ var DATA = {
                     "turnover":  5.89,
                     "rankAmt":  151,
                     "rankSpd":  71,
-                    "score":  39.8
+                    "score":  39.8,
+                    "volRatio":  1.58,
+                    "amplitude":  1.9
                 },
                 {
                     "rank":  128,
@@ -3292,7 +3364,9 @@ var DATA = {
                     "turnover":  13.05,
                     "rankAmt":  122,
                     "rankSpd":  200,
-                    "score":  39.4
+                    "score":  39.4,
+                    "volRatio":  2.3,
+                    "amplitude":  0.14
                 },
                 {
                     "rank":  129,
@@ -3305,7 +3379,9 @@ var DATA = {
                     "turnover":  2.84,
                     "rankAmt":  150,
                     "rankSpd":  82,
-                    "score":  39.4
+                    "score":  39.4,
+                    "volRatio":  1.87,
+                    "amplitude":  1.74
                 },
                 {
                     "rank":  130,
@@ -3318,7 +3394,9 @@ var DATA = {
                     "turnover":  2.2,
                     "rankAmt":  173,
                     "rankSpd":  44,
-                    "score":  39.1
+                    "score":  39.1,
+                    "volRatio":  0.93,
+                    "amplitude":  1.21
                 },
                 {
                     "rank":  131,
@@ -3331,7 +3409,9 @@ var DATA = {
                     "turnover":  6.13,
                     "rankAmt":  125,
                     "rankSpd":  213,
-                    "score":  39.1
+                    "score":  39.1,
+                    "volRatio":  0.61,
+                    "amplitude":  2.26
                 },
                 {
                     "rank":  132,
@@ -3344,7 +3424,9 @@ var DATA = {
                     "turnover":  1.19,
                     "rankAmt":  112,
                     "rankSpd":  274,
-                    "score":  39
+                    "score":  39,
+                    "volRatio":  0.94,
+                    "amplitude":  1.29
                 },
                 {
                     "rank":  133,
@@ -3357,7 +3439,9 @@ var DATA = {
                     "turnover":  3.89,
                     "rankAmt":  140,
                     "rankSpd":  111,
-                    "score":  39
+                    "score":  39,
+                    "volRatio":  1.38,
+                    "amplitude":  2.11
                 },
                 {
                     "rank":  134,
@@ -3370,7 +3454,9 @@ var DATA = {
                     "turnover":  6.27,
                     "rankAmt":  168,
                     "rankSpd":  50,
-                    "score":  39
+                    "score":  39,
+                    "volRatio":  2.05,
+                    "amplitude":  2.17
                 },
                 {
                     "rank":  135,
@@ -3383,7 +3469,9 @@ var DATA = {
                     "turnover":  6.55,
                     "rankAmt":  155,
                     "rankSpd":  85,
-                    "score":  38.9
+                    "score":  38.9,
+                    "volRatio":  1.82,
+                    "amplitude":  2.2
                 },
                 {
                     "rank":  136,
@@ -3396,7 +3484,9 @@ var DATA = {
                     "turnover":  11.69,
                     "rankAmt":  129,
                     "rankSpd":  201,
-                    "score":  38.9
+                    "score":  38.9,
+                    "volRatio":  1.02,
+                    "amplitude":  2.32
                 },
                 {
                     "rank":  137,
@@ -3409,7 +3499,9 @@ var DATA = {
                     "turnover":  7.11,
                     "rankAmt":  94,
                     "rankSpd":  295,
-                    "score":  38.9
+                    "score":  38.9,
+                    "volRatio":  1.06,
+                    "amplitude":  3.39
                 },
                 {
                     "rank":  138,
@@ -3422,7 +3514,9 @@ var DATA = {
                     "turnover":  6.68,
                     "rankAmt":  117,
                     "rankSpd":  273,
-                    "score":  38.6
+                    "score":  38.6,
+                    "volRatio":  2.63,
+                    "amplitude":  4.91
                 },
                 {
                     "rank":  139,
@@ -3435,7 +3529,9 @@ var DATA = {
                     "turnover":  7.08,
                     "rankAmt":  157,
                     "rankSpd":  94,
-                    "score":  38.6
+                    "score":  38.6,
+                    "volRatio":  1.83,
+                    "amplitude":  2.44
                 },
                 {
                     "rank":  140,
@@ -3448,7 +3544,9 @@ var DATA = {
                     "turnover":  1.92,
                     "rankAmt":  142,
                     "rankSpd":  172,
-                    "score":  38.5
+                    "score":  38.5,
+                    "volRatio":  1.31,
+                    "amplitude":  0.39
                 },
                 {
                     "rank":  141,
@@ -3461,7 +3559,9 @@ var DATA = {
                     "turnover":  3.47,
                     "rankAmt":  144,
                     "rankSpd":  174,
-                    "score":  38.4
+                    "score":  38.4,
+                    "volRatio":  1.66,
+                    "amplitude":  2.07
                 },
                 {
                     "rank":  142,
@@ -3474,7 +3574,9 @@ var DATA = {
                     "turnover":  2.63,
                     "rankAmt":  170,
                     "rankSpd":  74,
-                    "score":  38.3
+                    "score":  38.3,
+                    "volRatio":  1.65,
+                    "amplitude":  0.98
                 },
                 {
                     "rank":  143,
@@ -3487,7 +3589,9 @@ var DATA = {
                     "turnover":  7.64,
                     "rankAmt":  141,
                     "rankSpd":  189,
-                    "score":  38.2
+                    "score":  38.2,
+                    "volRatio":  0.5,
+                    "amplitude":  3.56
                 },
                 {
                     "rank":  144,
@@ -3500,7 +3604,9 @@ var DATA = {
                     "turnover":  7.62,
                     "rankAmt":  146,
                     "rankSpd":  185,
-                    "score":  38.1
+                    "score":  38.1,
+                    "volRatio":  0.85,
+                    "amplitude":  3.72
                 },
                 {
                     "rank":  145,
@@ -3513,7 +3619,9 @@ var DATA = {
                     "turnover":  17.39,
                     "rankAmt":  113,
                     "rankSpd":  286,
-                    "score":  38.1
+                    "score":  38.1,
+                    "volRatio":  1.18,
+                    "amplitude":  2.09
                 },
                 {
                     "rank":  146,
@@ -3526,7 +3634,9 @@ var DATA = {
                     "turnover":  12.72,
                     "rankAmt":  192,
                     "rankSpd":  39,
-                    "score":  38.1
+                    "score":  38.1,
+                    "volRatio":  0.7,
+                    "amplitude":  1.85
                 },
                 {
                     "rank":  147,
@@ -3539,7 +3649,9 @@ var DATA = {
                     "turnover":  1.43,
                     "rankAmt":  127,
                     "rankSpd":  235,
-                    "score":  38.1
+                    "score":  38.1,
+                    "volRatio":  2.15,
+                    "amplitude":  1.32
                 },
                 {
                     "rank":  148,
@@ -3552,7 +3664,9 @@ var DATA = {
                     "turnover":  10.14,
                     "rankAmt":  204,
                     "rankSpd":  25,
-                    "score":  38.1
+                    "score":  38.1,
+                    "volRatio":  0.82,
+                    "amplitude":  1.78
                 },
                 {
                     "rank":  149,
@@ -3565,7 +3679,9 @@ var DATA = {
                     "turnover":  19.96,
                     "rankAmt":  199,
                     "rankSpd":  34,
-                    "score":  38
+                    "score":  38,
+                    "volRatio":  0.52,
+                    "amplitude":  2.64
                 },
                 {
                     "rank":  150,
@@ -3578,7 +3694,9 @@ var DATA = {
                     "turnover":  26.15,
                     "rankAmt":  148,
                     "rankSpd":  182,
-                    "score":  38
+                    "score":  38,
+                    "volRatio":  0.67,
+                    "amplitude":  3
                 },
                 {
                     "rank":  151,
@@ -3591,7 +3709,9 @@ var DATA = {
                     "turnover":  3.67,
                     "rankAmt":  154,
                     "rankSpd":  119,
-                    "score":  37.9
+                    "score":  37.9,
+                    "volRatio":  1.72,
+                    "amplitude":  3.2
                 },
                 {
                     "rank":  152,
@@ -3604,7 +3724,9 @@ var DATA = {
                     "turnover":  4.64,
                     "rankAmt":  266,
                     "rankSpd":  8,
-                    "score":  37.9
+                    "score":  37.9,
+                    "volRatio":  0.68,
+                    "amplitude":  2.08
                 },
                 {
                     "rank":  153,
@@ -3617,7 +3739,9 @@ var DATA = {
                     "turnover":  2.81,
                     "rankAmt":  153,
                     "rankSpd":  118,
-                    "score":  37.9
+                    "score":  37.9,
+                    "volRatio":  0.47,
+                    "amplitude":  1.48
                 },
                 {
                     "rank":  154,
@@ -3630,7 +3754,9 @@ var DATA = {
                     "turnover":  0.55,
                     "rankAmt":  162,
                     "rankSpd":  108,
-                    "score":  37.7
+                    "score":  37.7,
+                    "volRatio":  0.73,
+                    "amplitude":  0.91
                 },
                 {
                     "rank":  155,
@@ -3643,7 +3769,9 @@ var DATA = {
                     "turnover":  1.9,
                     "rankAmt":  130,
                     "rankSpd":  243,
-                    "score":  37.7
+                    "score":  37.7,
+                    "volRatio":  0.86,
+                    "amplitude":  1.61
                 },
                 {
                     "rank":  156,
@@ -3656,7 +3784,9 @@ var DATA = {
                     "turnover":  2.18,
                     "rankAmt":  105,
                     "rankSpd":  296,
-                    "score":  37.7
+                    "score":  37.7,
+                    "volRatio":  1.72,
+                    "amplitude":  2.29
                 },
                 {
                     "rank":  157,
@@ -3669,7 +3799,9 @@ var DATA = {
                     "turnover":  8.81,
                     "rankAmt":  152,
                     "rankSpd":  171,
-                    "score":  37.7
+                    "score":  37.7,
+                    "volRatio":  0.83,
+                    "amplitude":  0.48
                 },
                 {
                     "rank":  158,
@@ -3682,7 +3814,9 @@ var DATA = {
                     "turnover":  6.45,
                     "rankAmt":  161,
                     "rankSpd":  112,
-                    "score":  37.5
+                    "score":  37.5,
+                    "volRatio":  1.35,
+                    "amplitude":  2.21
                 },
                 {
                     "rank":  159,
@@ -3695,7 +3829,9 @@ var DATA = {
                     "turnover":  1.93,
                     "rankAmt":  165,
                     "rankSpd":  107,
-                    "score":  37.5
+                    "score":  37.5,
+                    "volRatio":  1.01,
+                    "amplitude":  1.22
                 },
                 {
                     "rank":  160,
@@ -3708,7 +3844,9 @@ var DATA = {
                     "turnover":  3.22,
                     "rankAmt":  133,
                     "rankSpd":  244,
-                    "score":  37.5
+                    "score":  37.5,
+                    "volRatio":  1.07,
+                    "amplitude":  0.81
                 },
                 {
                     "rank":  161,
@@ -3721,7 +3859,9 @@ var DATA = {
                     "turnover":  4.36,
                     "rankAmt":  134,
                     "rankSpd":  246,
-                    "score":  37.5
+                    "score":  37.5,
+                    "volRatio":  0.16,
+                    "amplitude":  2.91
                 },
                 {
                     "rank":  162,
@@ -3734,7 +3874,9 @@ var DATA = {
                     "turnover":  4.47,
                     "rankAmt":  172,
                     "rankSpd":  89,
-                    "score":  37.4
+                    "score":  37.4,
+                    "volRatio":  1.28,
+                    "amplitude":  1.53
                 },
                 {
                     "rank":  163,
@@ -3747,7 +3889,9 @@ var DATA = {
                     "turnover":  4.13,
                     "rankAmt":  138,
                     "rankSpd":  247,
-                    "score":  37.3
+                    "score":  37.3,
+                    "volRatio":  1,
+                    "amplitude":  2.42
                 },
                 {
                     "rank":  164,
@@ -3760,7 +3904,9 @@ var DATA = {
                     "turnover":  7.65,
                     "rankAmt":  143,
                     "rankSpd":  230,
-                    "score":  37.3
+                    "score":  37.3,
+                    "volRatio":  0.67,
+                    "amplitude":  2.14
                 },
                 {
                     "rank":  165,
@@ -3773,7 +3919,9 @@ var DATA = {
                     "turnover":  4.76,
                     "rankAmt":  136,
                     "rankSpd":  260,
-                    "score":  37.2
+                    "score":  37.2,
+                    "volRatio":  0.24,
+                    "amplitude":  1.25
                 },
                 {
                     "rank":  166,
@@ -3786,7 +3934,9 @@ var DATA = {
                     "turnover":  5.87,
                     "rankAmt":  158,
                     "rankSpd":  184,
-                    "score":  37.1
+                    "score":  37.1,
+                    "volRatio":  1.36,
+                    "amplitude":  1.45
                 },
                 {
                     "rank":  167,
@@ -3799,7 +3949,9 @@ var DATA = {
                     "turnover":  2.76,
                     "rankAmt":  111,
                     "rankSpd":  299,
-                    "score":  37.1
+                    "score":  37.1,
+                    "volRatio":  2.09,
+                    "amplitude":  1.68
                 },
                 {
                     "rank":  168,
@@ -3812,7 +3964,9 @@ var DATA = {
                     "turnover":  8.06,
                     "rankAmt":  147,
                     "rankSpd":  225,
-                    "score":  37.1
+                    "score":  37.1,
+                    "volRatio":  0.82,
+                    "amplitude":  1.54
                 },
                 {
                     "rank":  169,
@@ -3825,7 +3979,9 @@ var DATA = {
                     "turnover":  1.45,
                     "rankAmt":  217,
                     "rankSpd":  31,
-                    "score":  37
+                    "score":  37,
+                    "volRatio":  0.94,
+                    "amplitude":  1.22
                 },
                 {
                     "rank":  170,
@@ -3838,7 +3994,9 @@ var DATA = {
                     "turnover":  6.5,
                     "rankAmt":  254,
                     "rankSpd":  12,
-                    "score":  36.9
+                    "score":  36.9,
+                    "volRatio":  0.89,
+                    "amplitude":  1.15
                 },
                 {
                     "rank":  171,
@@ -3851,7 +4009,9 @@ var DATA = {
                     "turnover":  1.44,
                     "rankAmt":  174,
                     "rankSpd":  103,
-                    "score":  36.9
+                    "score":  36.9,
+                    "volRatio":  0.97,
+                    "amplitude":  0.93
                 },
                 {
                     "rank":  172,
@@ -3864,7 +4024,9 @@ var DATA = {
                     "turnover":  3.93,
                     "rankAmt":  156,
                     "rankSpd":  211,
-                    "score":  36.9
+                    "score":  36.9,
+                    "volRatio":  0.77,
+                    "amplitude":  1.93
                 },
                 {
                     "rank":  173,
@@ -3877,7 +4039,9 @@ var DATA = {
                     "turnover":  11.3,
                     "rankAmt":  178,
                     "rankSpd":  106,
-                    "score":  36.8
+                    "score":  36.8,
+                    "volRatio":  2.03,
+                    "amplitude":  2.95
                 },
                 {
                     "rank":  174,
@@ -3890,7 +4054,9 @@ var DATA = {
                     "turnover":  3.64,
                     "rankAmt":  164,
                     "rankSpd":  139,
-                    "score":  36.8
+                    "score":  36.8,
+                    "volRatio":  2.03,
+                    "amplitude":  1.38
                 },
                 {
                     "rank":  175,
@@ -3903,7 +4069,9 @@ var DATA = {
                     "turnover":  2.07,
                     "rankAmt":  171,
                     "rankSpd":  110,
-                    "score":  36.8
+                    "score":  36.8,
+                    "volRatio":  0.69,
+                    "amplitude":  0.26
                 },
                 {
                     "rank":  176,
@@ -3916,7 +4084,9 @@ var DATA = {
                     "turnover":  3.84,
                     "rankAmt":  186,
                     "rankSpd":  93,
-                    "score":  36.8
+                    "score":  36.8,
+                    "volRatio":  0.65,
+                    "amplitude":  2.25
                 },
                 {
                     "rank":  177,
@@ -3929,7 +4099,9 @@ var DATA = {
                     "turnover":  9.17,
                     "rankAmt":  201,
                     "rankSpd":  55,
-                    "score":  36.7
+                    "score":  36.7,
+                    "volRatio":  1.23,
+                    "amplitude":  1.87
                 },
                 {
                     "rank":  178,
@@ -3942,7 +4114,9 @@ var DATA = {
                     "turnover":  2.15,
                     "rankAmt":  167,
                     "rankSpd":  132,
-                    "score":  36.7
+                    "score":  36.7,
+                    "volRatio":  1.07,
+                    "amplitude":  1.54
                 },
                 {
                     "rank":  179,
@@ -3955,7 +4129,9 @@ var DATA = {
                     "turnover":  3.35,
                     "rankAmt":  210,
                     "rankSpd":  40,
-                    "score":  36.7
+                    "score":  36.7,
+                    "volRatio":  1.11,
+                    "amplitude":  3.04
                 },
                 {
                     "rank":  180,
@@ -3968,7 +4144,9 @@ var DATA = {
                     "turnover":  7.88,
                     "rankAmt":  166,
                     "rankSpd":  179,
-                    "score":  36.5
+                    "score":  36.5,
+                    "volRatio":  0.46,
+                    "amplitude":  1.85
                 },
                 {
                     "rank":  181,
@@ -3981,7 +4159,9 @@ var DATA = {
                     "turnover":  1.14,
                     "rankAmt":  175,
                     "rankSpd":  116,
-                    "score":  36.4
+                    "score":  36.4,
+                    "volRatio":  0.71,
+                    "amplitude":  0.83
                 },
                 {
                     "rank":  182,
@@ -3994,7 +4174,9 @@ var DATA = {
                     "turnover":  3.36,
                     "rankAmt":  182,
                     "rankSpd":  113,
-                    "score":  36.4
+                    "score":  36.4,
+                    "volRatio":  1.44,
+                    "amplitude":  2.26
                 },
                 {
                     "rank":  183,
@@ -4007,7 +4189,9 @@ var DATA = {
                     "turnover":  4.26,
                     "rankAmt":  205,
                     "rankSpd":  56,
-                    "score":  36.4
+                    "score":  36.4,
+                    "volRatio":  1.37,
+                    "amplitude":  2.44
                 },
                 {
                     "rank":  184,
@@ -4020,7 +4204,9 @@ var DATA = {
                     "turnover":  8.59,
                     "rankAmt":  227,
                     "rankSpd":  27,
-                    "score":  36.3
+                    "score":  36.3,
+                    "volRatio":  1.2,
+                    "amplitude":  1.1
                 },
                 {
                     "rank":  185,
@@ -4033,7 +4219,9 @@ var DATA = {
                     "turnover":  1.98,
                     "rankAmt":  181,
                     "rankSpd":  117,
-                    "score":  36.3
+                    "score":  36.3,
+                    "volRatio":  1.73,
+                    "amplitude":  3.05
                 },
                 {
                     "rank":  186,
@@ -4046,7 +4234,9 @@ var DATA = {
                     "turnover":  2.89,
                     "rankAmt":  139,
                     "rankSpd":  283,
-                    "score":  36
+                    "score":  36,
+                    "volRatio":  0.88,
+                    "amplitude":  3.39
                 },
                 {
                     "rank":  187,
@@ -4059,7 +4249,9 @@ var DATA = {
                     "turnover":  9.6,
                     "rankAmt":  202,
                     "rankSpd":  77,
-                    "score":  36
+                    "score":  36,
+                    "volRatio":  0.8,
+                    "amplitude":  2.4
                 },
                 {
                     "rank":  188,
@@ -4072,7 +4264,9 @@ var DATA = {
                     "turnover":  7.14,
                     "rankAmt":  203,
                     "rankSpd":  80,
-                    "score":  35.9
+                    "score":  35.9,
+                    "volRatio":  0.54,
+                    "amplitude":  3.29
                 },
                 {
                     "rank":  189,
@@ -4085,7 +4279,9 @@ var DATA = {
                     "turnover":  7.36,
                     "rankAmt":  183,
                     "rankSpd":  143,
-                    "score":  35.9
+                    "score":  35.9,
+                    "volRatio":  2.81,
+                    "amplitude":  0
                 },
                 {
                     "rank":  190,
@@ -4098,7 +4294,9 @@ var DATA = {
                     "turnover":  5.08,
                     "rankAmt":  177,
                     "rankSpd":  197,
-                    "score":  35.7
+                    "score":  35.7,
+                    "volRatio":  1.05,
+                    "amplitude":  1.86
                 },
                 {
                     "rank":  191,
@@ -4111,7 +4309,9 @@ var DATA = {
                     "turnover":  7.74,
                     "rankAmt":  198,
                     "rankSpd":  98,
-                    "score":  35.6
+                    "score":  35.6,
+                    "volRatio":  0.34,
+                    "amplitude":  3.06
                 },
                 {
                     "rank":  192,
@@ -4124,7 +4324,9 @@ var DATA = {
                     "turnover":  8.31,
                     "rankAmt":  184,
                     "rankSpd":  192,
-                    "score":  35.6
+                    "score":  35.6,
+                    "volRatio":  0.63,
+                    "amplitude":  2.29
                 },
                 {
                     "rank":  193,
@@ -4137,7 +4339,9 @@ var DATA = {
                     "turnover":  3.62,
                     "rankAmt":  185,
                     "rankSpd":  194,
-                    "score":  35.5
+                    "score":  35.5,
+                    "volRatio":  0.62,
+                    "amplitude":  1.87
                 },
                 {
                     "rank":  194,
@@ -4150,7 +4354,9 @@ var DATA = {
                     "turnover":  2.28,
                     "rankAmt":  215,
                     "rankSpd":  64,
-                    "score":  35.5
+                    "score":  35.5,
+                    "volRatio":  1.04,
+                    "amplitude":  1.19
                 },
                 {
                     "rank":  195,
@@ -4163,7 +4369,9 @@ var DATA = {
                     "turnover":  10.39,
                     "rankAmt":  169,
                     "rankSpd":  228,
-                    "score":  35.5
+                    "score":  35.5,
+                    "volRatio":  0.89,
+                    "amplitude":  0.3
                 },
                 {
                     "rank":  196,
@@ -4176,7 +4384,9 @@ var DATA = {
                     "turnover":  2.64,
                     "rankAmt":  189,
                     "rankSpd":  147,
-                    "score":  35.4
+                    "score":  35.4,
+                    "volRatio":  1.14,
+                    "amplitude":  0.88
                 },
                 {
                     "rank":  197,
@@ -4189,7 +4399,9 @@ var DATA = {
                     "turnover":  5.81,
                     "rankAmt":  245,
                     "rankSpd":  23,
-                    "score":  35.4
+                    "score":  35.4,
+                    "volRatio":  2.48,
+                    "amplitude":  1.85
                 },
                 {
                     "rank":  198,
@@ -4202,7 +4414,9 @@ var DATA = {
                     "turnover":  3.02,
                     "rankAmt":  229,
                     "rankSpd":  43,
-                    "score":  35.3
+                    "score":  35.3,
+                    "volRatio":  1.22,
+                    "amplitude":  0.78
                 },
                 {
                     "rank":  199,
@@ -4215,7 +4429,9 @@ var DATA = {
                     "turnover":  1.84,
                     "rankAmt":  188,
                     "rankSpd":  180,
-                    "score":  35.3
+                    "score":  35.3,
+                    "volRatio":  0.88,
+                    "amplitude":  1.37
                 },
                 {
                     "rank":  200,
@@ -4228,7 +4444,9 @@ var DATA = {
                     "turnover":  3.59,
                     "rankAmt":  180,
                     "rankSpd":  217,
-                    "score":  35.2
+                    "score":  35.2,
+                    "volRatio":  0.93,
+                    "amplitude":  1.94
                 },
                 {
                     "rank":  201,
@@ -4241,7 +4459,9 @@ var DATA = {
                     "turnover":  2.23,
                     "rankAmt":  179,
                     "rankSpd":  220,
-                    "score":  35.2
+                    "score":  35.2,
+                    "volRatio":  1.09,
+                    "amplitude":  1.21
                 },
                 {
                     "rank":  202,
@@ -4254,7 +4474,9 @@ var DATA = {
                     "turnover":  3.24,
                     "rankAmt":  194,
                     "rankSpd":  146,
-                    "score":  35.1
+                    "score":  35.1,
+                    "volRatio":  0.9,
+                    "amplitude":  2.55
                 },
                 {
                     "rank":  203,
@@ -4267,7 +4489,9 @@ var DATA = {
                     "turnover":  3.33,
                     "rankAmt":  262,
                     "rankSpd":  16,
-                    "score":  35.1
+                    "score":  35.1,
+                    "volRatio":  0.59,
+                    "amplitude":  1.4
                 },
                 {
                     "rank":  204,
@@ -4280,7 +4504,9 @@ var DATA = {
                     "turnover":  3.99,
                     "rankAmt":  195,
                     "rankSpd":  148,
-                    "score":  35
+                    "score":  35,
+                    "volRatio":  0.64,
+                    "amplitude":  0.73
                 },
                 {
                     "rank":  205,
@@ -4293,7 +4519,9 @@ var DATA = {
                     "turnover":  1.58,
                     "rankAmt":  196,
                     "rankSpd":  142,
-                    "score":  35
+                    "score":  35,
+                    "volRatio":  1.66,
+                    "amplitude":  1.66
                 },
                 {
                     "rank":  206,
@@ -4306,7 +4534,9 @@ var DATA = {
                     "turnover":  5.18,
                     "rankAmt":  187,
                     "rankSpd":  212,
-                    "score":  34.9
+                    "score":  34.9,
+                    "volRatio":  1.06,
+                    "amplitude":  1.47
                 },
                 {
                     "rank":  207,
@@ -4319,7 +4549,9 @@ var DATA = {
                     "turnover":  3.69,
                     "rankAmt":  239,
                     "rankSpd":  36,
-                    "score":  34.8
+                    "score":  34.8,
+                    "volRatio":  0.82,
+                    "amplitude":  2.34
                 },
                 {
                     "rank":  208,
@@ -4332,7 +4564,9 @@ var DATA = {
                     "turnover":  13.74,
                     "rankAmt":  160,
                     "rankSpd":  271,
-                    "score":  34.8
+                    "score":  34.8,
+                    "volRatio":  0.48,
+                    "amplitude":  3.19
                 },
                 {
                     "rank":  209,
@@ -4345,7 +4579,9 @@ var DATA = {
                     "turnover":  2.67,
                     "rankAmt":  207,
                     "rankSpd":  99,
-                    "score":  34.7
+                    "score":  34.7,
+                    "volRatio":  0.92,
+                    "amplitude":  1.45
                 },
                 {
                     "rank":  210,
@@ -4358,7 +4594,9 @@ var DATA = {
                     "turnover":  3.76,
                     "rankAmt":  232,
                     "rankSpd":  52,
-                    "score":  34.6
+                    "score":  34.6,
+                    "volRatio":  0.88,
+                    "amplitude":  1.06
                 },
                 {
                     "rank":  211,
@@ -4371,7 +4609,9 @@ var DATA = {
                     "turnover":  5.32,
                     "rankAmt":  163,
                     "rankSpd":  277,
-                    "score":  34.5
+                    "score":  34.5,
+                    "volRatio":  1.1,
+                    "amplitude":  2.09
                 },
                 {
                     "rank":  212,
@@ -4384,7 +4624,9 @@ var DATA = {
                     "turnover":  9.8,
                     "rankAmt":  247,
                     "rankSpd":  41,
-                    "score":  34.3
+                    "score":  34.3,
+                    "volRatio":  0.72,
+                    "amplitude":  1.52
                 },
                 {
                     "rank":  213,
@@ -4397,7 +4639,9 @@ var DATA = {
                     "turnover":  8.15,
                     "rankAmt":  224,
                     "rankSpd":  86,
-                    "score":  34.3
+                    "score":  34.3,
+                    "volRatio":  1.51,
+                    "amplitude":  1.82
                 },
                 {
                     "rank":  214,
@@ -4410,7 +4654,9 @@ var DATA = {
                     "turnover":  5.34,
                     "rankAmt":  208,
                     "rankSpd":  130,
-                    "score":  34.2
+                    "score":  34.2,
+                    "volRatio":  0.99,
+                    "amplitude":  0.89
                 },
                 {
                     "rank":  215,
@@ -4423,7 +4669,9 @@ var DATA = {
                     "turnover":  3.06,
                     "rankAmt":  193,
                     "rankSpd":  223,
-                    "score":  34
+                    "score":  34,
+                    "volRatio":  0.56,
+                    "amplitude":  1.26
                 },
                 {
                     "rank":  216,
@@ -4436,7 +4684,9 @@ var DATA = {
                     "turnover":  2.53,
                     "rankAmt":  197,
                     "rankSpd":  216,
-                    "score":  33.9
+                    "score":  33.9,
+                    "volRatio":  0.98,
+                    "amplitude":  1.06
                 },
                 {
                     "rank":  217,
@@ -4449,7 +4699,9 @@ var DATA = {
                     "turnover":  2.99,
                     "rankAmt":  176,
                     "rankSpd":  272,
-                    "score":  33.9
+                    "score":  33.9,
+                    "volRatio":  0.28,
+                    "amplitude":  1.07
                 },
                 {
                     "rank":  218,
@@ -4462,7 +4714,9 @@ var DATA = {
                     "turnover":  3.48,
                     "rankAmt":  258,
                     "rankSpd":  26,
-                    "score":  33.9
+                    "score":  33.9,
+                    "volRatio":  1.3,
+                    "amplitude":  2.31
                 },
                 {
                     "rank":  219,
@@ -4475,7 +4729,9 @@ var DATA = {
                     "turnover":  4.26,
                     "rankAmt":  99,
                     "rankSpd":  304,
-                    "score":  33.7
+                    "score":  33.7,
+                    "volRatio":  0.96,
+                    "amplitude":  4.32
                 },
                 {
                     "rank":  220,
@@ -4488,7 +4744,9 @@ var DATA = {
                     "turnover":  3.3,
                     "rankAmt":  214,
                     "rankSpd":  151,
-                    "score":  33.6
+                    "score":  33.6,
+                    "volRatio":  1.18,
+                    "amplitude":  1.15
                 },
                 {
                     "rank":  221,
@@ -4501,7 +4759,9 @@ var DATA = {
                     "turnover":  4.9,
                     "rankAmt":  240,
                     "rankSpd":  72,
-                    "score":  33.4
+                    "score":  33.4,
+                    "volRatio":  1.57,
+                    "amplitude":  1.5
                 },
                 {
                     "rank":  222,
@@ -4514,7 +4774,9 @@ var DATA = {
                     "turnover":  3.9,
                     "rankAmt":  222,
                     "rankSpd":  136,
-                    "score":  33.3
+                    "score":  33.3,
+                    "volRatio":  0.94,
+                    "amplitude":  1.77
                 },
                 {
                     "rank":  223,
@@ -4527,7 +4789,9 @@ var DATA = {
                     "turnover":  7.44,
                     "rankAmt":  221,
                     "rankSpd":  140,
-                    "score":  33.3
+                    "score":  33.3,
+                    "volRatio":  1.53,
+                    "amplitude":  1.24
                 },
                 {
                     "rank":  224,
@@ -4540,7 +4804,9 @@ var DATA = {
                     "turnover":  7.39,
                     "rankAmt":  191,
                     "rankSpd":  265,
-                    "score":  33.3
+                    "score":  33.3,
+                    "volRatio":  1.63,
+                    "amplitude":  3.03
                 },
                 {
                     "rank":  225,
@@ -4553,7 +4819,9 @@ var DATA = {
                     "turnover":  4.72,
                     "rankAmt":  223,
                     "rankSpd":  137,
-                    "score":  33.2
+                    "score":  33.2,
+                    "volRatio":  1.5,
+                    "amplitude":  0.2
                 },
                 {
                     "rank":  226,
@@ -4566,7 +4834,9 @@ var DATA = {
                     "turnover":  3.75,
                     "rankAmt":  241,
                     "rankSpd":  79,
-                    "score":  33.1
+                    "score":  33.1,
+                    "volRatio":  1.09,
+                    "amplitude":  1.55
                 },
                 {
                     "rank":  227,
@@ -4579,7 +4849,9 @@ var DATA = {
                     "turnover":  6.83,
                     "rankAmt":  225,
                     "rankSpd":  125,
-                    "score":  33.1
+                    "score":  33.1,
+                    "volRatio":  0.87,
+                    "amplitude":  2.7
                 },
                 {
                     "rank":  228,
@@ -4592,7 +4864,9 @@ var DATA = {
                     "turnover":  6.2,
                     "rankAmt":  213,
                     "rankSpd":  207,
-                    "score":  33
+                    "score":  33,
+                    "volRatio":  1.88,
+                    "amplitude":  1.65
                 },
                 {
                     "rank":  229,
@@ -4605,7 +4879,9 @@ var DATA = {
                     "turnover":  5.99,
                     "rankAmt":  212,
                     "rankSpd":  208,
-                    "score":  33
+                    "score":  33,
+                    "volRatio":  0.5,
+                    "amplitude":  1.25
                 },
                 {
                     "rank":  230,
@@ -4618,7 +4894,9 @@ var DATA = {
                     "turnover":  13.77,
                     "rankAmt":  200,
                     "rankSpd":  251,
-                    "score":  33
+                    "score":  33,
+                    "volRatio":  0.62,
+                    "amplitude":  1.78
                 },
                 {
                     "rank":  231,
@@ -4631,7 +4909,9 @@ var DATA = {
                     "turnover":  2.81,
                     "rankAmt":  206,
                     "rankSpd":  239,
-                    "score":  32.7
+                    "score":  32.7,
+                    "volRatio":  0.83,
+                    "amplitude":  1.71
                 },
                 {
                     "rank":  232,
@@ -4644,7 +4924,9 @@ var DATA = {
                     "turnover":  5.47,
                     "rankAmt":  211,
                     "rankSpd":  227,
-                    "score":  32.6
+                    "score":  32.6,
+                    "volRatio":  0.28,
+                    "amplitude":  1.53
                 },
                 {
                     "rank":  233,
@@ -4657,7 +4939,9 @@ var DATA = {
                     "turnover":  2.7,
                     "rankAmt":  274,
                     "rankSpd":  28,
-                    "score":  32.5
+                    "score":  32.5,
+                    "volRatio":  0.97,
+                    "amplitude":  1.09
                 },
                 {
                     "rank":  234,
@@ -4670,7 +4954,9 @@ var DATA = {
                     "turnover":  2.69,
                     "rankAmt":  259,
                     "rankSpd":  46,
-                    "score":  32.5
+                    "score":  32.5,
+                    "volRatio":  1.19,
+                    "amplitude":  0.96
                 },
                 {
                     "rank":  235,
@@ -4683,7 +4969,9 @@ var DATA = {
                     "turnover":  9.56,
                     "rankAmt":  256,
                     "rankSpd":  58,
-                    "score":  32.4
+                    "score":  32.4,
+                    "volRatio":  1.46,
+                    "amplitude":  2.81
                 },
                 {
                     "rank":  236,
@@ -4696,7 +4984,9 @@ var DATA = {
                     "turnover":  5.44,
                     "rankAmt":  209,
                     "rankSpd":  261,
-                    "score":  32.2
+                    "score":  32.2,
+                    "volRatio":  1.1,
+                    "amplitude":  0.64
                 },
                 {
                     "rank":  237,
@@ -4709,7 +4999,9 @@ var DATA = {
                     "turnover":  4.14,
                     "rankAmt":  237,
                     "rankSpd":  127,
-                    "score":  32.1
+                    "score":  32.1,
+                    "volRatio":  1.28,
+                    "amplitude":  1.85
                 },
                 {
                     "rank":  238,
@@ -4722,7 +5014,9 @@ var DATA = {
                     "turnover":  1.27,
                     "rankAmt":  190,
                     "rankSpd":  287,
-                    "score":  32.1
+                    "score":  32.1,
+                    "volRatio":  1.52,
+                    "amplitude":  1.81
                 },
                 {
                     "rank":  239,
@@ -4735,7 +5029,9 @@ var DATA = {
                     "turnover":  2.48,
                     "rankAmt":  260,
                     "rankSpd":  62,
-                    "score":  31.8
+                    "score":  31.8,
+                    "volRatio":  1.35,
+                    "amplitude":  1.64
                 },
                 {
                     "rank":  240,
@@ -4748,7 +5044,9 @@ var DATA = {
                     "turnover":  2.92,
                     "rankAmt":  234,
                     "rankSpd":  187,
-                    "score":  31.8
+                    "score":  31.8,
+                    "volRatio":  1.53,
+                    "amplitude":  1.49
                 },
                 {
                     "rank":  241,
@@ -4761,7 +5059,9 @@ var DATA = {
                     "turnover":  2.6,
                     "rankAmt":  242,
                     "rankSpd":  152,
-                    "score":  31.5
+                    "score":  31.5,
+                    "volRatio":  0.89,
+                    "amplitude":  1.53
                 },
                 {
                     "rank":  242,
@@ -4774,7 +5074,9 @@ var DATA = {
                     "turnover":  2.33,
                     "rankAmt":  264,
                     "rankSpd":  59,
-                    "score":  31.5
+                    "score":  31.5,
+                    "volRatio":  1.26,
+                    "amplitude":  1.52
                 },
                 {
                     "rank":  243,
@@ -4787,7 +5089,9 @@ var DATA = {
                     "turnover":  3.1,
                     "rankAmt":  248,
                     "rankSpd":  144,
-                    "score":  31.4
+                    "score":  31.4,
+                    "volRatio":  1.83,
+                    "amplitude":  1.95
                 },
                 {
                     "rank":  244,
@@ -4800,7 +5104,9 @@ var DATA = {
                     "turnover":  5.77,
                     "rankAmt":  246,
                     "rankSpd":  155,
-                    "score":  31.4
+                    "score":  31.4,
+                    "volRatio":  0.89,
+                    "amplitude":  2.67
                 },
                 {
                     "rank":  245,
@@ -4813,7 +5119,9 @@ var DATA = {
                     "turnover":  8.74,
                     "rankAmt":  238,
                     "rankSpd":  205,
-                    "score":  31.4
+                    "score":  31.4,
+                    "volRatio":  1.38,
+                    "amplitude":  2.48
                 },
                 {
                     "rank":  246,
@@ -4826,7 +5134,9 @@ var DATA = {
                     "turnover":  5.05,
                     "rankAmt":  243,
                     "rankSpd":  181,
-                    "score":  31.3
+                    "score":  31.3,
+                    "volRatio":  1.14,
+                    "amplitude":  1.53
                 },
                 {
                     "rank":  247,
@@ -4839,7 +5149,9 @@ var DATA = {
                     "turnover":  4.38,
                     "rankAmt":  226,
                     "rankSpd":  242,
-                    "score":  31.1
+                    "score":  31.1,
+                    "volRatio":  1.02,
+                    "amplitude":  1.19
                 },
                 {
                     "rank":  248,
@@ -4852,7 +5164,9 @@ var DATA = {
                     "turnover":  4.18,
                     "rankAmt":  252,
                     "rankSpd":  120,
-                    "score":  31.1
+                    "score":  31.1,
+                    "volRatio":  0.83,
+                    "amplitude":  1.63
                 },
                 {
                     "rank":  249,
@@ -4865,7 +5179,9 @@ var DATA = {
                     "turnover":  4.81,
                     "rankAmt":  268,
                     "rankSpd":  70,
-                    "score":  31
+                    "score":  31,
+                    "volRatio":  1.21,
+                    "amplitude":  1.17
                 },
                 {
                     "rank":  250,
@@ -4878,7 +5194,9 @@ var DATA = {
                     "turnover":  5.13,
                     "rankAmt":  216,
                     "rankSpd":  279,
-                    "score":  30.9
+                    "score":  30.9,
+                    "volRatio":  1.33,
+                    "amplitude":  1.96
                 },
                 {
                     "rank":  251,
@@ -4891,7 +5209,9 @@ var DATA = {
                     "turnover":  3.54,
                     "rankAmt":  251,
                     "rankSpd":  193,
-                    "score":  30.8
+                    "score":  30.8,
+                    "volRatio":  0.92,
+                    "amplitude":  1.15
                 },
                 {
                     "rank":  252,
@@ -4904,7 +5224,9 @@ var DATA = {
                     "turnover":  1.95,
                     "rankAmt":  249,
                     "rankSpd":  210,
-                    "score":  30.5
+                    "score":  30.5,
+                    "volRatio":  0.83,
+                    "amplitude":  1.26
                 },
                 {
                     "rank":  253,
@@ -4917,7 +5239,9 @@ var DATA = {
                     "turnover":  4.72,
                     "rankAmt":  220,
                     "rankSpd":  284,
-                    "score":  30.5
+                    "score":  30.5,
+                    "volRatio":  0.9,
+                    "amplitude":  1.79
                 },
                 {
                     "rank":  254,
@@ -4930,7 +5254,9 @@ var DATA = {
                     "turnover":  3.1,
                     "rankAmt":  231,
                     "rankSpd":  259,
-                    "score":  30.4
+                    "score":  30.4,
+                    "volRatio":  0.77,
+                    "amplitude":  1.61
                 },
                 {
                     "rank":  255,
@@ -4943,7 +5269,9 @@ var DATA = {
                     "turnover":  5.22,
                     "rankAmt":  269,
                     "rankSpd":  91,
-                    "score":  30.3
+                    "score":  30.3,
+                    "volRatio":  1.02,
+                    "amplitude":  1.05
                 },
                 {
                     "rank":  256,
@@ -4956,7 +5284,9 @@ var DATA = {
                     "turnover":  2.83,
                     "rankAmt":  244,
                     "rankSpd":  224,
-                    "score":  30.3
+                    "score":  30.3,
+                    "volRatio":  1.11,
+                    "amplitude":  1.81
                 },
                 {
                     "rank":  257,
@@ -4969,7 +5299,9 @@ var DATA = {
                     "turnover":  4.89,
                     "rankAmt":  283,
                     "rankSpd":  45,
-                    "score":  30.1
+                    "score":  30.1,
+                    "volRatio":  0.83,
+                    "amplitude":  1.41
                 },
                 {
                     "rank":  258,
@@ -4982,7 +5314,9 @@ var DATA = {
                     "turnover":  2.54,
                     "rankAmt":  253,
                     "rankSpd":  202,
-                    "score":  30
+                    "score":  30,
+                    "volRatio":  1.47,
+                    "amplitude":  1.17
                 },
                 {
                     "rank":  259,
@@ -4995,7 +5329,9 @@ var DATA = {
                     "turnover":  5.07,
                     "rankAmt":  233,
                     "rankSpd":  268,
-                    "score":  30
+                    "score":  30,
+                    "volRatio":  1.38,
+                    "amplitude":  3.27
                 },
                 {
                     "rank":  260,
@@ -5008,7 +5344,9 @@ var DATA = {
                     "turnover":  6.03,
                     "rankAmt":  228,
                     "rankSpd":  280,
-                    "score":  29.8
+                    "score":  29.8,
+                    "volRatio":  1.35,
+                    "amplitude":  1.91
                 },
                 {
                     "rank":  261,
@@ -5021,7 +5359,9 @@ var DATA = {
                     "turnover":  6.19,
                     "rankAmt":  261,
                     "rankSpd":  145,
-                    "score":  29.8
+                    "score":  29.8,
+                    "volRatio":  1.07,
+                    "amplitude":  1.18
                 },
                 {
                     "rank":  262,
@@ -5034,7 +5374,9 @@ var DATA = {
                     "turnover":  2.46,
                     "rankAmt":  250,
                     "rankSpd":  240,
-                    "score":  29.8
+                    "score":  29.8,
+                    "volRatio":  0.45,
+                    "amplitude":  1.23
                 },
                 {
                     "rank":  263,
@@ -5047,7 +5389,9 @@ var DATA = {
                     "turnover":  5.45,
                     "rankAmt":  257,
                     "rankSpd":  209,
-                    "score":  29.5
+                    "score":  29.5,
+                    "volRatio":  0.76,
+                    "amplitude":  1.89
                 },
                 {
                     "rank":  264,
@@ -5060,7 +5404,9 @@ var DATA = {
                     "turnover":  4.57,
                     "rankAmt":  288,
                     "rankSpd":  53,
-                    "score":  29.5
+                    "score":  29.5,
+                    "volRatio":  0.82,
+                    "amplitude":  1.58
                 },
                 {
                     "rank":  265,
@@ -5073,7 +5419,9 @@ var DATA = {
                     "turnover":  4.14,
                     "rankAmt":  270,
                     "rankSpd":  115,
-                    "score":  29.3
+                    "score":  29.3,
+                    "volRatio":  0.73,
+                    "amplitude":  0.12
                 },
                 {
                     "rank":  266,
@@ -5086,7 +5434,9 @@ var DATA = {
                     "turnover":  3.87,
                     "rankAmt":  267,
                     "rankSpd":  133,
-                    "score":  29.3
+                    "score":  29.3,
+                    "volRatio":  1.03,
+                    "amplitude":  1.24
                 },
                 {
                     "rank":  267,
@@ -5099,7 +5449,9 @@ var DATA = {
                     "turnover":  2.45,
                     "rankAmt":  235,
                     "rankSpd":  278,
-                    "score":  29.3
+                    "score":  29.3,
+                    "volRatio":  1.26,
+                    "amplitude":  1.39
                 },
                 {
                     "rank":  268,
@@ -5112,7 +5464,9 @@ var DATA = {
                     "turnover":  3.53,
                     "rankAmt":  236,
                     "rankSpd":  282,
-                    "score":  29.3
+                    "score":  29.3,
+                    "volRatio":  1.02,
+                    "amplitude":  1.44
                 },
                 {
                     "rank":  269,
@@ -5125,7 +5479,9 @@ var DATA = {
                     "turnover":  4.04,
                     "rankAmt":  265,
                     "rankSpd":  191,
-                    "score":  29.1
+                    "score":  29.1,
+                    "volRatio":  1.14,
+                    "amplitude":  1.48
                 },
                 {
                     "rank":  270,
@@ -5138,7 +5494,9 @@ var DATA = {
                     "turnover":  3.31,
                     "rankAmt":  277,
                     "rankSpd":  153,
-                    "score":  28.5
+                    "score":  28.5,
+                    "volRatio":  0.68,
+                    "amplitude":  1.44
                 },
                 {
                     "rank":  271,
@@ -5151,7 +5509,9 @@ var DATA = {
                     "turnover":  4.54,
                     "rankAmt":  289,
                     "rankSpd":  78,
-                    "score":  28.3
+                    "score":  28.3,
+                    "volRatio":  1.11,
+                    "amplitude":  1.48
                 },
                 {
                     "rank":  272,
@@ -5164,7 +5524,9 @@ var DATA = {
                     "turnover":  2.35,
                     "rankAmt":  280,
                     "rankSpd":  154,
-                    "score":  28.1
+                    "score":  28.1,
+                    "volRatio":  1.08,
+                    "amplitude":  0.92
                 },
                 {
                     "rank":  273,
@@ -5177,7 +5539,9 @@ var DATA = {
                     "turnover":  2.2,
                     "rankAmt":  273,
                     "rankSpd":  232,
-                    "score":  27.8
+                    "score":  27.8,
+                    "volRatio":  1.26,
+                    "amplitude":  1.09
                 },
                 {
                     "rank":  274,
@@ -5190,7 +5554,9 @@ var DATA = {
                     "turnover":  2.74,
                     "rankAmt":  271,
                     "rankSpd":  255,
-                    "score":  27.6
+                    "score":  27.6,
+                    "volRatio":  1.13,
+                    "amplitude":  2.26
                 },
                 {
                     "rank":  275,
@@ -5203,7 +5569,9 @@ var DATA = {
                     "turnover":  1.72,
                     "rankAmt":  285,
                     "rankSpd":  150,
-                    "score":  27.4
+                    "score":  27.4,
+                    "volRatio":  0.94,
+                    "amplitude":  1.03
                 },
                 {
                     "rank":  276,
@@ -5216,7 +5584,9 @@ var DATA = {
                     "turnover":  4.16,
                     "rankAmt":  284,
                     "rankSpd":  149,
-                    "score":  27.4
+                    "score":  27.4,
+                    "volRatio":  1,
+                    "amplitude":  1.69
                 },
                 {
                     "rank":  277,
@@ -5229,7 +5599,9 @@ var DATA = {
                     "turnover":  2.83,
                     "rankAmt":  286,
                     "rankSpd":  188,
-                    "score":  27.2
+                    "score":  27.2,
+                    "volRatio":  0.86,
+                    "amplitude":  1.29
                 },
                 {
                     "rank":  278,
@@ -5242,7 +5614,9 @@ var DATA = {
                     "turnover":  3.23,
                     "rankAmt":  276,
                     "rankSpd":  245,
-                    "score":  27.1
+                    "score":  27.1,
+                    "volRatio":  0.62,
+                    "amplitude":  0.54
                 },
                 {
                     "rank":  279,
@@ -5255,7 +5629,9 @@ var DATA = {
                     "turnover":  4.01,
                     "rankAmt":  281,
                     "rankSpd":  215,
-                    "score":  26.9
+                    "score":  26.9,
+                    "volRatio":  1,
+                    "amplitude":  1.44
                 },
                 {
                     "rank":  280,
@@ -5268,7 +5644,9 @@ var DATA = {
                     "turnover":  1.84,
                     "rankAmt":  279,
                     "rankSpd":  258,
-                    "score":  26.7
+                    "score":  26.7,
+                    "volRatio":  1.08,
+                    "amplitude":  0.66
                 },
                 {
                     "rank":  281,
@@ -5281,7 +5659,9 @@ var DATA = {
                     "turnover":  9.73,
                     "rankAmt":  291,
                     "rankSpd":  134,
-                    "score":  26.4
+                    "score":  26.4,
+                    "volRatio":  1.18,
+                    "amplitude":  0.04
                 },
                 {
                     "rank":  282,
@@ -5294,7 +5674,9 @@ var DATA = {
                     "turnover":  2.62,
                     "rankAmt":  293,
                     "rankSpd":  114,
-                    "score":  26.2
+                    "score":  26.2,
+                    "volRatio":  0.73,
+                    "amplitude":  0.86
                 },
                 {
                     "rank":  283,
@@ -5307,7 +5689,9 @@ var DATA = {
                     "turnover":  5.77,
                     "rankAmt":  263,
                     "rankSpd":  291,
-                    "score":  26.2
+                    "score":  26.2,
+                    "volRatio":  1.19,
+                    "amplitude":  1.57
                 },
                 {
                     "rank":  284,
@@ -5320,7 +5704,9 @@ var DATA = {
                     "turnover":  2.62,
                     "rankAmt":  290,
                     "rankSpd":  186,
-                    "score":  26.2
+                    "score":  26.2,
+                    "volRatio":  0.88,
+                    "amplitude":  1.11
                 },
                 {
                     "rank":  285,
@@ -5333,7 +5719,9 @@ var DATA = {
                     "turnover":  5.2,
                     "rankAmt":  287,
                     "rankSpd":  229,
-                    "score":  26.1
+                    "score":  26.1,
+                    "volRatio":  1.12,
+                    "amplitude":  0.62
                 },
                 {
                     "rank":  286,
@@ -5346,7 +5734,9 @@ var DATA = {
                     "turnover":  2.67,
                     "rankAmt":  255,
                     "rankSpd":  300,
-                    "score":  26
+                    "score":  26,
+                    "volRatio":  0.57,
+                    "amplitude":  0.82
                 },
                 {
                     "rank":  287,
@@ -5359,7 +5749,9 @@ var DATA = {
                     "turnover":  5.02,
                     "rankAmt":  275,
                     "rankSpd":  285,
-                    "score":  25.7
+                    "score":  25.7,
+                    "volRatio":  1.16,
+                    "amplitude":  1.74
                 },
                 {
                     "rank":  288,
@@ -5372,7 +5764,9 @@ var DATA = {
                     "turnover":  2.53,
                     "rankAmt":  282,
                     "rankSpd":  270,
-                    "score":  25.5
+                    "score":  25.5,
+                    "volRatio":  0.58,
+                    "amplitude":  1.4
                 },
                 {
                     "rank":  289,
@@ -5385,7 +5779,9 @@ var DATA = {
                     "turnover":  1.69,
                     "rankAmt":  295,
                     "rankSpd":  141,
-                    "score":  25.4
+                    "score":  25.4,
+                    "volRatio":  0.94,
+                    "amplitude":  0.66
                 },
                 {
                     "rank":  290,
@@ -5398,7 +5794,9 @@ var DATA = {
                     "turnover":  1.94,
                     "rankAmt":  292,
                     "rankSpd":  218,
-                    "score":  25.4
+                    "score":  25.4,
+                    "volRatio":  1.08,
+                    "amplitude":  0.77
                 },
                 {
                     "rank":  291,
@@ -5411,7 +5809,9 @@ var DATA = {
                     "turnover":  12.31,
                     "rankAmt":  272,
                     "rankSpd":  293,
-                    "score":  25.3
+                    "score":  25.3,
+                    "volRatio":  0.81,
+                    "amplitude":  1.96
                 },
                 {
                     "rank":  292,
@@ -5424,7 +5824,9 @@ var DATA = {
                     "turnover":  1.44,
                     "rankAmt":  294,
                     "rankSpd":  204,
-                    "score":  25.2
+                    "score":  25.2,
+                    "volRatio":  1.12,
+                    "amplitude":  1.32
                 },
                 {
                     "rank":  293,
@@ -5437,7 +5839,9 @@ var DATA = {
                     "turnover":  1.86,
                     "rankAmt":  301,
                     "rankSpd":  54,
-                    "score":  25.2
+                    "score":  25.2,
+                    "volRatio":  0.6,
+                    "amplitude":  0.7
                 },
                 {
                     "rank":  294,
@@ -5450,7 +5854,9 @@ var DATA = {
                     "turnover":  3.43,
                     "rankAmt":  278,
                     "rankSpd":  292,
-                    "score":  24.9
+                    "score":  24.9,
+                    "volRatio":  0.95,
+                    "amplitude":  1.15
                 },
                 {
                     "rank":  295,
@@ -5463,7 +5869,9 @@ var DATA = {
                     "turnover":  0.7,
                     "rankAmt":  297,
                     "rankSpd":  138,
-                    "score":  24.5
+                    "score":  24.5,
+                    "volRatio":  0.35,
+                    "amplitude":  0.02
                 },
                 {
                     "rank":  296,
@@ -5476,7 +5884,9 @@ var DATA = {
                     "turnover":  0.76,
                     "rankAmt":  299,
                     "rankSpd":  135,
-                    "score":  23.6
+                    "score":  23.6,
+                    "volRatio":  0.58,
+                    "amplitude":  0.02
                 },
                 {
                     "rank":  297,
@@ -5489,7 +5899,9 @@ var DATA = {
                     "turnover":  4.66,
                     "rankAmt":  218,
                     "rankSpd":  306,
-                    "score":  23.3
+                    "score":  23.3,
+                    "volRatio":  1.21,
+                    "amplitude":  6.34
                 },
                 {
                     "rank":  298,
@@ -5502,7 +5914,9 @@ var DATA = {
                     "turnover":  5.71,
                     "rankAmt":  159,
                     "rankSpd":  308,
-                    "score":  23.3
+                    "score":  23.3,
+                    "volRatio":  1.76,
+                    "amplitude":  2.45
                 },
                 {
                     "rank":  299,
@@ -5515,7 +5929,9 @@ var DATA = {
                     "turnover":  2.16,
                     "rankAmt":  298,
                     "rankSpd":  238,
-                    "score":  22.4
+                    "score":  22.4,
+                    "volRatio":  0.39,
+                    "amplitude":  0.95
                 },
                 {
                     "rank":  300,
@@ -5528,7 +5944,9 @@ var DATA = {
                     "turnover":  2.25,
                     "rankAmt":  303,
                     "rankSpd":  198,
-                    "score":  21.8
+                    "score":  21.8,
+                    "volRatio":  0.6,
+                    "amplitude":  1.02
                 },
                 {
                     "rank":  301,
@@ -5541,7 +5959,9 @@ var DATA = {
                     "turnover":  2.29,
                     "rankAmt":  296,
                     "rankSpd":  297,
-                    "score":  20.7
+                    "score":  20.7,
+                    "volRatio":  1.17,
+                    "amplitude":  1.15
                 },
                 {
                     "rank":  302,
@@ -5554,7 +5974,9 @@ var DATA = {
                     "turnover":  3.06,
                     "rankAmt":  304,
                     "rankSpd":  263,
-                    "score":  19.7
+                    "score":  19.7,
+                    "volRatio":  0.77,
+                    "amplitude":  1.03
                 },
                 {
                     "rank":  303,
@@ -5567,7 +5989,9 @@ var DATA = {
                     "turnover":  2.27,
                     "rankAmt":  300,
                     "rankSpd":  288,
-                    "score":  19.7
+                    "score":  19.7,
+                    "volRatio":  1.24,
+                    "amplitude":  1.25
                 },
                 {
                     "rank":  304,
@@ -5580,7 +6004,9 @@ var DATA = {
                     "turnover":  1.74,
                     "rankAmt":  306,
                     "rankSpd":  253,
-                    "score":  19.5
+                    "score":  19.5,
+                    "volRatio":  0.74,
+                    "amplitude":  1.33
                 },
                 {
                     "rank":  305,
@@ -5593,7 +6019,9 @@ var DATA = {
                     "turnover":  3.7,
                     "rankAmt":  305,
                     "rankSpd":  257,
-                    "score":  19.3
+                    "score":  19.3,
+                    "volRatio":  0.73,
+                    "amplitude":  0.83
                 },
                 {
                     "rank":  306,
@@ -5606,7 +6034,9 @@ var DATA = {
                     "turnover":  2.46,
                     "rankAmt":  302,
                     "rankSpd":  289,
-                    "score":  19
+                    "score":  19,
+                    "volRatio":  1.05,
+                    "amplitude":  1.58
                 },
                 {
                     "rank":  307,
@@ -5619,7 +6049,9 @@ var DATA = {
                     "turnover":  1.12,
                     "rankAmt":  307,
                     "rankSpd":  250,
-                    "score":  15.9
+                    "score":  15.9,
+                    "volRatio":  0.79,
+                    "amplitude":  0.84
                 },
                 {
                     "rank":  308,
@@ -5632,7 +6064,9 @@ var DATA = {
                     "turnover":  1.11,
                     "rankAmt":  308,
                     "rankSpd":  175,
-                    "score":  13.7
+                    "score":  13.7,
+                    "volRatio":  0.67,
+                    "amplitude":  0.71
                 }
             ],
     "status":  {
@@ -5649,7 +6083,673 @@ var DATA = {
                                    "[2026-08-14 21:08:48] 抓取失败 [https://82.push2.eastmoney.com] 第1页 (IRM): 基础连接已经关闭: 连接被意外关闭。",
                                    "[2026-08-14 21:08:49] 已冻结当日收盘最终名单 2026-08-14（Top 20，有效 308 只）"
                                ]
-               }
+               },
+    "flow":  [
+                 {
+                     "rank":  1,
+                     "code":  "110103",
+                     "name":  "申能转债",
+                     "price":  148.396,
+                     "pct":  -5.66,
+                     "flow5":  220363629,
+                     "flowPct5":  7.55,
+                     "flowToday":  67395671
+                 },
+                 {
+                     "rank":  2,
+                     "code":  "127096",
+                     "name":  "泰坦转债",
+                     "price":  577.2,
+                     "pct":  -0.29,
+                     "flow5":  80554749,
+                     "flowPct5":  0.79,
+                     "flowToday":  -6486987
+                 },
+                 {
+                     "rank":  3,
+                     "code":  "118073",
+                     "name":  "赛斯转债",
+                     "price":  175.838,
+                     "pct":  -6.85,
+                     "flow5":  76089352,
+                     "flowPct5":  2.98,
+                     "flowToday":  6881004
+                 },
+                 {
+                     "rank":  4,
+                     "code":  "128128",
+                     "name":  "Z翔转2",
+                     "price":  109.951,
+                     "pct":  0.02,
+                     "flow5":  61147081,
+                     "flowPct5":  13.93,
+                     "flowToday":  8192953
+                 },
+                 {
+                     "rank":  5,
+                     "code":  "123276",
+                     "name":  "久吾转02",
+                     "price":  178.6,
+                     "pct":  -2.37,
+                     "flow5":  59639480,
+                     "flowPct5":  0.81,
+                     "flowToday":  -7196892
+                 },
+                 {
+                     "rank":  6,
+                     "code":  "110099",
+                     "name":  "福能转债",
+                     "price":  144.23,
+                     "pct":  -0.57,
+                     "flow5":  53389971,
+                     "flowPct5":  9.86,
+                     "flowToday":  3183948
+                 },
+                 {
+                     "rank":  7,
+                     "code":  "127049",
+                     "name":  "希望转2",
+                     "price":  115.156,
+                     "pct":  0.45,
+                     "flow5":  51419720,
+                     "flowPct5":  8.65,
+                     "flowToday":  34831437
+                 },
+                 {
+                     "rank":  8,
+                     "code":  "113052",
+                     "name":  "兴业转债",
+                     "price":  115.318,
+                     "pct":  -0.43,
+                     "flow5":  48924434,
+                     "flowPct5":  2.88,
+                     "flowToday":  12055543
+                 },
+                 {
+                     "rank":  9,
+                     "code":  "113053",
+                     "name":  "隆22转债",
+                     "price":  121.176,
+                     "pct":  -0.69,
+                     "flow5":  47706836,
+                     "flowPct5":  8.44,
+                     "flowToday":  8088266
+                 },
+                 {
+                     "rank":  10,
+                     "code":  "127114",
+                     "name":  "宜化转债",
+                     "price":  141.1,
+                     "pct":  1.03,
+                     "flow5":  47166416,
+                     "flowPct5":  5.68,
+                     "flowToday":  6580138
+                 },
+                 {
+                     "rank":  11,
+                     "code":  "118064",
+                     "name":  "联瑞转债",
+                     "price":  402.775,
+                     "pct":  -2.19,
+                     "flow5":  45101176,
+                     "flowPct5":  0.38,
+                     "flowToday":  16468952
+                 },
+                 {
+                     "rank":  12,
+                     "code":  "123118",
+                     "name":  "惠城转债",
+                     "price":  1040.696,
+                     "pct":  3.72,
+                     "flow5":  44945186,
+                     "flowPct5":  0.5,
+                     "flowToday":  42950693
+                 },
+                 {
+                     "rank":  13,
+                     "code":  "113615",
+                     "name":  "金诚转债",
+                     "price":  750.972,
+                     "pct":  1.96,
+                     "flow5":  44821927,
+                     "flowPct5":  2.03,
+                     "flowToday":  2576464
+                 },
+                 {
+                     "rank":  14,
+                     "code":  "118031",
+                     "name":  "天23转债",
+                     "price":  123.202,
+                     "pct":  0.49,
+                     "flow5":  44391504,
+                     "flowPct5":  7.32,
+                     "flowToday":  20435459
+                 },
+                 {
+                     "rank":  15,
+                     "code":  "127084",
+                     "name":  "柳工转2",
+                     "price":  143.2,
+                     "pct":  -0.02,
+                     "flow5":  43082998,
+                     "flowPct5":  11.8,
+                     "flowToday":  3625439
+                 },
+                 {
+                     "rank":  16,
+                     "code":  "118074",
+                     "name":  "特宝转债",
+                     "price":  175.123,
+                     "pct":  11.33,
+                     "flow5":  42950202,
+                     "flowPct5":  1.67,
+                     "flowToday":  13720716
+                 },
+                 {
+                     "rank":  17,
+                     "code":  "111025",
+                     "name":  "圣泉转债",
+                     "price":  169.249,
+                     "pct":  0.65,
+                     "flow5":  42658803,
+                     "flowPct5":  1.09,
+                     "flowToday":  33759427
+                 },
+                 {
+                     "rank":  18,
+                     "code":  "127067",
+                     "name":  "恒逸转2",
+                     "price":  162.15,
+                     "pct":  -0.22,
+                     "flow5":  39932573,
+                     "flowPct5":  0.69,
+                     "flowToday":  13881610
+                 },
+                 {
+                     "rank":  19,
+                     "code":  "123270",
+                     "name":  "盛德转债",
+                     "price":  246.5,
+                     "pct":  1.69,
+                     "flow5":  39867827,
+                     "flowPct5":  1.72,
+                     "flowToday":  10475754
+                 },
+                 {
+                     "rank":  20,
+                     "code":  "127070",
+                     "name":  "大中转债",
+                     "price":  352,
+                     "pct":  0.77,
+                     "flow5":  38254970,
+                     "flowPct5":  0.92,
+                     "flowToday":  25756640
+                 }
+             ],
+    "flowOut":  [
+                    {
+                        "rank":  1,
+                        "code":  "110075",
+                        "name":  "南航转债",
+                        "price":  106.503,
+                        "pct":  -0.01,
+                        "flow5":  -79981480,
+                        "flowPct5":  -8.72,
+                        "flowToday":  10770104
+                    },
+                    {
+                        "rank":  2,
+                        "code":  "123261",
+                        "name":  "普联转债",
+                        "price":  192.5,
+                        "pct":  -8.42,
+                        "flow5":  -69546772,
+                        "flowPct5":  -0.33,
+                        "flowToday":  -24372394
+                    },
+                    {
+                        "rank":  3,
+                        "code":  "113042",
+                        "name":  "上银转债",
+                        "price":  117.369,
+                        "pct":  -0.08,
+                        "flow5":  -49540948,
+                        "flowPct5":  -3.61,
+                        "flowToday":  1508906
+                    },
+                    {
+                        "rank":  4,
+                        "code":  "111000",
+                        "name":  "起帆转债",
+                        "price":  139.057,
+                        "pct":  -0.29,
+                        "flow5":  -47342288,
+                        "flowPct5":  -6.48,
+                        "flowToday":  -529744
+                    },
+                    {
+                        "rank":  5,
+                        "code":  "113643",
+                        "name":  "风语转债",
+                        "price":  147.383,
+                        "pct":  -3.23,
+                        "flow5":  -39609278,
+                        "flowPct5":  -1.29,
+                        "flowToday":  -6330968
+                    },
+                    {
+                        "rank":  6,
+                        "code":  "128129",
+                        "name":  "青农转债",
+                        "price":  107.947,
+                        "pct":  0,
+                        "flow5":  -34817033,
+                        "flowPct5":  -5.71,
+                        "flowToday":  -7341244
+                    },
+                    {
+                        "rank":  7,
+                        "code":  "118070",
+                        "name":  "南芯转债",
+                        "price":  159.765,
+                        "pct":  -0.06,
+                        "flow5":  -29114660,
+                        "flowPct5":  -2.56,
+                        "flowToday":  -1980913
+                    },
+                    {
+                        "rank":  8,
+                        "code":  "118056",
+                        "name":  "路维转债",
+                        "price":  278.334,
+                        "pct":  2.08,
+                        "flow5":  -18245046,
+                        "flowPct5":  -0.68,
+                        "flowToday":  -8480056
+                    },
+                    {
+                        "rank":  9,
+                        "code":  "123252",
+                        "name":  "银邦转债",
+                        "price":  138.066,
+                        "pct":  -0.02,
+                        "flow5":  -17181861,
+                        "flowPct5":  -7.18,
+                        "flowToday":  -1990069
+                    },
+                    {
+                        "rank":  10,
+                        "code":  "123263",
+                        "name":  "鼎捷转债",
+                        "price":  150.455,
+                        "pct":  -1.96,
+                        "flow5":  -17133345,
+                        "flowPct5":  -2.21,
+                        "flowToday":  -4942627
+                    }
+                ],
+    "active":  [
+                   {
+                       "rank":  1,
+                       "code":  "118074",
+                       "name":  "特宝转债",
+                       "price":  175.123,
+                       "pct":  11.33,
+                       "speed":  0.24,
+                       "amount":  2531603117,
+                       "turnover":  92.92,
+                       "rankAmt":  5,
+                       "rankSpd":  15,
+                       "score":  73,
+                       "flow5":  null,
+                       "flowPct5":  null,
+                       "flowToday":  null,
+                       "volRatio":  47.87,
+                       "amplitude":  6.17
+                   },
+                   {
+                       "rank":  2,
+                       "code":  "123223",
+                       "name":  "九典转02",
+                       "price":  139.426,
+                       "pct":  1.43,
+                       "speed":  -0.01,
+                       "amount":  221598588.527,
+                       "turnover":  77.24,
+                       "rankAmt":  65,
+                       "rankSpd":  178,
+                       "score":  47.5,
+                       "flow5":  null,
+                       "flowPct5":  null,
+                       "flowToday":  null,
+                       "volRatio":  15.41,
+                       "amplitude":  4.19
+                   },
+                   {
+                       "rank":  3,
+                       "code":  "113046",
+                       "name":  "金田转债",
+                       "price":  132.265,
+                       "pct":  3.79,
+                       "speed":  0.18,
+                       "amount":  853232095,
+                       "turnover":  43.4,
+                       "rankAmt":  24,
+                       "rankSpd":  24,
+                       "score":  62.7,
+                       "flow5":  null,
+                       "flowPct5":  null,
+                       "flowToday":  null,
+                       "volRatio":  14.5,
+                       "amplitude":  4.99
+                   },
+                   {
+                       "rank":  4,
+                       "code":  "118073",
+                       "name":  "赛斯转债",
+                       "price":  175.838,
+                       "pct":  -6.85,
+                       "speed":  0.08,
+                       "amount":  2233548252,
+                       "turnover":  225.61,
+                       "rankAmt":  7,
+                       "rankSpd":  73,
+                       "score":  68.4,
+                       "flow5":  null,
+                       "flowPct5":  null,
+                       "flowToday":  null,
+                       "volRatio":  14.3,
+                       "amplitude":  9.09
+                   },
+                   {
+                       "rank":  5,
+                       "code":  "110103",
+                       "name":  "申能转债",
+                       "price":  148.396,
+                       "pct":  -5.66,
+                       "speed":  0.11,
+                       "amount":  2722981008,
+                       "turnover":  88.71,
+                       "rankAmt":  4,
+                       "rankSpd":  49,
+                       "score":  70.7,
+                       "flow5":  null,
+                       "flowPct5":  null,
+                       "flowToday":  null,
+                       "volRatio":  14.19,
+                       "amplitude":  11.54
+                   },
+                   {
+                       "rank":  6,
+                       "code":  "127053",
+                       "name":  "豪美转债",
+                       "price":  183.596,
+                       "pct":  6.53,
+                       "speed":  -0.05,
+                       "amount":  605420818.441,
+                       "turnover":  130.7,
+                       "rankAmt":  31,
+                       "rankSpd":  233,
+                       "score":  54.8,
+                       "flow5":  null,
+                       "flowPct5":  null,
+                       "flowToday":  null,
+                       "volRatio":  10.73,
+                       "amplitude":  10.12
+                   },
+                   {
+                       "rank":  7,
+                       "code":  "123112",
+                       "name":  "万讯转债",
+                       "price":  148.5,
+                       "pct":  4.19,
+                       "speed":  -0.19,
+                       "amount":  860471953.28,
+                       "turnover":  257.92,
+                       "rankAmt":  23,
+                       "rankSpd":  301,
+                       "score":  54.6,
+                       "flow5":  null,
+                       "flowPct5":  null,
+                       "flowToday":  null,
+                       "volRatio":  9.45,
+                       "amplitude":  8.06
+                   },
+                   {
+                       "rank":  8,
+                       "code":  "123194",
+                       "name":  "百洋转债",
+                       "price":  141.85,
+                       "pct":  1.42,
+                       "speed":  0.08,
+                       "amount":  909045604.221,
+                       "turnover":  74.98,
+                       "rankAmt":  21,
+                       "rankSpd":  65,
+                       "score":  61,
+                       "flow5":  null,
+                       "flowPct5":  null,
+                       "flowToday":  null,
+                       "volRatio":  8.61,
+                       "amplitude":  6.37
+                   },
+                   {
+                       "rank":  9,
+                       "code":  "127055",
+                       "name":  "精装转债",
+                       "price":  196.499,
+                       "pct":  3.69,
+                       "speed":  0,
+                       "amount":  2026186451.55,
+                       "turnover":  489.56,
+                       "rankAmt":  8,
+                       "rankSpd":  177,
+                       "score":  65.8,
+                       "flow5":  null,
+                       "flowPct5":  null,
+                       "flowToday":  null,
+                       "volRatio":  8.11,
+                       "amplitude":  9.52
+                   },
+                   {
+                       "rank":  10,
+                       "code":  "123243",
+                       "name":  "严牌转债",
+                       "price":  197.847,
+                       "pct":  2.59,
+                       "speed":  0.24,
+                       "amount":  311167316.049,
+                       "turnover":  60.66,
+                       "rankAmt":  50,
+                       "rankSpd":  13,
+                       "score":  55.8,
+                       "flow5":  null,
+                       "flowPct5":  null,
+                       "flowToday":  null,
+                       "volRatio":  3.68,
+                       "amplitude":  6.97
+                   },
+                   {
+                       "rank":  11,
+                       "code":  "113667",
+                       "name":  "春23转债",
+                       "price":  214.702,
+                       "pct":  4.28,
+                       "speed":  -0.05,
+                       "amount":  5282209976,
+                       "turnover":  501.28,
+                       "rankAmt":  1,
+                       "rankSpd":  221,
+                       "score":  72.6,
+                       "flow5":  null,
+                       "flowPct5":  null,
+                       "flowToday":  null,
+                       "volRatio":  3.44,
+                       "amplitude":  9.95
+                   },
+                   {
+                       "rank":  12,
+                       "code":  "113707",
+                       "name":  "科博转债",
+                       "price":  194.406,
+                       "pct":  8.75,
+                       "speed":  0.21,
+                       "amount":  2335968838,
+                       "turnover":  81.55,
+                       "rankAmt":  6,
+                       "rankSpd":  18,
+                       "score":  71.7,
+                       "flow5":  null,
+                       "flowPct5":  null,
+                       "flowToday":  null,
+                       "volRatio":  3.37,
+                       "amplitude":  14.08
+                   },
+                   {
+                       "rank":  13,
+                       "code":  "123131",
+                       "name":  "奥飞转债",
+                       "price":  315.529,
+                       "pct":  5.55,
+                       "speed":  0.42,
+                       "amount":  2023829333.978,
+                       "turnover":  205.46,
+                       "rankAmt":  9,
+                       "rankSpd":  6,
+                       "score":  75.1,
+                       "flow5":  null,
+                       "flowPct5":  null,
+                       "flowToday":  null,
+                       "volRatio":  3.11,
+                       "amplitude":  10.1
+                   },
+                   {
+                       "rank":  14,
+                       "code":  "111003",
+                       "name":  "聚合转债",
+                       "price":  142.064,
+                       "pct":  2.06,
+                       "speed":  0.11,
+                       "amount":  76390851,
+                       "turnover":  26.73,
+                       "rankAmt":  137,
+                       "rankSpd":  48,
+                       "score":  41.4,
+                       "flow5":  null,
+                       "flowPct5":  null,
+                       "flowToday":  null,
+                       "volRatio":  2.96,
+                       "amplitude":  2.37
+                   },
+                   {
+                       "rank":  15,
+                       "code":  "123270",
+                       "name":  "盛德转债",
+                       "price":  246.5,
+                       "pct":  1.69,
+                       "speed":  0,
+                       "amount":  946797656.225,
+                       "turnover":  93.77,
+                       "rankAmt":  19,
+                       "rankSpd":  173,
+                       "score":  59.6,
+                       "flow5":  null,
+                       "flowPct5":  null,
+                       "flowToday":  null,
+                       "volRatio":  2.9,
+                       "amplitude":  6.9
+                   },
+                   {
+                       "rank":  16,
+                       "code":  "127115",
+                       "name":  "炬申转债",
+                       "price":  188.76,
+                       "pct":  20,
+                       "speed":  0,
+                       "amount":  52777862.28,
+                       "turnover":  7.36,
+                       "rankAmt":  183,
+                       "rankSpd":  143,
+                       "score":  35.9,
+                       "flow5":  null,
+                       "flowPct5":  null,
+                       "flowToday":  null,
+                       "volRatio":  2.81,
+                       "amplitude":  0
+                   },
+                   {
+                       "rank":  17,
+                       "code":  "118036",
+                       "name":  "力合转债",
+                       "price":  140.414,
+                       "pct":  2.01,
+                       "speed":  0.19,
+                       "amount":  77716295,
+                       "turnover":  14.75,
+                       "rankAmt":  132,
+                       "rankSpd":  22,
+                       "score":  43.3,
+                       "flow5":  null,
+                       "flowPct5":  null,
+                       "flowToday":  null,
+                       "volRatio":  2.71,
+                       "amplitude":  2.47
+                   },
+                   {
+                       "rank":  18,
+                       "code":  "123269",
+                       "name":  "金杨转债",
+                       "price":  146.712,
+                       "pct":  -1.89,
+                       "speed":  -0.1,
+                       "amount":  96085820.611,
+                       "turnover":  6.68,
+                       "rankAmt":  117,
+                       "rankSpd":  273,
+                       "score":  38.6,
+                       "flow5":  null,
+                       "flowPct5":  null,
+                       "flowToday":  null,
+                       "volRatio":  2.63,
+                       "amplitude":  4.91
+                   },
+                   {
+                       "rank":  19,
+                       "code":  "118015",
+                       "name":  "芯海转债",
+                       "price":  128.225,
+                       "pct":  -0.59,
+                       "speed":  0.18,
+                       "amount":  30434825,
+                       "turnover":  5.81,
+                       "rankAmt":  245,
+                       "rankSpd":  23,
+                       "score":  35.4,
+                       "flow5":  null,
+                       "flowPct5":  null,
+                       "flowToday":  null,
+                       "volRatio":  2.48,
+                       "amplitude":  1.85
+                   },
+                   {
+                       "rank":  20,
+                       "code":  "118013",
+                       "name":  "道通转债",
+                       "price":  182.175,
+                       "pct":  -2.01,
+                       "speed":  -0.07,
+                       "amount":  234374020,
+                       "turnover":  10.25,
+                       "rankAmt":  63,
+                       "rankSpd":  254,
+                       "score":  46.6,
+                       "flow5":  null,
+                       "flowPct5":  null,
+                       "flowToday":  null,
+                       "volRatio":  2.48,
+                       "amplitude":  7.21
+                   }
+               ]
 };
 var CFG = {"weightAmount":0.6,"weightSpeed":0.4,"minAmount":5000000,"topN":20,"speedClamp":3};
 (function () {
@@ -5698,6 +6798,7 @@ var CFG = {"weightAmount":0.6,"weightSpeed":0.4,"minAmount":5000000,"topN":20,"s
       '<td class="' + cls(it.speed) + '">' + pct(it.speed) + '</td>' +
       '<td>' + amt(it.amount) + '</td>' +
       '<td>' + turn(it.turnover) + '</td>' +
+      '<td>' + num(it.volRatio, 2) + '</td>' +
       '<td>' + it.rankAmt + '</td>' +
       '<td>' + it.rankSpd + '</td>' +
       '<td class="score">' + num(it.score, 1) + '</td>' +
@@ -5728,7 +6829,7 @@ var CFG = {"weightAmount":0.6,"weightSpeed":0.4,"minAmount":5000000,"topN":20,"s
       '<td class="score">' + num(it.score, 1) + '</td>' +
       '</tr>';
   }
-  var compCols = ['排名', '代码', '名称', '最新价', '涨跌幅', '涨速', '成交额', '换手率', '成交额排名', '涨速排名', '综合分'];
+  var compCols = ['排名', '代码', '名称', '最新价', '涨跌幅', '涨速', '成交额', '换手率', '量比', '成交额排名', '涨速排名', '综合分'];
   var simpleCols = ['排名', '代码', '名称', '最新价', '涨跌幅', '涨速', '成交额', '换手率', '综合分'];
   var histCols = ['排名', '代码', '名称', '收盘价', '涨跌幅', '涨速', '成交额', '综合分'];
   var composite = [].concat(DATA.composite || []);
@@ -5766,6 +6867,27 @@ var CFG = {"weightAmount":0.6,"weightSpeed":0.4,"minAmount":5000000,"topN":20,"s
   }
   flowHtml += '<div class="note">5日主力净流入 = 最近 5 个交易日主力资金（超大单+大单）净流入，东方财富资金流向口径；红色为净流入、绿色为净流出。</div>';
   document.getElementById('flow').innerHTML = flowHtml;
+  var active = [].concat(DATA.active || []);
+  var activeCols = ['排名', '代码', '名称', '量比', '振幅', '换手率', '涨跌幅', '成交额', '涨速'];
+  function activeRow(it) {
+    return '<tr>' +
+      '<td class="l">' + rankHtml(it.rank) + '</td>' +
+      '<td class="l">' + esc(it.code) + '</td>' +
+      '<td class="l">' + esc(it.name) + '</td>' +
+      '<td>' + num(it.volRatio, 2) + '</td>' +
+      '<td>' + pct(it.amplitude) + '</td>' +
+      '<td>' + turn(it.turnover) + '</td>' +
+      '<td class="' + cls(it.pct) + '">' + pct(it.pct) + '</td>' +
+      '<td>' + amt(it.amount) + '</td>' +
+      '<td class="' + cls(it.speed) + '">' + pct(it.speed) + '</td>' +
+      '</tr>';
+  }
+  if (active.length > 0) {
+    document.getElementById('active').innerHTML = '<table>' + head(activeCols) + body(active, activeRow) + '</table>' +
+      '<div class="note">量比 = 当日每分钟平均成交量 ÷ 过去 5 个交易日每分钟平均成交量，大于 1 表示比近期更活跃；振幅 =（最高 − 最低）÷ 昨收。</div>';
+  } else {
+    document.getElementById('active').innerHTML = '<div class="note">暂无活跃度数据（下一个交易日运行后自动出现）。</div>';
+  }
   var histHtml = '';
   if (history.length > 0) {
     for (var i = 0; i < history.length; i++) {
@@ -5944,7 +7066,7 @@ var CFG = {"weightAmount":0.6,"weightSpeed":0.4,"minAmount":5000000,"topN":20,"s
   })();
 
   var tabs = document.querySelectorAll('.tab');
-  var ids = ['composite', 'amount', 'speed', 'flow', 'compare', 'history'];
+  var ids = ['composite', 'amount', 'speed', 'active', 'flow', 'compare', 'history'];
   for (var k = 0; k < tabs.length; k++) {
     tabs[k].addEventListener('click', function () {
       for (var j = 0; j < tabs.length; j++) { tabs[j].classList.remove('active'); }
