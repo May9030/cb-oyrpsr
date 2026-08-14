@@ -91,16 +91,12 @@ footer{text-align:center;font-size:12px;color:var(--muted);margin:6px 0 20px;lin
 <button class="tab" data-tab="speed">涨速榜</button>
 <button class="tab" data-tab="active">活跃榜</button>
 <button class="tab" data-tab="flow">资金流向</button>
-<button class="tab" data-tab="compare">多日对比</button>
-<button class="tab" data-tab="history">历史收盘名单</button>
 </div>
 <div class="card" id="composite"></div>
 <div class="card" id="amount" style="display:none"></div>
 <div class="card" id="speed" style="display:none"></div>
 <div class="card" id="flow" style="display:none"></div>
 <div class="card" id="active" style="display:none"></div>
-<div class="card" id="compare" style="display:none"><div id="compare-result"></div></div>
-<div class="card" id="history" style="display:none"></div>
 <footer>
 数据来源：东方财富公开行情接口（可转债板块）。涨速为东财口径（最近几分钟价格变化速度），行情可能存在延迟。<br>
 本看板仅供个人学习参考，不构成任何投资建议。股市有风险，投资需谨慎。
@@ -6817,25 +6813,11 @@ var CFG = {"weightAmount":0.6,"weightSpeed":0.4,"minAmount":5000000,"topN":20,"s
       '<td class="score">' + num(it.score, 1) + '</td>' +
       '</tr>';
   }
-  function histRow(it) {
-    return '<tr>' +
-      '<td class="l">' + rankHtml(it.rank) + '</td>' +
-      '<td class="l">' + esc(it.code) + '</td>' +
-      '<td class="l">' + esc(it.name) + '</td>' +
-      '<td>' + num(it.price, 3) + '</td>' +
-      '<td class="' + cls(it.pct) + '">' + pct(it.pct) + '</td>' +
-      '<td class="' + cls(it.speed) + '">' + pct(it.speed) + '</td>' +
-      '<td>' + amt(it.amount) + '</td>' +
-      '<td class="score">' + num(it.score, 1) + '</td>' +
-      '</tr>';
-  }
   var compCols = ['排名', '代码', '名称', '最新价', '涨跌幅', '涨速', '成交额', '换手率', '量比', '成交额排名', '涨速排名', '综合分'];
   var simpleCols = ['排名', '代码', '名称', '最新价', '涨跌幅', '涨速', '成交额', '换手率', '综合分'];
-  var histCols = ['排名', '代码', '名称', '收盘价', '涨跌幅', '涨速', '成交额', '综合分'];
   var composite = [].concat(DATA.composite || []);
   var amount = [].concat(DATA.amount || []);
   var speed = [].concat(DATA.speed || []);
-  var history = [].concat(DATA.history || []);
   document.getElementById('composite').innerHTML = '<table>' + head(compCols) + body(composite, compRow) + '</table>';
   document.getElementById('amount').innerHTML = '<table>' + head(simpleCols) + body(amount, simpleRow) + '</table>';
   document.getElementById('speed').innerHTML = '<table>' + head(simpleCols) + body(speed, simpleRow) + '</table>';
@@ -6888,17 +6870,6 @@ var CFG = {"weightAmount":0.6,"weightSpeed":0.4,"minAmount":5000000,"topN":20,"s
   } else {
     document.getElementById('active').innerHTML = '<div class="note">暂无活跃度数据（下一个交易日运行后自动出现）。</div>';
   }
-  var histHtml = '';
-  if (history.length > 0) {
-    for (var i = 0; i < history.length; i++) {
-      var h = history[i];
-      histHtml += '<div class="hist-date">' + esc(h.date) + ' 收盘最终名单（前 10）</div>';
-      histHtml += '<table>' + head(histCols) + body([].concat(h.items || []), histRow) + '</table>';
-    }
-  } else {
-    histHtml = '<div class="note">暂无历史收盘名单。每个交易日下午收盘后自动冻结当日最终名单。</div>';
-  }
-  document.getElementById('history').innerHTML = histHtml;
   document.getElementById('cnt').textContent = '共 ' + DATA.total + ' 只 · 有效 ' + DATA.valid + ' 只';
   document.getElementById('cfg-note').innerHTML =
     '综合分 = 成交额得分×' + Math.round(CFG.weightAmount * 100) + '% + 涨速得分×' + Math.round(CFG.weightSpeed * 100) + '%；' +
@@ -7014,59 +6985,8 @@ var CFG = {"weightAmount":0.6,"weightSpeed":0.4,"minAmount":5000000,"topN":20,"s
     });
   })();
 
-  // ===== 工作台：多日对比 =====
-  (function () {
-    var hist = [].concat(DATA.history || []);
-    var box = document.getElementById('compare-result');
-    function renderCompareRows(items) {
-      var cols = ['代码', '名称', '收盘价', '涨跌幅', '涨速', '成交额', '综合分'];
-      var rows = items.map(function (it) {
-        return '<tr><td class="l">' + esc(it.code) + '</td><td class="l">' + esc(it.name) + '</td>' +
-          '<td>' + num(it.price, 3) + '</td>' +
-          '<td class="' + cls(it.pct) + '">' + pct(it.pct) + '</td>' +
-          '<td class="' + cls(it.speed) + '">' + pct(it.speed) + '</td>' +
-          '<td>' + amt(it.amount) + '</td>' +
-          '<td class="score">' + num(it.score, 1) + '</td></tr>';
-      }).join('');
-      return '<table>' + head(cols) + '<tbody>' + rows + '</tbody></table>';
-    }
-    if (hist.length < 2) {
-      box.innerHTML = '<div class="note">需要至少两个交易日的收盘名单才能对比，目前数据不足。</div>';
-      return;
-    }
-    var cur = hist[0], prev = hist[1];
-    var curMap = {}, prevMap = {};
-    [].concat(cur.items || []).forEach(function (it) { curMap[it.code] = it; });
-    [].concat(prev.items || []).forEach(function (it) { prevMap[it.code] = it; });
-    var newcomers = [], dropped = [], changes = [];
-    Object.keys(curMap).forEach(function (c) {
-      if (!prevMap[c]) { newcomers.push(curMap[c]); }
-      else {
-        var d = prevMap[c].rank - curMap[c].rank;
-        if (d !== 0) { changes.push({ name: curMap[c].name, code: c, prevRank: prevMap[c].rank, curRank: curMap[c].rank, delta: d }); }
-      }
-    });
-    Object.keys(prevMap).forEach(function (c) { if (!curMap[c]) { dropped.push(prevMap[c]); } });
-    changes.sort(function (a, b) { return Math.abs(b.delta) - Math.abs(a.delta); });
-    var html = '<div class="note">对比：' + esc(prev.date) + ' → ' + esc(cur.date) + '（新进榜/掉榜/排名变化，按收盘综合榜 Top 20 计算）</div>';
-    html += '<div class="hist-date">新进榜（' + newcomers.length + '）</div>';
-    html += newcomers.length ? renderCompareRows(newcomers) : '<div class="note">无</div>';
-    html += '<div class="hist-date">掉出榜单（' + dropped.length + '）</div>';
-    html += dropped.length ? renderCompareRows(dropped) : '<div class="note">无</div>';
-    html += '<div class="hist-date">排名变化（按变动幅度前 10）</div>';
-    if (changes.length) {
-      var cols = ['代码', '名称', '昨日排名', '今日排名', '变化'];
-      var rows = changes.slice(0, 10).map(function (c) {
-        var dCls = c.delta > 0 ? 'up' : 'down';
-        return '<tr><td class="l">' + esc(c.code) + '</td><td class="l">' + esc(c.name) + '</td><td>' + c.prevRank + '</td><td>' + c.curRank + '</td><td class="' + dCls + '">' + (c.delta > 0 ? '+' : '') + c.delta + '</td></tr>';
-      }).join('');
-      html += '<table>' + head(cols) + '<tbody>' + rows + '</tbody></table>';
-    } else { html += '<div class="note">排名无变化</div>'; }
-    box.innerHTML = html;
-  })();
-
   var tabs = document.querySelectorAll('.tab');
-  var ids = ['composite', 'amount', 'speed', 'active', 'flow', 'compare', 'history'];
+  var ids = ['composite', 'amount', 'speed', 'active', 'flow'];
   for (var k = 0; k < tabs.length; k++) {
     tabs[k].addEventListener('click', function () {
       for (var j = 0; j < tabs.length; j++) { tabs[j].classList.remove('active'); }
