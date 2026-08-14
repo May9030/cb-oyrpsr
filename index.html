@@ -81,18 +81,22 @@ footer{text-align:center;font-size:12px;color:var(--muted);margin:6px 0 20px;lin
 <div class="stat"><div class="stat-v" id="ov-avg">-</div><div class="stat-l">平均涨跌幅</div></div>
 <div class="stat"><div class="stat-v" id="ov-maxup">-</div><div class="stat-l">涨幅最大</div></div>
 <div class="stat"><div class="stat-v" id="ov-maxdown">-</div><div class="stat-l">跌幅最大</div></div>
+<div class="stat"><div class="stat-v" id="ov-flow5">-</div><div class="stat-l">5日主力净流入(合计)</div></div>
+<div class="stat"><div class="stat-v" id="ov-flowtoday">-</div><div class="stat-l">今日主力净流入(合计)</div></div>
 </div>
 <div class="status-strip" id="status-strip"></div>
 <div class="tabs">
 <button class="tab active" data-tab="composite">综合榜</button>
 <button class="tab" data-tab="amount">成交额榜</button>
 <button class="tab" data-tab="speed">涨速榜</button>
+<button class="tab" data-tab="flow">资金流向</button>
 <button class="tab" data-tab="compare">多日对比</button>
 <button class="tab" data-tab="history">历史收盘名单</button>
 </div>
 <div class="card" id="composite"></div>
 <div class="card" id="amount" style="display:none"></div>
 <div class="card" id="speed" style="display:none"></div>
+<div class="card" id="flow" style="display:none"></div>
 <div class="card" id="compare" style="display:none"><div id="compare-result"></div></div>
 <div class="card" id="history" style="display:none"></div>
 <footer>
@@ -894,6 +898,310 @@ var DATA = {
                       "score":  61.2
                   }
               ],
+    "flow":  [
+    {
+        "rank":  1,
+        "code":  "110103",
+        "name":  "申能转债",
+        "price":  148.396,
+        "pct":  -5.66,
+        "flow5":  220363629,
+        "flowPct5":  7.55,
+        "flowToday":  67395671
+    },
+    {
+        "rank":  2,
+        "code":  "127096",
+        "name":  "泰坦转债",
+        "price":  577.2,
+        "pct":  -0.29,
+        "flow5":  80554749,
+        "flowPct5":  0.79,
+        "flowToday":  -6486987
+    },
+    {
+        "rank":  3,
+        "code":  "118073",
+        "name":  "赛斯转债",
+        "price":  175.838,
+        "pct":  -6.85,
+        "flow5":  76089352,
+        "flowPct5":  2.98,
+        "flowToday":  6881004
+    },
+    {
+        "rank":  4,
+        "code":  "128128",
+        "name":  "Z翔转2",
+        "price":  109.951,
+        "pct":  0.02,
+        "flow5":  61147081,
+        "flowPct5":  13.93,
+        "flowToday":  8192953
+    },
+    {
+        "rank":  5,
+        "code":  "123276",
+        "name":  "久吾转02",
+        "price":  178.6,
+        "pct":  -2.37,
+        "flow5":  59639480,
+        "flowPct5":  0.81,
+        "flowToday":  -7196892
+    },
+    {
+        "rank":  6,
+        "code":  "110099",
+        "name":  "福能转债",
+        "price":  144.23,
+        "pct":  -0.57,
+        "flow5":  53389971,
+        "flowPct5":  9.86,
+        "flowToday":  3183948
+    },
+    {
+        "rank":  7,
+        "code":  "127049",
+        "name":  "希望转2",
+        "price":  115.156,
+        "pct":  0.45,
+        "flow5":  51419720,
+        "flowPct5":  8.65,
+        "flowToday":  34831437
+    },
+    {
+        "rank":  8,
+        "code":  "113052",
+        "name":  "兴业转债",
+        "price":  115.318,
+        "pct":  -0.43,
+        "flow5":  48924434,
+        "flowPct5":  2.88,
+        "flowToday":  12055543
+    },
+    {
+        "rank":  9,
+        "code":  "113053",
+        "name":  "隆22转债",
+        "price":  121.176,
+        "pct":  -0.69,
+        "flow5":  47706836,
+        "flowPct5":  8.44,
+        "flowToday":  8088266
+    },
+    {
+        "rank":  10,
+        "code":  "127114",
+        "name":  "宜化转债",
+        "price":  141.1,
+        "pct":  1.03,
+        "flow5":  47166416,
+        "flowPct5":  5.68,
+        "flowToday":  6580138
+    },
+    {
+        "rank":  11,
+        "code":  "118064",
+        "name":  "联瑞转债",
+        "price":  402.775,
+        "pct":  -2.19,
+        "flow5":  45101176,
+        "flowPct5":  0.38,
+        "flowToday":  16468952
+    },
+    {
+        "rank":  12,
+        "code":  "123118",
+        "name":  "惠城转债",
+        "price":  1040.696,
+        "pct":  3.72,
+        "flow5":  44945186,
+        "flowPct5":  0.5,
+        "flowToday":  42950693
+    },
+    {
+        "rank":  13,
+        "code":  "113615",
+        "name":  "金诚转债",
+        "price":  750.972,
+        "pct":  1.96,
+        "flow5":  44821927,
+        "flowPct5":  2.03,
+        "flowToday":  2576464
+    },
+    {
+        "rank":  14,
+        "code":  "118031",
+        "name":  "天23转债",
+        "price":  123.202,
+        "pct":  0.49,
+        "flow5":  44391504,
+        "flowPct5":  7.32,
+        "flowToday":  20435459
+    },
+    {
+        "rank":  15,
+        "code":  "127084",
+        "name":  "柳工转2",
+        "price":  143.2,
+        "pct":  -0.02,
+        "flow5":  43082998,
+        "flowPct5":  11.8,
+        "flowToday":  3625439
+    },
+    {
+        "rank":  16,
+        "code":  "118074",
+        "name":  "特宝转债",
+        "price":  175.123,
+        "pct":  11.33,
+        "flow5":  42950202,
+        "flowPct5":  1.67,
+        "flowToday":  13720716
+    },
+    {
+        "rank":  17,
+        "code":  "111025",
+        "name":  "圣泉转债",
+        "price":  169.249,
+        "pct":  0.65,
+        "flow5":  42658803,
+        "flowPct5":  1.09,
+        "flowToday":  33759427
+    },
+    {
+        "rank":  18,
+        "code":  "127067",
+        "name":  "恒逸转2",
+        "price":  162.15,
+        "pct":  -0.22,
+        "flow5":  39932573,
+        "flowPct5":  0.69,
+        "flowToday":  13881610
+    },
+    {
+        "rank":  19,
+        "code":  "123270",
+        "name":  "盛德转债",
+        "price":  246.5,
+        "pct":  1.69,
+        "flow5":  39867827,
+        "flowPct5":  1.72,
+        "flowToday":  10475754
+    },
+    {
+        "rank":  20,
+        "code":  "127070",
+        "name":  "大中转债",
+        "price":  352,
+        "pct":  0.77,
+        "flow5":  38254970,
+        "flowPct5":  0.92,
+        "flowToday":  25756640
+    }
+],
+    "flowOut":  [
+    {
+        "rank":  1,
+        "code":  "110075",
+        "name":  "南航转债",
+        "price":  106.503,
+        "pct":  -0.01,
+        "flow5":  -79981480,
+        "flowPct5":  -8.72,
+        "flowToday":  10770104
+    },
+    {
+        "rank":  2,
+        "code":  "123261",
+        "name":  "普联转债",
+        "price":  192.5,
+        "pct":  -8.42,
+        "flow5":  -69546772,
+        "flowPct5":  -0.33,
+        "flowToday":  -24372394
+    },
+    {
+        "rank":  3,
+        "code":  "113042",
+        "name":  "上银转债",
+        "price":  117.369,
+        "pct":  -0.08,
+        "flow5":  -49540948,
+        "flowPct5":  -3.61,
+        "flowToday":  1508906
+    },
+    {
+        "rank":  4,
+        "code":  "111000",
+        "name":  "起帆转债",
+        "price":  139.057,
+        "pct":  -0.29,
+        "flow5":  -47342288,
+        "flowPct5":  -6.48,
+        "flowToday":  -529744
+    },
+    {
+        "rank":  5,
+        "code":  "113643",
+        "name":  "风语转债",
+        "price":  147.383,
+        "pct":  -3.23,
+        "flow5":  -39609278,
+        "flowPct5":  -1.29,
+        "flowToday":  -6330968
+    },
+    {
+        "rank":  6,
+        "code":  "128129",
+        "name":  "青农转债",
+        "price":  107.947,
+        "pct":  0,
+        "flow5":  -34817033,
+        "flowPct5":  -5.71,
+        "flowToday":  -7341244
+    },
+    {
+        "rank":  7,
+        "code":  "118070",
+        "name":  "南芯转债",
+        "price":  159.765,
+        "pct":  -0.06,
+        "flow5":  -29114660,
+        "flowPct5":  -2.56,
+        "flowToday":  -1980913
+    },
+    {
+        "rank":  8,
+        "code":  "118056",
+        "name":  "路维转债",
+        "price":  278.334,
+        "pct":  2.08,
+        "flow5":  -18245046,
+        "flowPct5":  -0.68,
+        "flowToday":  -8480056
+    },
+    {
+        "rank":  9,
+        "code":  "123252",
+        "name":  "银邦转债",
+        "price":  138.066,
+        "pct":  -0.02,
+        "flow5":  -17181861,
+        "flowPct5":  -7.18,
+        "flowToday":  -1990069
+    },
+    {
+        "rank":  10,
+        "code":  "123263",
+        "name":  "鼎捷转债",
+        "price":  150.455,
+        "pct":  -1.96,
+        "flow5":  -17133345,
+        "flowPct5":  -2.21,
+        "flowToday":  -4942627
+    }
+],
     "history":  [
                     {
                         "date":  "2026-08-14",
@@ -1317,7 +1625,9 @@ var DATA = {
                      "maxGainCode":  "127115",
                      "maxLossName":  "普联转债",
                      "maxLossPct":  -8.42,
-                     "maxLossCode":  "123261"
+                     "maxLossCode":  "123261",
+                     "flow5Total":  1541815739,
+                     "flowTodayTotal":  652149064
                  },
     "all":  [
                 {
@@ -5362,9 +5672,11 @@ var CFG = {"weightAmount":0.6,"weightSpeed":0.4,"minAmount":5000000,"topN":20,"s
   function amt(v) {
     if (v == null || v === '-') { return '-'; }
     v = +v;
-    if (v >= 1e8) { return (v / 1e8).toFixed(2) + '亿'; }
-    if (v >= 1e4) { return (v / 1e4).toFixed(0) + '万'; }
-    return '' + Math.round(v);
+    var neg = v < 0 ? '-' : '';
+    v = Math.abs(v);
+    if (v >= 1e8) { return neg + (v / 1e8).toFixed(2) + '亿'; }
+    if (v >= 1e4) { return neg + (v / 1e4).toFixed(0) + '万'; }
+    return neg + Math.round(v);
   }
   function rankHtml(n) {
     var c = (n >= 1 && n <= 3) ? 'rank top' : 'rank';
@@ -5426,6 +5738,34 @@ var CFG = {"weightAmount":0.6,"weightSpeed":0.4,"minAmount":5000000,"topN":20,"s
   document.getElementById('composite').innerHTML = '<table>' + head(compCols) + body(composite, compRow) + '</table>';
   document.getElementById('amount').innerHTML = '<table>' + head(simpleCols) + body(amount, simpleRow) + '</table>';
   document.getElementById('speed').innerHTML = '<table>' + head(simpleCols) + body(speed, simpleRow) + '</table>';
+  var flow = [].concat(DATA.flow || []);
+  var flowOut = [].concat(DATA.flowOut || []);
+  var flowCols = ['排名', '代码', '名称', '最新价', '涨跌幅', '5日主力净流入', '5日净占比', '今日主力净流入'];
+  function flowRow(it) {
+    return '<tr>' +
+      '<td class="l">' + rankHtml(it.rank) + '</td>' +
+      '<td class="l">' + esc(it.code) + '</td>' +
+      '<td class="l">' + esc(it.name) + '</td>' +
+      '<td>' + num(it.price, 3) + '</td>' +
+      '<td class="' + cls(it.pct) + '">' + pct(it.pct) + '</td>' +
+      '<td class="' + cls(it.flow5) + '">' + amt(it.flow5) + '</td>' +
+      '<td class="' + cls(it.flowPct5) + '">' + pct(it.flowPct5) + '</td>' +
+      '<td class="' + cls(it.flowToday) + '">' + amt(it.flowToday) + '</td>' +
+      '</tr>';
+  }
+  var flowHtml = '';
+  if (flow.length > 0) {
+    flowHtml += '<div class="hist-date">5日主力净流入 Top ' + flow.length + '</div>';
+    flowHtml += '<table>' + head(flowCols) + body(flow, flowRow) + '</table>';
+  } else {
+    flowHtml += '<div class="note">暂无资金流向数据（下一个交易日运行后自动出现）。</div>';
+  }
+  if (flowOut.length > 0) {
+    flowHtml += '<div class="hist-date">5日主力净流出提醒 Top ' + flowOut.length + '</div>';
+    flowHtml += '<table>' + head(flowCols) + body(flowOut, flowRow) + '</table>';
+  }
+  flowHtml += '<div class="note">5日主力净流入 = 最近 5 个交易日主力资金（超大单+大单）净流入，东方财富资金流向口径；红色为净流入、绿色为净流出。</div>';
+  document.getElementById('flow').innerHTML = flowHtml;
   var histHtml = '';
   if (history.length > 0) {
     for (var i = 0; i < history.length; i++) {
@@ -5459,6 +5799,12 @@ var CFG = {"weightAmount":0.6,"weightSpeed":0.4,"minAmount":5000000,"topN":20,"s
     var dnEl = document.getElementById('ov-maxdown');
     dnEl.textContent = esc(ov.maxLossName) + ' ' + ov.maxLossPct + '%';
     dnEl.className = 'stat-v down';
+    var f5El = document.getElementById('ov-flow5');
+    f5El.textContent = amt(ov.flow5Total);
+    f5El.className = 'stat-v ' + cls(ov.flow5Total);
+    var ftEl = document.getElementById('ov-flowtoday');
+    ftEl.textContent = amt(ov.flowTodayTotal);
+    ftEl.className = 'stat-v ' + cls(ov.flowTodayTotal);
   }
 
   // ===== 工作台：平台状态栏 =====
@@ -5598,7 +5944,7 @@ var CFG = {"weightAmount":0.6,"weightSpeed":0.4,"minAmount":5000000,"topN":20,"s
   })();
 
   var tabs = document.querySelectorAll('.tab');
-  var ids = ['composite', 'amount', 'speed', 'compare', 'history'];
+  var ids = ['composite', 'amount', 'speed', 'flow', 'compare', 'history'];
   for (var k = 0; k < tabs.length; k++) {
     tabs[k].addEventListener('click', function () {
       for (var j = 0; j < tabs.length; j++) { tabs[j].classList.remove('active'); }
