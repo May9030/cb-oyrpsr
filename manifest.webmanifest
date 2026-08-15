@@ -1,0 +1,14 @@
+{
+  "name": "可转债工作台",
+  "short_name": "可转债",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f2f5f9",
+  "theme_color": "#2f6fed",
+  "description": "可转债自动跟踪工作台：综合榜、成交额榜、涨速榜、活跃榜、资金流向",
+  "icons": [
+    { "src": "./icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "./icon-512.png", "sizes": "512x512", "type": "image/png" }
+  ]
+}
