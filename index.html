@@ -6,6 +6,13 @@
 <meta name="robots" content="noindex, nofollow">
 <meta http-equiv="refresh" content="60">
 <title>可转债跟踪工作台</title>
+<link rel="manifest" href="./manifest.webmanifest">
+<meta name="theme-color" content="#2f6fed">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="可转债">
+<link rel="apple-touch-icon" href="./icon-192.png">
+<link rel="icon" href="./icon-192.png" type="image/png">
 <style>
 :root{--up:#e03131;--down:#0ca678;--bg:#f2f5f9;--card:#ffffff;--border:#e4eaf1;--text:#222b36;--muted:#7b8694;--accent:#2f6fed;}
 *{box-sizing:border-box;margin:0;padding:0;}
@@ -6750,6 +6757,11 @@ var DATA = {
 var CFG = {"weightAmount":0.6,"weightSpeed":0.4,"minAmount":5000000,"topN":20,"speedClamp":3};
 (function () {
   'use strict';
+  if ('serviceWorker' in navigator && location.protocol === 'https:') {
+    window.addEventListener('load', function () {
+      try { navigator.serviceWorker.register('./sw.js'); } catch (e) {}
+    });
+  }
   function esc(s) { return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
   function num(v, d) {
     if (v == null || v === '-') { return '-'; }
@@ -6905,6 +6917,7 @@ var CFG = {"weightAmount":0.6,"weightSpeed":0.4,"minAmount":5000000,"topN":20,"s
     var st = DATA.status || {};
     var html = '<span class="badge ' + (DATA.marketStatus === '交易中' ? 'status-live' : 'status-closed') + '">' + esc(DATA.marketStatus) + '</span>';
     html += ' 数据更新 ' + esc(DATA.generatedAt);
+    if (!navigator.onLine) { html += ' · <b style="color:#f08c00">离线数据</b>'; }
     if (st.source) { html += ' · ' + esc(st.source); }
     html += ' · 手机发布：' + (st.lastPublishOk ? (esc(st.lastPublish) + ' 成功') : '尚未发布');
     if (st.siteUrl) { html += ' · 网址 <a href="' + esc(st.siteUrl) + '" target="_blank" rel="noopener">' + esc(st.siteUrl) + '</a>'; }
