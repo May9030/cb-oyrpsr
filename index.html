@@ -7838,9 +7838,8 @@ var CFG = {"weightAmount":0.6,"weightSpeed":0.4,"minAmount":5000000,"topN":20,"s
       '<td>' + num(it.price, 3) + '</td>' +
       '<td class="' + cls(it.pct) + '">' + pct(it.pct) + '</td>' +
       '<td class="' + cls(it.speed) + '">' + pct(it.speed) + '</td>' +
-      '<td>' + amt(it.amount) + '</td>' +
-      '<td>' + turn(it.turnover) + '</td>' +
-      '<td>' + num(it.volRatio, 2) + '</td>' +
+      '<td class="' + cls(it.flowToday) + '">' + amt(it.flowToday) + '</td>' +
+      '<td class="' + cls(it.flow5) + '">' + amt(it.flow5) + '</td>' +
       '<td>' + it.rankAmt + '</td>' +
       '<td>' + it.rankSpd + '</td>' +
       '<td class="score">' + num(it.score, 1) + '</td>' +
@@ -7859,7 +7858,7 @@ var CFG = {"weightAmount":0.6,"weightSpeed":0.4,"minAmount":5000000,"topN":20,"s
       '<td class="score">' + num(it.score, 1) + '</td>' +
       '</tr>';
   }
-  var compCols = ['排名', '代码', '名称', '最新价', '涨跌幅', '涨速', '成交额', '换手率', '量比', '成交额排名', '涨速排名', '综合分'];
+  var compCols = ['排名', '代码', '名称', '最新价', '涨跌幅', '涨速', '今日主力净流入', '5日主力净流入', '成交额排名', '涨速排名', '综合分'];
   var simpleCols = ['排名', '代码', '名称', '最新价', '涨跌幅', '涨速', '成交额', '换手率', '综合分'];
   var composite = [].concat(DATA.composite || []);
   var amount = [].concat(DATA.amount || []);
