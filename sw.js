@@ -1,5 +1,6 @@
 // 可转债工作台 Service Worker：网络优先，缓存兜底（断网时显示最后一次成功加载的看板）
-var CACHE = 'cb-dash-v1';
+// v2：网络请求强制 revalidate，绕过浏览器/PAGES 的 HTTP 缓存，保证每次打开都拉最新
+var CACHE = 'cb-dash-v2';
 var CORE = ['./', './index.html', './manifest.webmanifest', './icon-192.png', './icon-512.png'];
 
 self.addEventListener('install', function (e) {
@@ -21,7 +22,7 @@ self.addEventListener('activate', function (e) {
 self.addEventListener('fetch', function (e) {
   if (e.request.method !== 'GET') { return; }
   e.respondWith(
-    fetch(e.request).then(function (res) {
+    fetch(e.request, { cache: 'reload' }).then(function (res) {
       var copy = res.clone();
       caches.open(CACHE).then(function (c) { c.put(e.request, copy); });
       return res;
