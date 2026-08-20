@@ -9407,7 +9407,7 @@ var CFG = {"weightAmount":0.6,"weightSpeed":0.4,"minAmount":5000000,"topN":20,"s
   'use strict';
   if ('serviceWorker' in navigator && location.protocol === 'https:') {
     window.addEventListener('load', function () {
-      try { navigator.serviceWorker.register('./sw.js'); } catch (e) {}
+      try { navigator.serviceWorker.register('./sw.js', { updateViaCache: 'none' }); } catch (e) {}
     });
   }
   function esc(s) { return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
