@@ -1,6 +1,6 @@
 // 可转债工作台 Service Worker：网络优先，缓存兜底（断网时显示最后一次成功加载的看板）
-// v2：网络请求强制 revalidate，绕过浏览器/PAGES 的 HTTP 缓存，保证每次打开都拉最新
-var CACHE = 'cb-dash-v2';
+// v3：网络请求强制 revalidate（绕过 HTTP 缓存）；updateViaCache:none 保证 SW 脚本本身即时更新
+var CACHE = 'cb-dash-v3';
 var CORE = ['./', './index.html', './manifest.webmanifest', './icon-192.png', './icon-512.png'];
 
 self.addEventListener('install', function (e) {
