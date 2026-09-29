@@ -813,3 +813,4 @@ $cfgJson = ($cfgObj | ConvertTo-Json -Compress).Replace('</', '<\/')
 Write-Dashboard $payload $statusText $srcLabel $cfgJson
 
 Write-Log ('更新完成 [{0}] 共 {1} 只 / 有效 {2} 只 / 数据源 {3}' -f $statusText, $diff.Count, $records.Count, $srcLabel)
+exit 0
