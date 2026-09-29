@@ -33,6 +33,7 @@ $script:Curl = if (Get-Command curl.exe -ErrorAction SilentlyContinue) { 'curl.e
 function Write-Log([string]$Msg) {
     $line = ('[{0}] {1}' -f (Get-Date -Format 'yyyy-MM-dd HH:mm:ss'), $Msg)
     [System.IO.File]::AppendAllText($LogFile, $line + "`r`n", $Utf8NoBom)
+    Write-Output $line
     try {
         if ((Get-Item $LogFile).Length -gt 512KB) {
             $tail = [System.IO.File]::ReadAllLines($LogFile, $Utf8NoBom) | Select-Object -Last 2000
