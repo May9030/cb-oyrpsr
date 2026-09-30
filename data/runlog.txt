@@ -12,3 +12,4 @@
 [2026-09-29 22:00:37] 抓取失败 [https://5.push2.eastmoney.com] 第1页 (IRM): An error occurred while sending the request.
 [2026-09-29 22:00:42] 抓取失败 [https://82.push2.eastmoney.com] 第1页 (IRM): An error occurred while sending the request.
 [2026-09-29 22:00:43] 休市：最新行情非今天（节假日），跳过
+[2026-09-30 14:16:15] 更新完成 [交易中] 共 321 只 / 有效 310 只 / 数据源 延时行情 push2delay.eastmoney.com（约滞后几分钟）
