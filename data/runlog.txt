@@ -40,3 +40,14 @@
 [2026-10-01 22:25:32] 抓取失败 [https://82.push2.eastmoney.com] 第1页 (IRM): An error occurred while sending the request.
 [2026-10-01 22:25:37] 休市：最新行情非今天（节假日），跳过
 [2026-10-02 14:39:02] 休市：行情未更新（节假日或非交易时段），跳过
+[2026-10-02 18:47:48] 抓取失败 [https://push2delay.eastmoney.com] 第1页 (IRM): Response status code does not indicate success: 502 (Bad Gateway).
+[2026-10-02 18:47:49] 抓取失败 [https://push2delay.eastmoney.com] 第1页 (curl): Conversion from JSON failed with error: Unexpected character encountered while parsing value: <. Path '', line 0, position 0.
+[2026-10-02 18:47:50] 抓取失败 [https://push2.eastmoney.com] 第1页 (IRM): Response status code does not indicate success: 502 (Bad Gateway).
+[2026-10-02 18:47:51] 抓取失败 [https://push2.eastmoney.com] 第1页 (curl): Conversion from JSON failed with error: Unexpected character encountered while parsing value: <. Path '', line 0, position 0.
+[2026-10-02 18:47:54] 抓取失败 [https://1.push2.eastmoney.com] 第1页 (IRM): An error occurred while sending the request.
+[2026-10-02 18:47:58] 抓取失败 [https://2.push2.eastmoney.com] 第1页 (IRM): An error occurred while sending the request.
+[2026-10-02 18:48:03] 抓取失败 [https://3.push2.eastmoney.com] 第1页 (IRM): An error occurred while sending the request.
+[2026-10-02 18:48:06] 抓取失败 [https://4.push2.eastmoney.com] 第1页 (IRM): An error occurred while sending the request.
+[2026-10-02 18:48:09] 抓取失败 [https://5.push2.eastmoney.com] 第1页 (IRM): An error occurred while sending the request.
+[2026-10-02 18:48:12] 抓取失败 [https://82.push2.eastmoney.com] 第1页 (IRM): An error occurred while sending the request.
+[2026-10-02 18:48:13] 休市：最新行情非今天（节假日），跳过
