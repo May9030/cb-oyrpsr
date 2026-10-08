@@ -83,3 +83,5 @@
 [2026-10-08 19:41:33] 抓取失败 [https://5.push2.eastmoney.com] 第1页 (IRM): The request was canceled due to the configured HttpClient.Timeout of 6 seconds elapsing.
 [2026-10-08 19:41:40] 抓取失败 [https://82.push2.eastmoney.com] 第1页 (IRM): The request was canceled due to the configured HttpClient.Timeout of 6 seconds elapsing.
 [2026-10-08 19:41:41] 休市：最新行情非今天（节假日），跳过
+[2026-10-08 22:31:54] 已冻结当日收盘最终名单 2026-10-08（Top 20，有效 310 只）
+[2026-10-08 22:31:55] 更新完成 [已收盘] 共 321 只 / 有效 310 只 / 数据源 延时行情 push2delay.eastmoney.com（约滞后几分钟）
