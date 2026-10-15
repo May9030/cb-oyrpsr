@@ -114,3 +114,5 @@
 [2026-10-15 13:31:41] 抓取失败 [https://2.push2.eastmoney.com] 第1页 (IRM): An error occurred while sending the request.
 [2026-10-15 13:31:45] 抓取失败 [https://3.push2.eastmoney.com] 第1页 (IRM): An error occurred while sending the request.
 [2026-10-15 13:31:58] 更新完成 [交易中] 共 327 只 / 有效 308 只 / 数据源 实时行情 4.push2.eastmoney.com
+[2026-10-15 17:30:58] 已冻结当日收盘最终名单 2026-10-15（Top 20，有效 308 只）
+[2026-10-15 17:30:58] 更新完成 [已收盘] 共 320 只 / 有效 308 只 / 数据源 延时行情 push2delay.eastmoney.com（约滞后几分钟）
