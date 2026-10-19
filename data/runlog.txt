@@ -132,3 +132,16 @@
 [2026-10-16 17:24:09] 已冻结当日收盘最终名单 2026-10-16（Top 20，有效 300 只）
 [2026-10-16 17:24:09] 更新完成 [已收盘] 共 311 只 / 有效 300 只 / 数据源 延时行情 push2delay.eastmoney.com（约滞后几分钟）
 [2026-10-19 13:40:54] 更新完成 [交易中] 共 322 只 / 有效 305 只 / 数据源 延时行情 push2delay.eastmoney.com（约滞后几分钟）
+[2026-10-19 18:23:38] 抓取失败 [https://push2delay.eastmoney.com] 第3页 (IRM): Response status code does not indicate success: 502 (Bad Gateway).
+[2026-10-19 18:23:39] 抓取失败 [https://push2delay.eastmoney.com] 第3页 (curl): Conversion from JSON failed with error: Unexpected character encountered while parsing value: <. Path '', line 0, position 0.
+[2026-10-19 18:23:39] 数据源 [https://push2delay.eastmoney.com] 仅返回部分数据 200/322
+[2026-10-19 18:23:41] 抓取失败 [https://push2.eastmoney.com] 第1页 (IRM): Response status code does not indicate success: 502 (Bad Gateway).
+[2026-10-19 18:23:42] 抓取失败 [https://push2.eastmoney.com] 第1页 (curl): Conversion from JSON failed with error: Unexpected character encountered while parsing value: <. Path '', line 0, position 0.
+[2026-10-19 18:23:46] 抓取失败 [https://1.push2.eastmoney.com] 第1页 (IRM): An error occurred while sending the request.
+[2026-10-19 18:23:52] 抓取失败 [https://2.push2.eastmoney.com] 第1页 (IRM): An error occurred while sending the request.
+[2026-10-19 18:23:58] 抓取失败 [https://3.push2.eastmoney.com] 第1页 (IRM): An error occurred while sending the request.
+[2026-10-19 18:24:04] 抓取失败 [https://4.push2.eastmoney.com] 第1页 (IRM): An error occurred while sending the request.
+[2026-10-19 18:24:09] 抓取失败 [https://5.push2.eastmoney.com] 第1页 (IRM): An error occurred while sending the request.
+[2026-10-19 18:24:13] 抓取失败 [https://82.push2.eastmoney.com] 第1页 (IRM): An error occurred while sending the request.
+[2026-10-19 18:24:14] 已冻结当日收盘最终名单 2026-10-19（Top 20，有效 198 只）
+[2026-10-19 18:24:14] 更新完成 [已收盘] 共 211 只 / 有效 198 只 / 数据源 延时行情 push2delay.eastmoney.com（约滞后几分钟）
