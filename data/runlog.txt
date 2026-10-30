@@ -275,3 +275,16 @@
 [2026-10-30 14:45:55] 抓取失败 [https://4.push2.eastmoney.com] 第1页 (IRM): An error occurred while sending the request.
 [2026-10-30 14:46:00] 抓取失败 [https://5.push2.eastmoney.com] 第1页 (IRM): An error occurred while sending the request.
 [2026-10-30 14:46:11] 更新完成 [交易中] 共 329 只 / 有效 309 只 / 数据源 实时行情 82.push2.eastmoney.com
+[2026-10-30 19:05:54] 抓取失败 [https://push2delay.eastmoney.com] 第4页 (IRM): Response status code does not indicate success: 502 (Bad Gateway).
+[2026-10-30 19:05:55] 抓取失败 [https://push2delay.eastmoney.com] 第4页 (curl): Conversion from JSON failed with error: Unexpected character encountered while parsing value: <. Path '', line 0, position 0.
+[2026-10-30 19:05:55] 数据源 [https://push2delay.eastmoney.com] 仅返回部分数据 300/320
+[2026-10-30 19:05:56] 抓取失败 [https://push2.eastmoney.com] 第1页 (IRM): Response status code does not indicate success: 502 (Bad Gateway).
+[2026-10-30 19:05:57] 抓取失败 [https://push2.eastmoney.com] 第1页 (curl): Conversion from JSON failed with error: Unexpected character encountered while parsing value: <. Path '', line 0, position 0.
+[2026-10-30 19:06:03] 抓取失败 [https://1.push2.eastmoney.com] 第1页 (IRM): The request was canceled due to the configured HttpClient.Timeout of 6 seconds elapsing.
+[2026-10-30 19:06:11] 抓取失败 [https://2.push2.eastmoney.com] 第1页 (IRM): The request was canceled due to the configured HttpClient.Timeout of 6 seconds elapsing.
+[2026-10-30 19:06:19] 抓取失败 [https://3.push2.eastmoney.com] 第1页 (IRM): An error occurred while sending the request.
+[2026-10-30 19:06:26] 抓取失败 [https://4.push2.eastmoney.com] 第1页 (IRM): An error occurred while sending the request.
+[2026-10-30 19:06:31] 抓取失败 [https://5.push2.eastmoney.com] 第1页 (IRM): An error occurred while sending the request.
+[2026-10-30 19:06:38] 抓取失败 [https://82.push2.eastmoney.com] 第1页 (IRM): The request was canceled due to the configured HttpClient.Timeout of 6 seconds elapsing.
+[2026-10-30 19:06:40] 已冻结当日收盘最终名单 2026-10-30（Top 20，有效 300 只）
+[2026-10-30 19:06:40] 更新完成 [已收盘] 共 311 只 / 有效 300 只 / 数据源 延时行情 push2delay.eastmoney.com（约滞后几分钟）
