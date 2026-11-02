@@ -97,6 +97,7 @@ footer{text-align:center;font-size:12px;color:var(--muted);margin:6px 0 20px;lin
 <button class="tab" data-tab="amount">成交额榜</button>
 <button class="tab" data-tab="speed">涨速榜</button>
 <button class="tab" data-tab="active">活跃榜</button>
+<button class="tab" data-tab="openscope">声迅观察</button>
 <button class="tab" data-tab="flow">资金流向</button>
 </div>
 <div class="card" id="composite"></div>
@@ -104,6 +105,7 @@ footer{text-align:center;font-size:12px;color:var(--muted);margin:6px 0 20px;lin
 <div class="card" id="speed" style="display:none"></div>
 <div class="card" id="flow" style="display:none"></div>
 <div class="card" id="active" style="display:none"></div>
+<div class="card" id="openscope" style="display:none"></div>
 <footer>
 数据来源：东方财富公开行情接口（可转债板块）。涨速为东财口径（最近几分钟价格变化速度），行情可能存在延迟。<br>
 本看板仅供个人学习参考，不构成任何投资建议。股市有风险，投资需谨慎。
@@ -9489,6 +9491,48 @@ var CFG = {"weightAmount":0.6,"weightSpeed":0.4,"minAmount":5000000,"topN":20,"s
   } else {
     document.getElementById('active').innerHTML = '<div class="note">暂无活跃度数据（下一个交易日运行后自动出现）。</div>';
   }
+  var os = DATA.open127080 || null;
+  var oh = [].concat(DATA.openHist127080 || []);
+  var osHtml = '';
+  if (os) {
+    var osRows = [
+      ['名称', os.name + '（' + (os.date || '') + '）'],
+      ['昨收', num(os.prevClose, 3)],
+      ['开盘价', num(os.open, 3)],
+      ['窗口最高', num(os.high, 3)],
+      ['窗口最低', num(os.low, 3)],
+      ['最新价', num(os.last, 3)],
+      ['涨跌幅', pct(os.pct)],
+      ['量比', num(os.volRatio, 2)],
+      ['成交额', amt(os.amount)],
+      ['换手率', turn(os.turnover)],
+      ['采样', os.ticks + ' 次（每 5 分钟）'],
+      ['更新时间', esc(os.updatedAt || '-')]
+    ];
+    osHtml = '<div class="hist-date">今日开盘观察（9:30–9:45 采样）</div><table><tbody>' +
+      osRows.map(function (r) { return '<tr><td class="l">' + r[0] + '</td><td>' + r[1] + '</td></tr>'; }).join('') +
+      '</tbody></table>';
+  } else {
+    osHtml = '<div class="note">今日尚未进入开盘观察时段。每个交易日 9:30–9:45 自动采样，开盘后约 5 分钟可见。</div>';
+  }
+  var ohHtml = '';
+  if (oh.length > 0) {
+    var ohCols = ['日期', '开盘', '最高', '最低', '最新', '涨跌幅', '量比', '成交额'];
+    var ohRows = oh.map(function (h) {
+      return '<tr><td class="l">' + esc(h.date) + '</td>' +
+        '<td>' + num(h.open, 3) + '</td>' +
+        '<td>' + num(h.high, 3) + '</td>' +
+        '<td>' + num(h.low, 3) + '</td>' +
+        '<td>' + num(h.last, 3) + '</td>' +
+        '<td class="' + cls(h.pct) + '">' + pct(h.pct) + '</td>' +
+        '<td>' + num(h.volRatio, 2) + '</td>' +
+        '<td>' + amt(h.amount) + '</td></tr>';
+    }).join('');
+    ohHtml = '<div class="hist-date">历史开盘观察（近 ' + oh.length + ' 个交易日）</div>' +
+      '<table>' + head(ohCols) + '<tbody>' + ohRows + '</tbody></table>';
+  }
+  document.getElementById('openscope').innerHTML = osHtml + ohHtml +
+    '<div class="note">声迅转债 127080 开盘 10 分钟观察：开盘价、区间高低点、量比、成交额等仅作入场参考；延时行情约滞后几分钟，数据仅供参考，不构成投资建议。</div>';
   document.getElementById('cnt').textContent = '共 ' + DATA.total + ' 只 · 有效 ' + DATA.valid + ' 只';
   document.getElementById('cfg-note').innerHTML =
     '综合分 = 成交额得分×' + Math.round(CFG.weightAmount * 100) + '% + 涨速得分×' + Math.round(CFG.weightSpeed * 100) + '%；' +
@@ -9606,7 +9650,7 @@ var CFG = {"weightAmount":0.6,"weightSpeed":0.4,"minAmount":5000000,"topN":20,"s
   })();
 
   var tabs = document.querySelectorAll('.tab');
-  var ids = ['composite', 'amount', 'speed', 'active', 'flow'];
+  var ids = ['composite', 'amount', 'speed', 'active', 'openscope', 'flow'];
   for (var k = 0; k < tabs.length; k++) {
     tabs[k].addEventListener('click', function () {
       for (var j = 0; j < tabs.length; j++) { tabs[j].classList.remove('active'); }
