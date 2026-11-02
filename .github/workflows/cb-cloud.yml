@@ -1,6 +1,6 @@
 name: cb-cloud
 on:
- schedule:
+  schedule:
     - cron: '*/10 0-8 * * 1-5'
   workflow_dispatch: {}
 permissions:
