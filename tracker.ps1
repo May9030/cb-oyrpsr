@@ -253,6 +253,7 @@ footer{text-align:center;font-size:12px;color:var(--muted);margin:6px 0 20px;lin
 <button class="tab" data-tab="amount">成交额榜</button>
 <button class="tab" data-tab="speed">涨速榜</button>
 <button class="tab" data-tab="active">活跃榜</button>
+<button class="tab" data-tab="openscope">声迅观察</button>
 <button class="tab" data-tab="flow">资金流向</button>
 </div>
 <div class="card" id="composite"></div>
@@ -260,6 +261,7 @@ footer{text-align:center;font-size:12px;color:var(--muted);margin:6px 0 20px;lin
 <div class="card" id="speed" style="display:none"></div>
 <div class="card" id="flow" style="display:none"></div>
 <div class="card" id="active" style="display:none"></div>
+<div class="card" id="openscope" style="display:none"></div>
 <footer>
 数据来源：东方财富公开行情接口（可转债板块）。涨速为东财口径（最近几分钟价格变化速度），行情可能存在延迟。<br>
 本看板仅供个人学习参考，不构成任何投资建议。股市有风险，投资需谨慎。
@@ -398,6 +400,48 @@ var CFG = %%CFG%%;
   } else {
     document.getElementById('active').innerHTML = '<div class="note">暂无活跃度数据（下一个交易日运行后自动出现）。</div>';
   }
+  var os = DATA.open127080 || null;
+  var oh = [].concat(DATA.openHist127080 || []);
+  var osHtml = '';
+  if (os) {
+    var osRows = [
+      ['名称', os.name + '（' + (os.date || '') + '）'],
+      ['昨收', num(os.prevClose, 3)],
+      ['开盘价', num(os.open, 3)],
+      ['窗口最高', num(os.high, 3)],
+      ['窗口最低', num(os.low, 3)],
+      ['最新价', num(os.last, 3)],
+      ['涨跌幅', pct(os.pct)],
+      ['量比', num(os.volRatio, 2)],
+      ['成交额', amt(os.amount)],
+      ['换手率', turn(os.turnover)],
+      ['采样', os.ticks + ' 次（每 5 分钟）'],
+      ['更新时间', esc(os.updatedAt || '-')]
+    ];
+    osHtml = '<div class="hist-date">今日开盘观察（9:30–9:45 采样）</div><table><tbody>' +
+      osRows.map(function (r) { return '<tr><td class="l">' + r[0] + '</td><td>' + r[1] + '</td></tr>'; }).join('') +
+      '</tbody></table>';
+  } else {
+    osHtml = '<div class="note">今日尚未进入开盘观察时段。每个交易日 9:30–9:45 自动采样，开盘后约 5 分钟可见。</div>';
+  }
+  var ohHtml = '';
+  if (oh.length > 0) {
+    var ohCols = ['日期', '开盘', '最高', '最低', '最新', '涨跌幅', '量比', '成交额'];
+    var ohRows = oh.map(function (h) {
+      return '<tr><td class="l">' + esc(h.date) + '</td>' +
+        '<td>' + num(h.open, 3) + '</td>' +
+        '<td>' + num(h.high, 3) + '</td>' +
+        '<td>' + num(h.low, 3) + '</td>' +
+        '<td>' + num(h.last, 3) + '</td>' +
+        '<td class="' + cls(h.pct) + '">' + pct(h.pct) + '</td>' +
+        '<td>' + num(h.volRatio, 2) + '</td>' +
+        '<td>' + amt(h.amount) + '</td></tr>';
+    }).join('');
+    ohHtml = '<div class="hist-date">历史开盘观察（近 ' + oh.length + ' 个交易日）</div>' +
+      '<table>' + head(ohCols) + '<tbody>' + ohRows + '</tbody></table>';
+  }
+  document.getElementById('openscope').innerHTML = osHtml + ohHtml +
+    '<div class="note">声迅转债 127080 开盘 10 分钟观察：开盘价、区间高低点、量比、成交额等仅作入场参考；延时行情约滞后几分钟，数据仅供参考，不构成投资建议。</div>';
   document.getElementById('cnt').textContent = '共 ' + DATA.total + ' 只 · 有效 ' + DATA.valid + ' 只';
   document.getElementById('cfg-note').innerHTML =
     '综合分 = 成交额得分×' + Math.round(CFG.weightAmount * 100) + '% + 涨速得分×' + Math.round(CFG.weightSpeed * 100) + '%；' +
@@ -515,7 +559,7 @@ var CFG = %%CFG%%;
   })();
 
   var tabs = document.querySelectorAll('.tab');
-  var ids = ['composite', 'amount', 'speed', 'active', 'flow'];
+  var ids = ['composite', 'amount', 'speed', 'active', 'openscope', 'flow'];
   for (var k = 0; k < tabs.length; k++) {
     tabs[k].addEventListener('click', function () {
       for (var j = 0; j < tabs.length; j++) { tabs[j].classList.remove('active'); }
@@ -685,6 +729,53 @@ $flowOutItems = New-BoardItems $flowOutBoard
 $activeBoard = @($records | Sort-Object -Property VolRatio -Descending | Select-Object -First $topN)
 $activeItems = New-BoardItems $activeBoard
 
+# ---------- 声迅转债 127080 开盘 10 分钟观察（9:30-9:45 采样，窗口结束自动落盘历史） ----------
+$openStats = $null
+$nowHHmm = [int]((Get-Date).ToString('HHmm'))
+$r127080 = @($records | Where-Object { $_.Code -eq '127080' } | Select-Object -First 1)
+if ($r127080) {
+    $prevOpen = $null
+    try {
+        $old = Get-Content (Join-Path $DataDir 'latest.json') -Raw -Encoding UTF8 | ConvertFrom-Json
+        if ($old.open127080 -and $old.open127080.date -eq $today) { $prevOpen = $old.open127080 }
+    } catch { }
+    $inWindow = ($phase -eq 'intraday') -and ($nowHHmm -ge 930) -and ($nowHHmm -le 955)
+    if ($inWindow) {
+        $openStats = [PSCustomObject]@{
+            date     = $today
+            name     = $r127080.Name
+            prevClose = $r127080.Prev
+            open     = if ($prevOpen -and $prevOpen.open) { $prevOpen.open } else { $r127080.Price }
+            high     = if ($prevOpen) { [Math]::Max($prevOpen.high, $r127080.Price) } else { $r127080.Price }
+            low      = if ($prevOpen) { [Math]::Min($prevOpen.low, $r127080.Price) } else { $r127080.Price }
+            last     = $r127080.Price
+            pct      = $r127080.Pct
+            amount   = $r127080.Amount
+            turnover = $r127080.Turnover
+            volRatio = $r127080.VolRatio
+            ticks    = if ($prevOpen) { $prevOpen.ticks + 1 } else { 1 }
+            updatedAt = (Get-Date -Format 'HH:mm')
+        }
+    } elseif ($prevOpen) {
+        $openStats = $prevOpen
+    }
+    if ($openStats -and (($nowHHmm -ge 1000) -or $phase -ne 'intraday')) {
+        $odDir = Join-Path $DataDir 'open127080'
+        if (-not (Test-Path $odDir)) { New-Item -ItemType Directory -Path $odDir -Force | Out-Null }
+        $odFile = Join-Path $odDir ($today + '.json')
+        if (-not (Test-Path $odFile)) {
+            [System.IO.File]::WriteAllText($odFile, ($openStats | ConvertTo-Json -Depth 4), $Utf8NoBom)
+        }
+    }
+}
+$openHist = @()
+$odDir = Join-Path $DataDir 'open127080'
+if (Test-Path $odDir) {
+    Get-ChildItem $odDir -Filter '*.json' | Sort-Object Name -Descending | Select-Object -First 10 | ForEach-Object {
+        try { $openHist += (Get-Content $_.FullName -Raw -Encoding UTF8 | ConvertFrom-Json) } catch { }
+    }
+}
+
 # ---------- 收盘后：冻结当日最终名单 ----------
 if ($phase -eq 'afterclose') {
     $finalObj = [PSCustomObject]@{
@@ -782,6 +873,8 @@ $payload = [PSCustomObject]@{
     flow         = $flowItems
     flowOut      = $flowOutItems
     active       = $activeItems
+    open127080   = $openStats
+    openHist127080 = $openHist
     overview     = $overview
     all          = (New-BoardItems $allSorted)
     status       = $statusInfo
