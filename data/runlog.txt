@@ -321,3 +321,14 @@
 [2026-11-02 20:57:37] 抓取失败 [https://5.push2.eastmoney.com] 第1页 (IRM): The request was canceled due to the configured HttpClient.Timeout of 6 seconds elapsing.
 [2026-11-02 20:57:42] 抓取失败 [https://82.push2.eastmoney.com] 第1页 (IRM): An error occurred while sending the request.
 [2026-11-02 20:57:43] 休市：最新行情非今天（节假日），跳过
+[2026-11-02 23:39:00] 抓取失败 [https://push2delay.eastmoney.com] 第1页 (IRM): Response status code does not indicate success: 502 (Bad Gateway).
+[2026-11-02 23:39:02] 抓取失败 [https://push2delay.eastmoney.com] 第1页 (curl): Conversion from JSON failed with error: Unexpected character encountered while parsing value: <. Path '', line 0, position 0.
+[2026-11-02 23:39:03] 抓取失败 [https://push2.eastmoney.com] 第1页 (IRM): Response status code does not indicate success: 502 (Bad Gateway).
+[2026-11-02 23:39:04] 抓取失败 [https://push2.eastmoney.com] 第1页 (curl): Conversion from JSON failed with error: Unexpected character encountered while parsing value: <. Path '', line 0, position 0.
+[2026-11-02 23:39:10] 抓取失败 [https://1.push2.eastmoney.com] 第1页 (IRM): The request was canceled due to the configured HttpClient.Timeout of 6 seconds elapsing.
+[2026-11-02 23:39:18] 抓取失败 [https://2.push2.eastmoney.com] 第1页 (IRM): The request was canceled due to the configured HttpClient.Timeout of 6 seconds elapsing.
+[2026-11-02 23:39:26] 抓取失败 [https://3.push2.eastmoney.com] 第1页 (IRM): An error occurred while sending the request.
+[2026-11-02 23:39:32] 抓取失败 [https://4.push2.eastmoney.com] 第1页 (IRM): An error occurred while sending the request.
+[2026-11-02 23:39:39] 抓取失败 [https://5.push2.eastmoney.com] 第1页 (IRM): An error occurred while sending the request.
+[2026-11-02 23:39:46] 抓取失败 [https://82.push2.eastmoney.com] 第1页 (IRM): The request was canceled due to the configured HttpClient.Timeout of 6 seconds elapsing.
+[2026-11-02 23:39:48] 休市：最新行情非今天（节假日），跳过
