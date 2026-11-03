@@ -332,3 +332,4 @@
 [2026-11-02 23:39:39] 抓取失败 [https://5.push2.eastmoney.com] 第1页 (IRM): An error occurred while sending the request.
 [2026-11-02 23:39:46] 抓取失败 [https://82.push2.eastmoney.com] 第1页 (IRM): The request was canceled due to the configured HttpClient.Timeout of 6 seconds elapsing.
 [2026-11-02 23:39:48] 休市：最新行情非今天（节假日），跳过
+[2026-11-03 13:51:27] 更新完成 [交易中] 共 318 只 / 有效 309 只 / 数据源 延时行情 push2delay.eastmoney.com（约滞后几分钟）
