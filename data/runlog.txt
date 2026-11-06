@@ -361,3 +361,5 @@
 [2026-11-05 21:31:24] 更新完成 [已收盘] 共 317 只 / 有效 310 只 / 数据源 延时行情 push2delay.eastmoney.com（约滞后几分钟）
 [2026-11-06 13:43:42] 抓取失败 [https://push2delay.eastmoney.com] 第1页 (IRM): The request was canceled due to the configured HttpClient.Timeout of 6 seconds elapsing.
 [2026-11-06 13:43:47] 更新完成 [交易中] 共 318 只 / 有效 310 只 / 数据源 延时行情 push2delay.eastmoney.com（约滞后几分钟）
+[2026-11-06 21:16:41] 已冻结当日收盘最终名单 2026-11-06（Top 20，有效 310 只）
+[2026-11-06 21:16:41] 更新完成 [已收盘] 共 317 只 / 有效 310 只 / 数据源 延时行情 push2delay.eastmoney.com（约滞后几分钟）
