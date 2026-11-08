@@ -528,7 +528,7 @@ var CFG = %%CFG%%;
       wh.map(function (s) { return '<tr><td class="l">' + esc(s.date) + '</td><td>' + (s.trades ? s.trades.length : 0) + '</td><td class="' + cls(s.total) + '">' + (s.total > 0 ? '+' : '') + s.total + '%</td></tr>'; }).join('') + '</tbody></table>';
   }
   document.getElementById('wave').innerHTML = wvHtml + whHtml +
-    '<div class="note">规则口径：盘中每个采样点计算最近 30 分钟窗口峰值收益，≥ ' + (CFG.waveGain || 3) + '% 触发（入场价=触发时快照价，实际成交可能有偏差）；固定持有 30 分钟，期间回落至阈值以下显示 ⚠ 提示；同一时间最多持有一只。延时行情约滞后几分钟。数据仅供参考，不构成投资建议。</div>';
+    '<div class="note">规则口径：9:30 开盘起监测（9:30–10:00 为开盘以来窗口，10:00 起为滚动 30 分钟窗口），窗口峰值收益 ≥ ' + (CFG.waveGain || 3) + '% 触发（入场价=触发时快照价，实际成交可能有偏差）；固定持有 30 分钟，期间回落至阈值以下显示 ⚠ 提示；同一时间最多持有一只。延时行情约滞后几分钟。数据仅供参考，不构成投资建议。</div>';
   document.getElementById('cnt').textContent = '共 ' + DATA.total + ' 只 · 有效 ' + DATA.valid + ' 只';
   document.getElementById('cfg-note').innerHTML =
     '综合分 = 成交额得分×' + Math.round(CFG.weightAmount * 100) + '% + 涨速得分×' + Math.round(CFG.weightSpeed * 100) + '%；' +
@@ -1077,9 +1077,9 @@ if ($wstate) {
     }
 }
 $nowTime = Get-Date
-if ($phase -eq 'intraday' -and $nowHHmm -ge 1000 -and (Test-Path $snapDirToday)) {
+if ($phase -eq 'intraday' -and $nowHHmm -ge 930 -and (Test-Path $snapDirToday)) {
     $nowMins = [int]([math]::Floor($nowHHmm / 100)) * 60 + ($nowHHmm % 100)
-    $startMins = $nowMins - 30
+    $startMins = [Math]::Max(570, $nowMins - 30)   # 窗口起点不早于 9:30（570 分钟）
     $startT = [int]([math]::Floor($startMins / 60)) * 60 + ($startMins % 60)
     $startSnap = Join-Path $snapDirToday (($startT.ToString('0000')) + '.json')
     $winSnaps = @(Get-ChildItem $snapDirToday -Filter '*.json' | Where-Object {
