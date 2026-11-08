@@ -9589,37 +9589,49 @@ var CFG = {"weightAmount":0.6,"weightSpeed":0.4,"minAmount":5000000,"topN":20,"s
   var wh = [].concat(DATA.waveHist || []);
   var wvHtml = '';
   if (wv) {
-    if (wv.holding) {
-      wvHtml += '<div class="hist-date">当前持仓（固定持有 30 分钟）' + (wv.warning ? ' ⚠ 窗口收益已回落至 ' + (CFG.waveGain || 3) + '% 以下' : '') + '</div>';
-      wvHtml += '<table>' + head(['代码', '名称', '触发时刻', '入场价', '现价', '持仓收益', '窗口峰值收益', '到期']) + '<tbody><tr>' +
-        '<td class="l">' + esc(wv.holding.code) + '</td><td class="l">' + esc(wv.holding.name) + '</td>' +
-        '<td>' + esc(String(wv.holding.triggerTime).slice(11)) + '</td>' +
-        '<td>' + num(wv.holding.entry, 3) + '</td>' +
-        '<td>' + num(wv.holding.current, 3) + '</td>' +
-        '<td class="' + cls(wv.holding.curRet) + '">' + pct(wv.holding.curRet) + '</td>' +
-        '<td class="up">' + (wv.holding.peakGain != null ? pct(wv.holding.peakGain) : '-') + '</td>' +
-        '<td>触发后30分钟</td></tr></tbody></table>';
+    var sigs = [].concat(wv.signals || []);
+    if (sigs.length) {
+      wvHtml += '<div class="hist-date">当前活跃信号（' + sigs.length + ' 只，由你自行决定持有哪一只）</div><table>' + head(['代码', '名称', '触发时刻', '入场价', '现价', '入场以来收益', '窗口峰值收益', '提示']) + '<tbody>' +
+        sigs.map(function (s) {
+          return '<tr><td class="l">' + esc(s.code) + '</td><td class="l">' + esc(s.name) + '</td>' +
+            '<td>' + esc(String(s.triggerTime).slice(11)) + '</td>' +
+            '<td>' + num(s.entry, 3) + '</td>' +
+            '<td>' + num(s.current, 3) + '</td>' +
+            '<td class="' + cls(s.curRet) + '">' + pct(s.curRet) + '</td>' +
+            '<td class="up">' + pct(s.peakGain) + '</td>' +
+            '<td>' + (s.warning ? '⚠ 已回落' : '') + '</td></tr>';
+        }).join('') + '</tbody></table>';
     } else {
-      wvHtml += '<div class="hist-date">当前持仓：空仓</div><div class="note">等待 30 分钟窗口峰值收益 ≥ ' + (CFG.waveGain || 3) + '% 的触发信号。</div>';
+      wvHtml += '<div class="hist-date">当前活跃信号：无</div><div class="note">等待窗口峰值收益 ≥ ' + (CFG.waveGain || 3) + '% 的信号。</div>';
     }
-    if (wv.candidates && wv.candidates.length) {
-      wvHtml += '<div class="hist-date">候选池（' + wv.candidates.length + '）</div><table>' + head(['代码', '名称', '入场价', '触发时刻']) + '<tbody>' +
-        wv.candidates.map(function (c) { return '<tr><td class="l">' + esc(c.code) + '</td><td class="l">' + esc(c.name) + '</td><td>' + num(c.entry, 3) + '</td><td>' + esc(String(c.triggerTime).slice(11)) + '</td></tr>'; }).join('') + '</tbody></table>';
-    }
-    if (wv.log && wv.log.length) {
-      wvHtml += '<div class="hist-date">今日已平仓（' + wv.log.length + ' 笔 · 累计 ' + (wv.totalReturn > 0 ? '+' : '') + wv.totalReturn + '%）</div><table>' + head(['代码', '名称', '触发时刻', '入场价', '出场价', '出场', '收益']) + '<tbody>' +
-        wv.log.map(function (t) { return '<tr><td class="l">' + esc(t.code) + '</td><td class="l">' + esc(t.name) + '</td><td>' + esc(String(t.triggerTime).slice(11)) + '</td><td>' + num(t.entry, 3) + '</td><td>' + num(t.exitPrice, 3) + '</td><td>' + esc(t.exitTime) + '</td><td class="' + cls(t.ret) + '">' + pct(t.ret) + '</td></tr>'; }).join('') + '</tbody></table>';
+    var wlog = [].concat(wv.log || []);
+    if (wlog.length) {
+      wvHtml += '<div class="hist-date">今日已结束信号（' + wlog.length + ' 笔）</div><table>' + head(['代码', '名称', '触发时刻', '入场价', '出场价', '收益', '峰值收益', '峰值时刻']) + '<tbody>' +
+        wlog.map(function (t) {
+          return '<tr><td class="l">' + esc(t.code) + '</td><td class="l">' + esc(t.name) + '</td>' +
+            '<td>' + esc(String(t.triggerTime).slice(11)) + '</td>' +
+            '<td>' + num(t.entry, 3) + '</td>' +
+            '<td>' + num(t.exitPrice, 3) + '</td>' +
+            '<td class="' + cls(t.ret) + '">' + pct(t.ret) + '</td>' +
+            '<td class="up">' + pct(t.peakGain) + '</td>' +
+            '<td>' + esc(t.peakTime || '-') + '</td></tr>';
+        }).join('') + '</tbody></table>';
     }
   } else {
-    wvHtml = '<div class="note">盘中自动运行：最近 30 分钟窗口峰值收益 ≥ ' + (CFG.waveGain || 3) + '% 即触发信号，固定持有 30 分钟，同一时间最多一只。</div>';
+    wvHtml = '<div class="note">9:30 开盘起监测：窗口峰值收益 ≥ ' + (CFG.waveGain || 3) + '% 的全部转债都会列出，由你自行决定持有哪一只。</div>';
   }
   var whHtml = '';
   if (wh.length) {
-    whHtml = '<div class="hist-date">近几日绩效小结</div><table>' + head(['日期', '笔数', '总收益']) + '<tbody>' +
-      wh.map(function (s) { return '<tr><td class="l">' + esc(s.date) + '</td><td>' + (s.trades ? s.trades.length : 0) + '</td><td class="' + cls(s.total) + '">' + (s.total > 0 ? '+' : '') + s.total + '%</td></tr>'; }).join('') + '</tbody></table>';
+    whHtml = '<div class="hist-date">近几日信号小结</div><table>' + head(['日期', '笔数', '平均收益', '胜率']) + '<tbody>' +
+      wh.map(function (s) {
+        return '<tr><td class="l">' + esc(s.date) + '</td>' +
+          '<td>' + (s.trades ? s.trades.length : 0) + '</td>' +
+          '<td class="' + cls(s.avgRet) + '">' + (s.avgRet != null ? ((s.avgRet > 0 ? '+' : '') + s.avgRet + '%') : '-') + '</td>' +
+          '<td>' + (s.winRate != null ? (s.winRate + '%') : '-') + '</td></tr>';
+      }).join('') + '</tbody></table>';
   }
   document.getElementById('wave').innerHTML = wvHtml + whHtml +
-    '<div class="note">规则口径：9:30 开盘起监测（9:30–10:00 为开盘以来窗口，10:00 起为滚动 30 分钟窗口），窗口峰值收益 ≥ ' + (CFG.waveGain || 3) + '% 触发（入场价=触发时快照价，实际成交可能有偏差）；固定持有 30 分钟，期间回落至阈值以下显示 ⚠ 提示；同一时间最多持有一只。延时行情约滞后几分钟。数据仅供参考，不构成投资建议。</div>';
+    '<div class="note">规则口径：9:30 开盘起监测（9:30–10:00 为开盘以来窗口，10:00 起为滚动 30 分钟窗口），窗口峰值收益 ≥ ' + (CFG.waveGain || 3) + '% 的转债全部列出（入场价=触发时快照价，实际成交可能有偏差）；信号自触发起展示 30 分钟，期间回落至阈值以下显示 ⚠ 提示，触发满 30 分钟移入已结束信号。同一时间可多只并存，持有哪只由你自行决定。延时行情约滞后几分钟。数据仅供参考，不构成投资建议。</div>';
   document.getElementById('cnt').textContent = '共 ' + DATA.total + ' 只 · 有效 ' + DATA.valid + ' 只';
   document.getElementById('cfg-note').innerHTML =
     '综合分 = 成交额得分×' + Math.round(CFG.weightAmount * 100) + '% + 涨速得分×' + Math.round(CFG.weightSpeed * 100) + '%；' +
