@@ -498,37 +498,49 @@ var CFG = %%CFG%%;
   var wh = [].concat(DATA.waveHist || []);
   var wvHtml = '';
   if (wv) {
-    if (wv.holding) {
-      wvHtml += '<div class="hist-date">当前持仓（固定持有 30 分钟）' + (wv.warning ? ' ⚠ 窗口收益已回落至 ' + (CFG.waveGain || 3) + '% 以下' : '') + '</div>';
-      wvHtml += '<table>' + head(['代码', '名称', '触发时刻', '入场价', '现价', '持仓收益', '窗口峰值收益', '到期']) + '<tbody><tr>' +
-        '<td class="l">' + esc(wv.holding.code) + '</td><td class="l">' + esc(wv.holding.name) + '</td>' +
-        '<td>' + esc(String(wv.holding.triggerTime).slice(11)) + '</td>' +
-        '<td>' + num(wv.holding.entry, 3) + '</td>' +
-        '<td>' + num(wv.holding.current, 3) + '</td>' +
-        '<td class="' + cls(wv.holding.curRet) + '">' + pct(wv.holding.curRet) + '</td>' +
-        '<td class="up">' + (wv.holding.peakGain != null ? pct(wv.holding.peakGain) : '-') + '</td>' +
-        '<td>触发后30分钟</td></tr></tbody></table>';
+    var sigs = [].concat(wv.signals || []);
+    if (sigs.length) {
+      wvHtml += '<div class="hist-date">当前活跃信号（' + sigs.length + ' 只，由你自行决定持有哪一只）</div><table>' + head(['代码', '名称', '触发时刻', '入场价', '现价', '入场以来收益', '窗口峰值收益', '提示']) + '<tbody>' +
+        sigs.map(function (s) {
+          return '<tr><td class="l">' + esc(s.code) + '</td><td class="l">' + esc(s.name) + '</td>' +
+            '<td>' + esc(String(s.triggerTime).slice(11)) + '</td>' +
+            '<td>' + num(s.entry, 3) + '</td>' +
+            '<td>' + num(s.current, 3) + '</td>' +
+            '<td class="' + cls(s.curRet) + '">' + pct(s.curRet) + '</td>' +
+            '<td class="up">' + pct(s.peakGain) + '</td>' +
+            '<td>' + (s.warning ? '⚠ 已回落' : '') + '</td></tr>';
+        }).join('') + '</tbody></table>';
     } else {
-      wvHtml += '<div class="hist-date">当前持仓：空仓</div><div class="note">等待 30 分钟窗口峰值收益 ≥ ' + (CFG.waveGain || 3) + '% 的触发信号。</div>';
+      wvHtml += '<div class="hist-date">当前活跃信号：无</div><div class="note">等待窗口峰值收益 ≥ ' + (CFG.waveGain || 3) + '% 的信号。</div>';
     }
-    if (wv.candidates && wv.candidates.length) {
-      wvHtml += '<div class="hist-date">候选池（' + wv.candidates.length + '）</div><table>' + head(['代码', '名称', '入场价', '触发时刻']) + '<tbody>' +
-        wv.candidates.map(function (c) { return '<tr><td class="l">' + esc(c.code) + '</td><td class="l">' + esc(c.name) + '</td><td>' + num(c.entry, 3) + '</td><td>' + esc(String(c.triggerTime).slice(11)) + '</td></tr>'; }).join('') + '</tbody></table>';
-    }
-    if (wv.log && wv.log.length) {
-      wvHtml += '<div class="hist-date">今日已平仓（' + wv.log.length + ' 笔 · 累计 ' + (wv.totalReturn > 0 ? '+' : '') + wv.totalReturn + '%）</div><table>' + head(['代码', '名称', '触发时刻', '入场价', '出场价', '出场', '收益']) + '<tbody>' +
-        wv.log.map(function (t) { return '<tr><td class="l">' + esc(t.code) + '</td><td class="l">' + esc(t.name) + '</td><td>' + esc(String(t.triggerTime).slice(11)) + '</td><td>' + num(t.entry, 3) + '</td><td>' + num(t.exitPrice, 3) + '</td><td>' + esc(t.exitTime) + '</td><td class="' + cls(t.ret) + '">' + pct(t.ret) + '</td></tr>'; }).join('') + '</tbody></table>';
+    var wlog = [].concat(wv.log || []);
+    if (wlog.length) {
+      wvHtml += '<div class="hist-date">今日已结束信号（' + wlog.length + ' 笔）</div><table>' + head(['代码', '名称', '触发时刻', '入场价', '出场价', '收益', '峰值收益', '峰值时刻']) + '<tbody>' +
+        wlog.map(function (t) {
+          return '<tr><td class="l">' + esc(t.code) + '</td><td class="l">' + esc(t.name) + '</td>' +
+            '<td>' + esc(String(t.triggerTime).slice(11)) + '</td>' +
+            '<td>' + num(t.entry, 3) + '</td>' +
+            '<td>' + num(t.exitPrice, 3) + '</td>' +
+            '<td class="' + cls(t.ret) + '">' + pct(t.ret) + '</td>' +
+            '<td class="up">' + pct(t.peakGain) + '</td>' +
+            '<td>' + esc(t.peakTime || '-') + '</td></tr>';
+        }).join('') + '</tbody></table>';
     }
   } else {
-    wvHtml = '<div class="note">盘中自动运行：最近 30 分钟窗口峰值收益 ≥ ' + (CFG.waveGain || 3) + '% 即触发信号，固定持有 30 分钟，同一时间最多一只。</div>';
+    wvHtml = '<div class="note">9:30 开盘起监测：窗口峰值收益 ≥ ' + (CFG.waveGain || 3) + '% 的全部转债都会列出，由你自行决定持有哪一只。</div>';
   }
   var whHtml = '';
   if (wh.length) {
-    whHtml = '<div class="hist-date">近几日绩效小结</div><table>' + head(['日期', '笔数', '总收益']) + '<tbody>' +
-      wh.map(function (s) { return '<tr><td class="l">' + esc(s.date) + '</td><td>' + (s.trades ? s.trades.length : 0) + '</td><td class="' + cls(s.total) + '">' + (s.total > 0 ? '+' : '') + s.total + '%</td></tr>'; }).join('') + '</tbody></table>';
+    whHtml = '<div class="hist-date">近几日信号小结</div><table>' + head(['日期', '笔数', '平均收益', '胜率']) + '<tbody>' +
+      wh.map(function (s) {
+        return '<tr><td class="l">' + esc(s.date) + '</td>' +
+          '<td>' + (s.trades ? s.trades.length : 0) + '</td>' +
+          '<td class="' + cls(s.avgRet) + '">' + (s.avgRet != null ? ((s.avgRet > 0 ? '+' : '') + s.avgRet + '%') : '-') + '</td>' +
+          '<td>' + (s.winRate != null ? (s.winRate + '%') : '-') + '</td></tr>';
+      }).join('') + '</tbody></table>';
   }
   document.getElementById('wave').innerHTML = wvHtml + whHtml +
-    '<div class="note">规则口径：9:30 开盘起监测（9:30–10:00 为开盘以来窗口，10:00 起为滚动 30 分钟窗口），窗口峰值收益 ≥ ' + (CFG.waveGain || 3) + '% 触发（入场价=触发时快照价，实际成交可能有偏差）；固定持有 30 分钟，期间回落至阈值以下显示 ⚠ 提示；同一时间最多持有一只。延时行情约滞后几分钟。数据仅供参考，不构成投资建议。</div>';
+    '<div class="note">规则口径：9:30 开盘起监测（9:30–10:00 为开盘以来窗口，10:00 起为滚动 30 分钟窗口），窗口峰值收益 ≥ ' + (CFG.waveGain || 3) + '% 的转债全部列出（入场价=触发时快照价，实际成交可能有偏差）；信号自触发起展示 30 分钟，期间回落至阈值以下显示 ⚠ 提示，触发满 30 分钟移入已结束信号。同一时间可多只并存，持有哪只由你自行决定。延时行情约滞后几分钟。数据仅供参考，不构成投资建议。</div>';
   document.getElementById('cnt').textContent = '共 ' + DATA.total + ' 只 · 有效 ' + DATA.valid + ' 只';
   document.getElementById('cfg-note').innerHTML =
     '综合分 = 成交额得分×' + Math.round(CFG.weightAmount * 100) + '% + 涨速得分×' + Math.round(CFG.weightSpeed * 100) + '%；' +
@@ -1058,22 +1070,19 @@ $snapObj = [PSCustomObject]@{
 }
 [System.IO.File]::WriteAllText((Join-Path $daySnapDir ((Get-Date -Format 'HHmm') + '.json')), ($snapObj | ConvertTo-Json -Depth 8), $Utf8NoBom)
 
-# ---------- 波段信号（盘中触发式：30 分钟窗口峰值收益≥阈值触发，固定持有 30 分钟，回落提示） ----------
+# ---------- 波段信号（盘中触发式：窗口峰值收益≥阈值即列出全部信号，由用户自行决定持有） ----------
 $wGain = [double]$config.WaveGainPct
 $wDir = Join-Path $DataDir 'wave'
 if (-not (Test-Path $wDir)) { New-Item -ItemType Directory -Path $wDir -Force | Out-Null }
 $waveFile = Join-Path $wDir ($today + '-state.json')
 $wstate = $null
 if (Test-Path $waveFile) { try { $wstate = Get-Content $waveFile -Raw -Encoding UTF8 | ConvertFrom-Json } catch { } }
-$wave = [PSCustomObject]@{ holding = $null; warning = $false; candidates = @(); log = @(); totalReturn = 0; updatedAt = (Get-Date -Format 'HH:mm') }
+$wave = [PSCustomObject]@{ signals = @(); log = @(); updatedAt = (Get-Date -Format 'HH:mm') }
 if ($wstate) {
     $wave = [PSCustomObject]@{
-        holding     = $wstate.holding
-        warning     = [bool]$wstate.warning
-        candidates  = @($wstate.candidates)
-        log         = @($wstate.log)
-        totalReturn = [double]$wstate.totalReturn
-        updatedAt   = (Get-Date -Format 'HH:mm')
+        signals   = @($wstate.signals)
+        log       = @($wstate.log)
+        updatedAt = (Get-Date -Format 'HH:mm')
     }
 }
 $nowTime = Get-Date
@@ -1088,105 +1097,92 @@ if ($phase -eq 'intraday' -and $nowHHmm -ge 930 -and (Test-Path $snapDirToday)) 
     } | ForEach-Object { $_.FullName } | Sort-Object)
     if ((Test-Path $startSnap) -and ($winSnaps.Count -ge 2)) {
         $s0 = Get-Content $startSnap -Raw -Encoding UTF8 | ConvertFrom-Json
-        $p0 = @{}; $pk = @{}; $pn = @{}; $meta = @{}
+        $p0 = @{}; $pk = @{}; $pt = @{}; $pn = @{}; $meta = @{}
         foreach ($it in $s0.all) { $p0[[string]$it.code] = [double]$it.price }
         foreach ($sf in $winSnaps) {
             $s = Get-Content $sf -Raw -Encoding UTF8 | ConvertFrom-Json
+            $tm = [string][IO.Path]::GetFileNameWithoutExtension($sf)
             foreach ($it in $s.all) {
                 $c = [string]$it.code
                 if (-not $meta.ContainsKey($c)) { $meta[$c] = $it }
-                if (-not $pk.ContainsKey($c) -or [double]$it.price -gt $pk[$c]) { $pk[$c] = [double]$it.price }
+                if (-not $pk.ContainsKey($c) -or [double]$it.price -gt $pk[$c]) { $pk[$c] = [double]$it.price; $pt[$c] = $tm }
                 $pn[$c] = [double]$it.price
             }
         }
-        $holding = $wave.holding
-        $candidates = @($wave.candidates)
+        $signals = @($wave.signals)
         $log = @($wave.log)
-        $total = [double]$wave.totalReturn
-        $warning = $false
-        $freshTriggers = @()
+        $still = @()
+        foreach ($sg in $signals) {
+            $t30 = [DateTime]::ParseExact([string]$sg.triggerTime, 'yyyy-MM-dd HH:mm', $null).AddMinutes(30)
+            if ($nowTime -ge $t30 -and $pn.ContainsKey($sg.code)) {
+                $exitPrice = [double]$pn[$sg.code]
+                $ret = [Math]::Round(($exitPrice / [double]$sg.entry - 1) * 100, 2)
+                $log += [PSCustomObject]@{ code = $sg.code; name = $sg.name; triggerTime = $sg.triggerTime; entry = $sg.entry; exitPrice = $exitPrice; exitTime = (Get-Date -Format 'HH:mm'); ret = $ret; peakGain = $sg.peakGain; peakTime = $sg.peakTime }
+            } else {
+                $still += $sg
+            }
+        }
+        $updated = @()
+        foreach ($sg in $still) {
+            if (-not $pn.ContainsKey($sg.code)) { continue }
+            $curPeak = if ($p0.ContainsKey($sg.code)) { ([double]$pk[$sg.code] / [double]$p0[$sg.code] - 1) * 100 } else { $null }
+            $updated += [PSCustomObject]@{
+                code = $sg.code; name = $sg.name; triggerTime = $sg.triggerTime; entry = $sg.entry
+                current = [double]$pn[$sg.code]
+                curRet = [Math]::Round(([double]$pn[$sg.code] / [double]$sg.entry - 1) * 100, 2)
+                peakGain = if ($null -ne $curPeak) { [Math]::Round($curPeak, 2) } else { $sg.peakGain }
+                peakTime = $sg.peakTime
+                warning = ($null -ne $curPeak) -and ($curPeak -lt $wGain)
+            }
+        }
         foreach ($c in $p0.Keys) {
             if (-not $pk.ContainsKey($c) -or [double]$p0[$c] -le 0) { continue }
             $g = ([double]$pk[$c] / [double]$p0[$c] - 1) * 100
             if ($g -ge $wGain) {
-                $recent = $false
+                $inActive = (@($updated | Where-Object { $_.code -eq $c })).Count -gt 0
                 $last = @($log | Where-Object { $_.code -eq $c }) | Select-Object -Last 1
+                $recent = $false
                 if ($last) {
                     try {
                         $lt = [DateTime]::ParseExact([string]$last.triggerTime, 'yyyy-MM-dd HH:mm', $null)
                         if (($nowTime - $lt).TotalMinutes -lt 60) { $recent = $true }
                     } catch { }
                 }
-                if (-not $recent) {
-                    $freshTriggers += [PSCustomObject]@{ code = $c; name = [string]$meta[$c].name; entry = [double]$pn[$c]; peakGain = [Math]::Round($g, 2) }
-                }
-            }
-        }
-        if ($holding) {
-            $endTime = [DateTime]::ParseExact([string]$holding.triggerTime, 'yyyy-MM-dd HH:mm', $null).AddMinutes(30)
-            if ($nowTime -ge $endTime) {
-                if ($pn.ContainsKey($holding.code)) {
-                    $exitPrice = [double]$pn[$holding.code]
-                    $ret = [Math]::Round(($exitPrice / [double]$holding.entry - 1) * 100, 2)
-                    $log += [PSCustomObject]@{ code = $holding.code; name = $holding.name; triggerTime = $holding.triggerTime; entry = $holding.entry; exitPrice = $exitPrice; exitTime = (Get-Date -Format 'HH:mm'); ret = $ret }
-                    $total = [Math]::Round($total + $ret, 2)
-                }
-                $holding = $null
-            } else {
-                $curPeak = if ($p0.ContainsKey($holding.code)) { ([double]$pk[$holding.code] / [double]$p0[$holding.code] - 1) * 100 } else { $null }
-                $warning = ($null -ne $curPeak) -and ($curPeak -lt $wGain)
-                $holding = [PSCustomObject]@{
-                    code = $holding.code; name = $holding.name; triggerTime = $holding.triggerTime; entry = $holding.entry
-                    current = [double]$pn[$holding.code]
-                    curRet = [Math]::Round(([double]$pn[$holding.code] / [double]$holding.entry - 1) * 100, 2)
-                    peakGain = [Math]::Round($curPeak, 2)
-                }
-                foreach ($ft in $freshTriggers) {
-                    if ($ft.code -eq $holding.code) { continue }
-                    if (-not (@($candidates | Where-Object { $_.code -eq $ft.code })).Count) {
-                        $candidates += [PSCustomObject]@{ code = $ft.code; name = $ft.name; entry = $ft.entry; triggerTime = (Get-Date -Format 'yyyy-MM-dd HH:mm') }
+                if (-not $inActive -and -not $recent) {
+                    $updated += [PSCustomObject]@{
+                        code = $c; name = [string]$meta[$c].name; triggerTime = (Get-Date -Format 'yyyy-MM-dd HH:mm')
+                        entry = [double]$pn[$c]; current = [double]$pn[$c]; curRet = 0
+                        peakGain = [Math]::Round($g, 2); peakTime = [string]$pt[$c]; warning = $false
                     }
                 }
             }
         }
-        if (-not $holding) {
-            $best = $null
-            foreach ($cd in $candidates) {
-                if ($pn.ContainsKey($cd.code)) {
-                    $cr = [Math]::Round(([double]$pn[$cd.code] / [double]$cd.entry - 1) * 100, 2)
-                    if (-not $best -or $cr -gt $best.ret) { $best = [PSCustomObject]@{ code = $cd.code; name = $cd.name; entry = $cd.entry; ret = $cr } }
-                }
-            }
-            if ($best) {
-                $holding = [PSCustomObject]@{ code = $best.code; name = $best.name; triggerTime = (Get-Date -Format 'yyyy-MM-dd HH:mm'); entry = $best.entry; current = [double]$pn[$best.code]; curRet = $best.ret; peakGain = $null }
-                $candidates = @()
-            } elseif ($freshTriggers.Count -gt 0) {
-                $ft = $freshTriggers[0]
-                $holding = [PSCustomObject]@{ code = $ft.code; name = $ft.name; triggerTime = (Get-Date -Format 'yyyy-MM-dd HH:mm'); entry = $ft.entry; current = $ft.entry; curRet = 0; peakGain = $ft.peakGain }
-            }
-        }
-        $wave = [PSCustomObject]@{ holding = $holding; warning = $warning; candidates = $candidates; log = $log; totalReturn = $total; updatedAt = (Get-Date -Format 'HH:mm') }
+        $wave = [PSCustomObject]@{ signals = $updated; log = $log; updatedAt = (Get-Date -Format 'HH:mm') }
         [System.IO.File]::WriteAllText($waveFile, ($wave | ConvertTo-Json -Depth 6), $Utf8NoBom)
     }
 }
 if ($phase -eq 'afterclose') {
-    if ($wave.holding) {
+    if ($wave.signals.Count -gt 0) {
         $lastSnap = Get-ChildItem $snapDirToday -Filter '*.json' | Sort-Object Name -Descending | Select-Object -First 1
         if ($lastSnap) {
             $s = Get-Content $lastSnap.FullName -Raw -Encoding UTF8 | ConvertFrom-Json
-            $hit = @($s.all | Where-Object { $_.code -eq $wave.holding.code }) | Select-Object -First 1
-            if ($hit) {
-                $exitPrice = [double]$hit.price
-                $ret = [Math]::Round(($exitPrice / [double]$wave.holding.entry - 1) * 100, 2)
-                $wave.log += [PSCustomObject]@{ code = $wave.holding.code; name = $wave.holding.name; triggerTime = $wave.holding.triggerTime; entry = $wave.holding.entry; exitPrice = $exitPrice; exitTime = '收盘'; ret = $ret }
-                $wave.totalReturn = [Math]::Round([double]$wave.totalReturn + $ret, 2)
-                $wave.holding = $null
+            foreach ($sg in @($wave.signals)) {
+                $hit = @($s.all | Where-Object { $_.code -eq $sg.code }) | Select-Object -First 1
+                if ($hit) {
+                    $exitPrice = [double]$hit.price
+                    $ret = [Math]::Round(($exitPrice / [double]$sg.entry - 1) * 100, 2)
+                    $wave.log += [PSCustomObject]@{ code = $sg.code; name = $sg.name; triggerTime = $sg.triggerTime; entry = $sg.entry; exitPrice = $exitPrice; exitTime = '收盘'; ret = $ret; peakGain = $sg.peakGain; peakTime = $sg.peakTime }
+                }
             }
+            $wave.signals = @()
         }
     }
     $sumFile = Join-Path $wDir ($today + '-summary.json')
     if ($wave.log.Count -gt 0 -and -not (Test-Path $sumFile)) {
-        [System.IO.File]::WriteAllText($sumFile, ([PSCustomObject]@{ date = $today; trades = $wave.log; total = $wave.totalReturn } | ConvertTo-Json -Depth 6), $Utf8NoBom)
+        $rets = @($wave.log | ForEach-Object { [double]$_.ret })
+        $avg = [Math]::Round(($rets | Measure-Object -Average).Average, 2)
+        $win = [Math]::Round((@($rets | Where-Object { $_ -gt 0 })).Count * 100.0 / $rets.Count, 0)
+        [System.IO.File]::WriteAllText($sumFile, ([PSCustomObject]@{ date = $today; trades = $wave.log; avgRet = $avg; winRate = $win } | ConvertTo-Json -Depth 6), $Utf8NoBom)
     }
     [System.IO.File]::WriteAllText($waveFile, ($wave | ConvertTo-Json -Depth 6), $Utf8NoBom)
 }
