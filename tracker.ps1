@@ -254,6 +254,7 @@ footer{text-align:center;font-size:12px;color:var(--muted);margin:6px 0 20px;lin
 <button class="tab" data-tab="speed">涨速榜</button>
 <button class="tab" data-tab="active">活跃榜</button>
 <button class="tab" data-tab="openscope">声迅观察</button>
+<button class="tab" data-tab="halfhour">3%捕捉</button>
 <button class="tab" data-tab="flow">资金流向</button>
 </div>
 <div class="card" id="composite"></div>
@@ -262,6 +263,7 @@ footer{text-align:center;font-size:12px;color:var(--muted);margin:6px 0 20px;lin
 <div class="card" id="flow" style="display:none"></div>
 <div class="card" id="active" style="display:none"></div>
 <div class="card" id="openscope" style="display:none"></div>
+<div class="card" id="halfhour" style="display:none"></div>
 <footer>
 数据来源：东方财富公开行情接口（可转债板块）。涨速为东财口径（最近几分钟价格变化速度），行情可能存在延迟。<br>
 本看板仅供个人学习参考，不构成任何投资建议。股市有风险，投资需谨慎。
@@ -442,6 +444,54 @@ var CFG = %%CFG%%;
   }
   document.getElementById('openscope').innerHTML = osHtml + ohHtml +
     '<div class="note">声迅转债 127080 开盘 10 分钟观察：开盘价、区间高低点、量比、成交额等仅作入场参考；延时行情约滞后几分钟，数据仅供参考，不构成投资建议。</div>';
+  var hh = [].concat(DATA.halfhour || []);
+  var hhHist = [].concat(DATA.halfhourHist || []);
+  var hhHtml = '';
+  if (hh.length > 0) {
+    for (var b = 0; b < hh.length; b++) {
+      var bk = hh[b];
+      hhHtml += '<div class="hist-date">' + esc(bk.bucket) + '（' + (bk.items ? bk.items.length : 0) + ' 只达标）</div>';
+      if (bk.items && bk.items.length) {
+        var hhCols = ['代码', '名称', '起点涨幅', '时段最高涨幅', '收益', '达到时间', '最新价', '最新涨幅', '成交额'];
+        var hhRows = bk.items.map(function (it) {
+          return '<tr><td class="l">' + esc(it.code) + '</td><td class="l">' + esc(it.name) + '</td>' +
+            '<td>' + pct(it.startPct) + '</td>' +
+            '<td class="up">' + pct(it.peakPct) + '</td>' +
+            '<td class="up">' + pct(it.gain) + '</td>' +
+            '<td>' + esc(it.peakTime) + '</td>' +
+            '<td>' + num(it.price, 3) + '</td>' +
+            '<td class="' + cls(it.pct) + '">' + pct(it.pct) + '</td>' +
+            '<td>' + amt(it.amount) + '</td></tr>';
+        }).join('');
+        hhHtml += '<table>' + head(hhCols) + '<tbody>' + hhRows + '</tbody></table>';
+      } else {
+        hhHtml += '<div class="note">该时段无达标转债。</div>';
+      }
+    }
+  } else {
+    hhHtml = '<div class="note">今日尚无已结束的半小时时段。每个时段结束后自动计算，约 5-10 分钟内出现。</div>';
+  }
+  var hhHistHtml = '';
+  if (hhHist.length > 0) {
+    hhHistHtml = '<div class="hist-date">近几日达标记录（每日收益前 5）</div>';
+    for (var d = 0; d < hhHist.length; d++) {
+      var day = hhHist[d];
+      var all = [];
+      for (var k = 0; k < day.buckets.length; k++) { all = all.concat(day.buckets[k].items || []); }
+      all.sort(function (a, z) { return z.gain - a.gain; });
+      if (all.length) {
+        hhHistHtml += '<div class="hist-date">' + esc(day.date) + '</div><table>' + head(['代码', '名称', '时段收益', '最高涨幅', '达到时间']) + '<tbody>' +
+          all.slice(0, 5).map(function (it) {
+            return '<tr><td class="l">' + esc(it.code) + '</td><td class="l">' + esc(it.name) + '</td>' +
+              '<td class="up">' + pct(it.gain) + '</td><td class="up">' + pct(it.peakPct) + '</td><td>' + esc(it.peakTime) + '</td></tr>';
+          }).join('') + '</tbody></table>';
+      } else {
+        hhHistHtml += '<div class="hist-date">' + esc(day.date) + '</div><div class="note">无达标记录。</div>';
+      }
+    }
+  }
+  document.getElementById('halfhour').innerHTML = hhHtml + hhHistHtml +
+    '<div class="note">捕捉口径：每个半小时时段内，最高涨幅（相对该时段起点，按约 5 分钟采样点近似）≥ ' + (CFG.halfHourGain || 3) + '% 的转债；延时行情约滞后几分钟，盘内未落在采样点的瞬间冲高可能漏计。数据仅供参考，不构成投资建议。</div>';
   document.getElementById('cnt').textContent = '共 ' + DATA.total + ' 只 · 有效 ' + DATA.valid + ' 只';
   document.getElementById('cfg-note').innerHTML =
     '综合分 = 成交额得分×' + Math.round(CFG.weightAmount * 100) + '% + 涨速得分×' + Math.round(CFG.weightSpeed * 100) + '%；' +
@@ -559,7 +609,7 @@ var CFG = %%CFG%%;
   })();
 
   var tabs = document.querySelectorAll('.tab');
-  var ids = ['composite', 'amount', 'speed', 'active', 'openscope', 'flow'];
+  var ids = ['composite', 'amount', 'speed', 'active', 'openscope', 'halfhour', 'flow'];
   for (var k = 0; k < tabs.length; k++) {
     tabs[k].addEventListener('click', function () {
       for (var j = 0; j < tabs.length; j++) { tabs[j].classList.remove('active'); }
@@ -858,6 +908,81 @@ $statusInfo = [PSCustomObject]@{
     logTail      = $logTail
 }
 
+# ---------- 半小时收益捕捉（9:30-11:30 / 13:00-15:00，时段内最高涨幅相对起点达到阈值） ----------
+$hhGain = [double]$config.HalfHourGainPct
+$hhDir = Join-Path $DataDir 'halfhour'
+if (-not (Test-Path $hhDir)) { New-Item -ItemType Directory -Path $hhDir -Force | Out-Null }
+$hhFile = Join-Path $hhDir ($today + '.json')
+$hhToday = @()
+if (Test-Path $hhFile) {
+    try { $hhToday = @(Get-Content $hhFile -Raw -Encoding UTF8 | ConvertFrom-Json) } catch { }
+}
+$hhBuckets = @(
+    @{ Name = '9:30-10:00';  Start = 930;  End = 1000 },
+    @{ Name = '10:00-10:30'; Start = 1000; End = 1030 },
+    @{ Name = '10:30-11:00'; Start = 1030; End = 1100 },
+    @{ Name = '11:00-11:30'; Start = 1100; End = 1130 },
+    @{ Name = '13:00-13:30'; Start = 1300; End = 1330 },
+    @{ Name = '13:30-14:00'; Start = 1330; End = 1400 },
+    @{ Name = '14:00-14:30'; Start = 1400; End = 1430 },
+    @{ Name = '14:30-15:00'; Start = 1430; End = 1500 }
+)
+$hhDone = @($hhToday | ForEach-Object { [string]$_.bucket })
+$snapDirToday = Join-Path $SnapDir $today
+foreach ($b in $hhBuckets) {
+    if ($hhDone -contains $b.Name) { continue }
+    if ($nowHHmm -lt $b.End) { continue }
+    $snaps = @()
+    if (Test-Path $snapDirToday) {
+        $snaps = @(Get-ChildItem $snapDirToday -Filter '*.json' | Where-Object {
+            $t = [int]$_.BaseName
+            ($t -ge $b.Start) -and ($t -le $b.End)
+        } | ForEach-Object { $_.FullName } | Sort-Object)
+    }
+    if ($snaps.Count -lt 2) { continue }
+    $startSnap = Get-Content $snaps[0] -Raw -Encoding UTF8 | ConvertFrom-Json
+    $startMap = @{}
+    foreach ($it in $startSnap.all) { $startMap[[string]$it.code] = [double]$it.pct }
+    $peakMap = @{}; $peakTime = @{}; $meta = @{}
+    foreach ($sf in $snaps) {
+        $s = Get-Content $sf -Raw -Encoding UTF8 | ConvertFrom-Json
+        $tm = [string][IO.Path]::GetFileNameWithoutExtension($sf)
+        foreach ($it in $s.all) {
+            $c = [string]$it.code
+            if (-not $meta.ContainsKey($c)) { $meta[$c] = $it }
+            $p = [double]$it.pct
+            if (-not $peakMap.ContainsKey($c) -or $p -gt $peakMap[$c]) {
+                $peakMap[$c] = $p
+                $peakTime[$c] = $tm
+            }
+        }
+    }
+    $hits = @()
+    foreach ($c in $startMap.Keys) {
+        if (-not $peakMap.ContainsKey($c)) { continue }
+        $gain = [Math]::Round(($peakMap[$c] - $startMap[$c]), 2)
+        if ($gain -ge $hhGain) {
+            $hits += [PSCustomObject]@{
+                code      = $c
+                name      = [string]$meta[$c].name
+                price     = $meta[$c].price
+                pct       = $meta[$c].pct
+                amount    = $meta[$c].amount
+                startPct  = [Math]::Round($startMap[$c], 2)
+                peakPct   = $peakMap[$c]
+                gain      = $gain
+                peakTime  = $peakTime[$c]
+            }
+        }
+    }
+    $hhToday += [PSCustomObject]@{ bucket = $b.Name; items = @($hits | Sort-Object -Property gain -Descending) }
+    [System.IO.File]::WriteAllText($hhFile, ($hhToday | ConvertTo-Json -Depth 6), $Utf8NoBom)
+}
+$hhHist = @()
+Get-ChildItem $hhDir -Filter '*.json' | Sort-Object Name -Descending | Select-Object -First 5 | ForEach-Object {
+    try { $hhHist += [PSCustomObject]@{ date = $_.BaseName; buckets = @(Get-Content $_.FullName -Raw -Encoding UTF8 | ConvertFrom-Json) } } catch { }
+}
+
 $allSorted = @($records | Sort-Object -Property Score -Descending)
 
 $payload = [PSCustomObject]@{
@@ -875,6 +1000,8 @@ $payload = [PSCustomObject]@{
     active       = $activeItems
     open127080   = $openStats
     openHist127080 = $openHist
+    halfhour     = $hhToday
+    halfhourHist = $hhHist
     overview     = $overview
     all          = (New-BoardItems $allSorted)
     status       = $statusInfo
@@ -900,6 +1027,7 @@ $cfgObj = [PSCustomObject]@{
     minAmount    = $minAmt
     topN         = $topN
     speedClamp   = $clamp
+    halfHourGain = $hhGain
 }
 $cfgJson = ($cfgObj | ConvertTo-Json -Compress).Replace('</', '<\/')
 
