@@ -370,3 +370,15 @@
 [2026-11-10 23:14:18] 已冻结当日收盘最终名单 2026-11-10（Top 20，有效 310 只）
 [2026-11-10 23:14:18] 更新完成 [已收盘] 共 317 只 / 有效 310 只 / 数据源 延时行情 push2delay.eastmoney.com（约滞后几分钟）
 [2026-11-11 13:19:36] 更新完成 [交易中] 共 317 只 / 有效 310 只 / 数据源 延时行情 push2delay.eastmoney.com（约滞后几分钟）
+[2026-11-11 20:50:49] 抓取失败 [https://push2delay.eastmoney.com] 第1页 (IRM): The request was canceled due to the configured HttpClient.Timeout of 6 seconds elapsing.
+[2026-11-11 20:51:08] 抓取失败 [https://push2.eastmoney.com] 第2页 (IRM): The request was canceled due to the configured HttpClient.Timeout of 6 seconds elapsing.
+[2026-11-11 20:51:09] 数据源 [https://push2.eastmoney.com] 仅返回部分数据 100/317
+[2026-11-11 20:51:17] 抓取失败 [https://1.push2.eastmoney.com] 第2页 (IRM): The request was canceled due to the configured HttpClient.Timeout of 6 seconds elapsing.
+[2026-11-11 20:51:18] 数据源 [https://1.push2.eastmoney.com] 仅返回部分数据 100/317
+[2026-11-11 20:51:24] 抓取失败 [https://2.push2.eastmoney.com] 第1页 (IRM): The request was canceled due to the configured HttpClient.Timeout of 6 seconds elapsing.
+[2026-11-11 20:51:31] 抓取失败 [https://3.push2.eastmoney.com] 第1页 (IRM): The request was canceled due to the configured HttpClient.Timeout of 6 seconds elapsing.
+[2026-11-11 20:51:38] 抓取失败 [https://4.push2.eastmoney.com] 第1页 (IRM): An error occurred while sending the request.
+[2026-11-11 20:51:45] 抓取失败 [https://5.push2.eastmoney.com] 第1页 (IRM): The request was canceled due to the configured HttpClient.Timeout of 6 seconds elapsing.
+[2026-11-11 20:51:54] 抓取失败 [https://82.push2.eastmoney.com] 第1页 (IRM): An error occurred while sending the request.
+[2026-11-11 20:51:56] 已冻结当日收盘最终名单 2026-11-11（Top 20，有效 100 只）
+[2026-11-11 20:51:56] 更新完成 [已收盘] 共 110 只 / 有效 100 只 / 数据源 实时行情 1.push2.eastmoney.com
